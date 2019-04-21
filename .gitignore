@@ -1,5 +1,6 @@
 node_modules/
 yarn-error.log
 *.lock
-__tests__/__snapshots__/
+test/
 .next/
+build/
