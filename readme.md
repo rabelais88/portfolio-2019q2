@@ -10,6 +10,7 @@ https://github.com/Automattic/mongoose/issues/1251
  - [ ] apply scss
  - [ ] apply jwt & cookie auth model
  - [ ] apply https
+ - [ ] apply eslint & prettier
 
 ## addendum
  - https://github.com/zeit/next.js/tree/canary/examples
