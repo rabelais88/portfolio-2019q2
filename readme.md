@@ -11,6 +11,7 @@ https://github.com/Automattic/mongoose/issues/1251
  - [ ] apply jwt & cookie auth model
  - [ ] apply https
  - [ ] apply eslint & prettier
+ - [ ] apply typescript(or ts type definition)
 
 ## addendum
  - https://github.com/zeit/next.js/tree/canary/examples
