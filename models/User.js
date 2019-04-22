@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 
-export const UserSchema = {
+const UserSchema = {
   name: String
     // ...
 }

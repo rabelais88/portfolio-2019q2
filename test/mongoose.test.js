@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import mongoose from 'mongoose';
 import MongoMemoryServer from 'mongodb-memory-server';
-import User from '../server/models/User';
+import User from '../models/User';
 
 let mongoServer;
 
