@@ -1,10 +1,14 @@
-const express = require('express')
-const next = require('next')
+const express = require('express');
+const next = require('next');
 
-const port = parseInt(process.env.PORT, 10) || 3000
-const dev = process.env.NODE_ENV !== 'production'
-const app = next({ dev })
-const handle = app.getRequestHandler()
+const port = parseInt(process.env.PORT, 10) || 3000;
+const dev = process.env.NODE_ENV !== 'production';
+const app = next({ dev });
+const handle = app.getRequestHandler();
+require('dotenv');
+
+// cert should be handled via nginx proxy
+// https://www.codementor.io/marcoscasagrande/installing-express-nginx-app-on-ubuntu-18-04-with-ssl-using-certbot-pdt44g5gs
 
 app.prepare().then(() => {
   const server = express()

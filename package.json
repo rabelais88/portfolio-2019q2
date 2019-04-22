@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "mongodb-memory-server": "^5.0.4",
     "mongoose": "^5.5.2",
@@ -12,7 +13,7 @@
     "build": "next build",
     "start": "cross-env NODE_ENV=production node ./server/index.js",
     "test": "cross-env NODE_ENV=test mocha",
-    "test:watch": "jest --watchAll"
+    "test:watch": "cross-env NODE_ENV=test mocha -watch"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",

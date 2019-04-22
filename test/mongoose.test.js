@@ -12,6 +12,7 @@ beforeEach(async () => {
 });
 
 after(() => {
+  // must remove model property in order to use `mocha -watch` command
   Object.keys(mongoose.models).forEach((k) => {
     delete mongoose.models[k];
   });
