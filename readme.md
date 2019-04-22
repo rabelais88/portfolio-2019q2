@@ -18,22 +18,29 @@
 ## file system
 use `tree --dirsfirst -I 'node_modules|build|.git|yarn.lock|readme.md' -L 2 -a` to refresh this list
 ```.
+├── components
+│   ├── go.js
+│   └── menu.js
 ├── models
 │   └── User.js
 ├── pages
+│   ├── _app.js # ----- next root instance injection(app root)
+│   ├── _document.js # ----- next document instance injection(body.document)
+│   ├── about.js
 │   └── index.js
 ├── server
-│   └── index.js
-├── static # ------ static files served
+│   └── index.js # ----- express.js server
+├── static
 ├── styles
+│   ├── page-transition.scss
 │   └── test.scss
 ├── test
 │   ├── index.test.js
-│   ├── mocha.opts # ------ mocha arguments
+│   ├── mocha.opts # ----- mocha arguments
 │   └── mongoose.test.js
 ├── .babelrc
-├── .env # ------ server arguments
-├── .env-sample # ------ server arguments sample
+├── .env
+├── .env-sample # ----- sample of .env
 ├── .gitignore
 ├── mocha.setup.js
 ├── next.config.js
