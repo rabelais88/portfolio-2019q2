@@ -1,5 +1,6 @@
 import styleTest from '../styles/test.scss';
 import Helmet from 'react-helmet';
+import Menu from '../components/menu';
 const Home = () => {
   return (
   <div className="example">
@@ -7,6 +8,7 @@ const Home = () => {
       title='About | Hello next.js!'
       meta={[{ property: 'og:title', content: 'About' }]}
     />
+    <Menu />
     This is about page;
   </div>);
 };

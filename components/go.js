@@ -1,8 +1,13 @@
 import Link from 'next/link';
+import { withRouter } from 'next/router';
 
-export default ({ to, children }) => {
+const Go = ({ to, children, router }) => {
+  const classes = router.pathname === to ? 'link' : 'link active';
   return (
     <Link href={to}>
-      <a>{children}</a>
-    </Link>);
+      <a className={classes}>{children}</a>
+    </Link>
+  );
 }
+
+export default withRouter(Go);
