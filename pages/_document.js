@@ -29,6 +29,7 @@ export default class extends Document {
     return (
       <html {...this.helmetHtmlAttrComponents}>
         <Head>{this.helmetHeadComponents}</Head>
+        <link rel='stylesheet' type='text/css' href='/static/nprogress.css' />
         <body {...this.helmetBodyAttrComponents}>
           <Main />
           <NextScript />

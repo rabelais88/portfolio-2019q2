@@ -3,6 +3,8 @@ import App, { Container } from 'next/app'
 import Helmet from 'react-helmet'
 import { PageTransition } from 'next-page-transitions'
 import stylePageTransition from '../styles/page-transition.scss';
+import NProgress from 'nprogress';
+import Router from 'next/router';
 
 // https://www.npmjs.com/package/next-page-transitions
 {/* <PageTransition
@@ -18,6 +20,13 @@ import stylePageTransition from '../styles/page-transition.scss';
 >
   <Component {...pageProps} key={router.route} />
 </PageTransition> */}
+
+Router.events.on('routeChangeStart', url => {
+  console.log(`Loading: ${url}`)
+  NProgress.start()
+})
+Router.events.on('routeChangeComplete', () => NProgress.done())
+Router.events.on('routeChangeError', () => NProgress.done())
 
 export default class MyApp extends App {
   static async getInitialProps ({ Component, ctx }) {
