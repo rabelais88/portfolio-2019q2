@@ -16,33 +16,36 @@
  - [ ] doesn't properly compile on personal windows machine; fails on reading JSX. working fine on Mac
  - [ ] apply typescript(or ts type definition)
 
-## file system
-use `tree --dirsfirst -I 'node_modules|build|.git|yarn.lock|readme.md' -L 2 -a` to refresh this list
+## file structure
+use `tree --dirsfirst -I 'node_modules|build|.git|yarn.lock|yarn-error.log|readme.md|.next|*.scss' -L 2 -a` to refresh this list
 ```.
 ├── components
-│   ├── go.js
-│   └── menu.js
+│   ├── go.js # ---- customized link menu
+│   └── menu.js # ---- nav menu
 ├── models
-│   └── User.js
-├── pages
-│   ├── _app.js # ----- next root instance injection(app root)
-│   ├── _document.js # ----- next document instance injection(body.document)
-│   ├── about.js
-│   └── index.js
+│   └── User.js # ---- sample user mongo model
+├── pages # ---- any react components here are accessible by /${componentname}
+│   ├── _app.js # ---- next.js root instance 
+│   └── _document.js # ---- next.js root instance for DOM parents(body & title & document)
 ├── server
-│   └── index.js # ----- express.js server
-├── static
+│   ├── controllers # ---- server controllers
+│   └── index.js # ---- express.js root
+├── static # ---- any assets here are accessible by /static
+│   └── nprogress.css
 ├── styles
-│   ├── page-transition.scss
-│   └── test.scss
 ├── test
 │   ├── index.test.js
-│   ├── mocha.opts # ----- mocha arguments
+│   ├── mocha.opts # ----- mocha.js argument
 │   └── mongoose.test.js
+├── utils
+│   └── auth.js
 ├── .babelrc
 ├── .env
-├── .env-sample # ----- sample of .env
+├── .env-sample
+├── .eslintignore
+├── .eslintrc.js
 ├── .gitignore
+├── .prettierrc
 ├── mocha.setup.js
 ├── next.config.js
 ├── nodemon.json
