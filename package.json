@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@zeit/next-bundle-analyzer": "^0.1.2",
     "@zeit/next-sass": "^1.0.1",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
@@ -13,11 +14,14 @@
     "react-helmet": "^5.2.0"
   },
   "scripts": {
-    "dev": "nodemon ./server/index.js",
+    "dev": "cross-env NODE_ENV=development nodemon ./server/index.js",
     "build": "next build",
     "start": "cross-env NODE_ENV=production node ./server/index.js",
     "test": "cross-env NODE_ENV=test mocha",
-    "test:watch": "cross-env NODE_ENV=test mocha -watch"
+    "test:watch": "cross-env NODE_ENV=test mocha -watch",
+    "analyze": "cross-env BUNDLE_ANALYZE=both next build",
+    "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
+    "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
