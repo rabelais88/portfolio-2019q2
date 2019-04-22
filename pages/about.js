@@ -4,10 +4,10 @@ const Home = () => {
   return (
   <div className="example">
     <Helmet
-      title='Index | Hello next.js!'
-      meta={[{ property: 'og:title', content: 'Index' }]}
+      title='About | Hello next.js!'
+      meta={[{ property: 'og:title', content: 'About' }]}
     />
-    Welcome to Next.js!
+    This is about page;
   </div>);
 };
 

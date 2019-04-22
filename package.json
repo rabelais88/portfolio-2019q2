@@ -1,12 +1,16 @@
 {
   "dependencies": {
+    "@zeit/next-sass": "^1.0.1",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "mongodb-memory-server": "^5.0.4",
     "mongoose": "^5.5.2",
     "next": "^8.1.0",
+    "next-page-transitions": "^1.0.0-beta.2",
+    "node-sass": "^4.11.0",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "react-helmet": "^5.2.0"
   },
   "scripts": {
     "dev": "nodemon ./server/index.js",
