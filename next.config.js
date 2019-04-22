@@ -1,5 +1,8 @@
+require('dotenv').config();
 const withSass = require('@zeit/next-sass')
 const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
+const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 const defaultConfig = {
   analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
@@ -22,6 +25,11 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = withBundleAnalyzer(withSass({
   ...defaultConfig,
   webpack(_config, options) {
+    _config.plugins = _config.plugins || [];
+    _config.plugins.push(new Dotenv({
+      path: path.join(__dirname, '.env'),
+      systemvars: true
+    }));
     return _config;
   }
 }));

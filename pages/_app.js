@@ -1,13 +1,13 @@
-import React from 'react'
-import App, { Container } from 'next/app'
-import Helmet from 'react-helmet'
-import { PageTransition } from 'next-page-transitions'
-import stylePageTransition from '../styles/page-transition.scss';
-import NProgress from 'nprogress';
+import React from 'react';
+import App, { Container } from 'next/app';
+import Helmet from 'react-helmet';
+import { PageTransition } from 'next-page-transitions';
 import Router from 'next/router';
+import NProgress from 'nprogress';
+import stylePageTransition from '../styles/page-transition.scss';
 
 // https://www.npmjs.com/package/next-page-transitions
-{/* <PageTransition
+/* <PageTransition
   timeout={300}
   classNames="page-transition"
   loadingComponent={<Loader />}
@@ -19,46 +19,45 @@ import Router from 'next/router';
   loadingClassNames="loading-indicator"
 >
   <Component {...pageProps} key={router.route} />
-</PageTransition> */}
+</PageTransition> */
 
 Router.events.on('routeChangeStart', url => {
-  console.log(`Loading: ${url}`)
-  NProgress.start()
-})
-Router.events.on('routeChangeComplete', () => NProgress.done())
-Router.events.on('routeChangeError', () => NProgress.done())
+  NProgress.start();
+});
+Router.events.on('routeChangeComplete', () => NProgress.done());
+Router.events.on('routeChangeError', () => NProgress.done());
 
 export default class MyApp extends App {
-  static async getInitialProps ({ Component, ctx }) {
-    let pageProps = {}
+  static async getInitialProps({ Component, ctx }) {
+    let pageProps = {};
 
     if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx)
+      pageProps = await Component.getInitialProps(ctx);
     }
 
-    return { pageProps }
+    return { pageProps };
   }
 
-  render () {
-    const { Component, pageProps } = this.props
+  render() {
+    const { Component, pageProps } = this.props;
 
     return (
       <Container>
         <Helmet
           htmlAttributes={{ lang: 'en' }}
-          title='Hello next.js!'
+          title="Hello next.js!"
           meta={[
             {
               name: 'viewport',
-              content: 'width=device-width, initial-scale=1'
+              content: 'width=device-width, initial-scale=1',
             },
-            { property: 'og:title', content: 'Hello next.js!' }
+            { property: 'og:title', content: 'Hello next.js!' },
           ]}
         />
-        <PageTransition timeout={300} classNames="page-transition" >
+        <PageTransition timeout={300} classNames="page-transition">
           <Component {...pageProps} />
         </PageTransition>
       </Container>
-    )
+    );
   }
 }

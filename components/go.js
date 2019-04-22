@@ -8,6 +8,6 @@ const Go = ({ to, children, router }) => {
       <a className={classes}>{children}</a>
     </Link>
   );
-}
+};
 
 export default withRouter(Go);

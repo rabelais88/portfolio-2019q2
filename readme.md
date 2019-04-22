@@ -10,9 +10,10 @@
     https should be served via nginx proxy
     https://www.codementor.io/marcoscasagrande/installing-express-nginx-app-on-ubuntu-18-04-with-ssl-using-certbot-pdt44g5gs
  - [x] apply scss
+ - [x] apply eslint & prettier for frontend(react)
+ - [x] apply jwt & cookie auth model
+ - [ ] apply eslint & prettier for backend
  - [ ] doesn't properly compile on personal windows machine; fails on reading JSX. working fine on Mac
- - [ ] apply jwt & cookie auth model
- - [ ] apply eslint & prettier
  - [ ] apply typescript(or ts type definition)
 
 ## file system
