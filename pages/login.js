@@ -79,7 +79,7 @@ const formLogin = props => {
   );
 }
 
-const Home = () => {
+const Login = () => {
   const [ token, setToken ] = useState(null);
 
   useEffect(() => {
@@ -113,7 +113,7 @@ const Home = () => {
   </div>);
 };
 
-Home.getInitialProps = async props => {
+Login.getInitialProps = async props => {
   const { req, res, err, pathname, query, asPath } = props;
   // const res = await fetch('https://api.github.com/repos/zeit/next.js');
   // const json = await res.json();
@@ -122,4 +122,4 @@ Home.getInitialProps = async props => {
   return [];
 };
 
-export default Home;
+export default Login;

@@ -1,7 +1,7 @@
 import styleTest from '../styles/test.scss';
 import Helmet from 'react-helmet';
 import Menu from '../components/menu';
-const Home = () => {
+const About = () => {
   return (
   <div className="example">
     <Helmet
@@ -13,7 +13,7 @@ const Home = () => {
   </div>);
 };
 
-Home.getInitialProps = async props => {
+About.getInitialProps = async props => {
   const { req, res, err, pathname, query, asPath } = props;
   // const res = await fetch('https://api.github.com/repos/zeit/next.js');
   // const json = await res.json();
@@ -22,4 +22,4 @@ Home.getInitialProps = async props => {
   return [];
 };
 
-export default Home;
+export default About;
