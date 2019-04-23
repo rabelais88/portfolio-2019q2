@@ -89,7 +89,7 @@ const Login = () => {
 
   const submitLogin = async (values, { setSubmitting }) => {
     let apiUrl = `http://localhost:${process.env.PORT}/auth`;
-    if (process.env.NODE_ENV === 'production') apiUrl = `${process.env.API_URL}`;
+    if (process.env.NODE_ENV === 'production') apiUrl = `${process.env.API_URL}/auth`;
     const res = await axios.post(apiUrl, values);
     if (res.data.token) setToken(res.data.token);
     setSubmitting(false);

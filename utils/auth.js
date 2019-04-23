@@ -19,7 +19,7 @@ export async function handleAuthSSR(ctx) {
   }
 
   let apiUrl = `http://localhost:${process.env.PORT}/auth`;
-  if (process.env.NODE_ENV === 'production') apiUrl = `${process.env.API_URL}`;
+  if (process.env.NODE_ENV === 'production') apiUrl = `${process.env.API_URL}/auth`;
   try {
     const response = await axios.get(apiUrl, { headers: { 'Authorization': token } });
     // dont really care about response, as long as it not an error
