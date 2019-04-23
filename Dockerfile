@@ -3,6 +3,9 @@ FROM mhart/alpine-node:10 as build
 
 # Set the working directory, copy dependency management files to the working directory,
 # and install the dependencies
+RUN npm config set unsafe-perm true
+RUN npm i -g yarn
+
 WORKDIR /usr/src
 COPY package.json yarn.lock ./
 RUN yarn install
@@ -23,9 +26,10 @@ WORKDIR /usr/src
 ENV NODE_ENV="production"
 ENV PATH="./node_modules/.bin:$PATH"
 
-
 # Copy files from the base image over to our new image's working directory
 COPY --from=build /usr/src .
+
+EXPOSE 3000
 
 # Start the server for Next.js using Node.js
 CMD ["yarn", "start"]
