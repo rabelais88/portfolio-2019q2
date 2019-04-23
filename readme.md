@@ -55,7 +55,7 @@ use `tree --dirsfirst -I 'node_modules|build|.git|yarn.lock|yarn-error.log|readm
 ## build and running docker image
 ```bash
 $ docker build -t app .
-$ docker run --rm -it -p 3000:3000 -e "PORT=3000" app
+$ docker run --rm -it -p 3000:3000 -e "PORT=3000" --env-file=.env app
 ```
 
 ## addendum
