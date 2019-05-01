@@ -10,11 +10,11 @@ yarn setup
 ```
 mongodb daemon(must be installed) + next.js dev env (all in one)
 ```bash
-yarn dev
+yarn dev:all
 ```
 just next.js dev env
 ```bash
-yarn dev:start
+yarn dev
 ```
 actual run
 ```bash

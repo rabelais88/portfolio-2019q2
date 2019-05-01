@@ -32,8 +32,8 @@
     "yup": "^0.27.0"
   },
   "scripts": {
-    "dev": "concurrently 'yarn dev:start' 'yarn dev:db'",
-    "dev:start": "cross-env NODE_ENV=development nodemon ./start.js",
+    "dev:all": "concurrently 'yarn dev:start' 'yarn dev:db'",
+    "dev": "cross-env NODE_ENV=development nodemon ./start.js",
     "dev:db": "mongod",
     "setup": "babel-node ./setup.js",
     "build": "next build",
