@@ -12,6 +12,8 @@
  - [x] apply scss
  - [x] apply eslint & prettier for frontend(react)
  - [x] apply jwt & cookie auth model
+
+## unsolved, next milestones
  - [ ] apply eslint & prettier for backend
  - [ ] doesn't properly compile on personal windows machine; fails on reading JSX. working fine on Mac
  - [ ] apply typescript(or ts type definition)
