@@ -11,6 +11,6 @@ beforeEach(() => {
 
 describe('testing index page', () => {
   it('index page successfully loads', () => {
-    expect(wrapped.find('div').length).to.equal(1);
+    expect(wrapped.find('.titlebox').length).to.equal(1);
   });
 });

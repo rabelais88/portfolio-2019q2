@@ -17,6 +17,7 @@ const authHandler = secret => (req, res, next) => {
   const token = req.headers.authorization;
   try {
     const decoded = jwt.verify(token, secret);
+    req.jwtPayload = decoded;
     console.log('decoded', decoded);
   } catch (e) {
     return res.status(401).json({ 'msg': e.message });

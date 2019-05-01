@@ -18,24 +18,24 @@ export async function handleAuthSSR(ctx) {
     token = cookies.get('token')
   }
 
-  let apiUrl = `http://localhost:${process.env.PORT}/auth`;
-  if (process.env.NODE_ENV === 'production') apiUrl = `${process.env.API_URL}/auth`;
+  const apiUrl = `${process.env.API_URL}/auth`;
   try {
     const response = await axios.get(apiUrl, { headers: { 'Authorization': token } });
     // dont really care about response, as long as it not an error
-    console.log("token ping:", response.data.msg)
+    console.log("token ping:", response.data)
   } catch (err) {
+    cookies.remove('token');
     // in case of error
     console.log(err.response.data.msg);
-    console.log("redirecting back to main page");
+    console.log("redirecting back to login page");
     // redirect to login
     if (ctx.res) {
       ctx.res.writeHead(302, {
-        Location: '/'
+        Location: '/login'
       })
       ctx.res.end()
     } else {
-      Router.push('/')
+      Router.push('/login')
     }
   }
 }

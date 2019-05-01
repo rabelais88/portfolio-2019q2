@@ -1,4 +1,3 @@
-import styleTest from '../styles/test.scss';
 import Helmet from 'react-helmet';
 import Menu from '../components/menu';
 import * as Yup from 'yup';
@@ -6,6 +5,10 @@ import { Formik } from 'formik';
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
 import { useState, useEffect } from 'react';
+import _get from 'lodash/get';
+import Router from 'next/router';
+import { connect } from 'react-redux';
+import { setUser } from '../actions/user';
 
 const cookies = new Cookies();
 
@@ -79,20 +82,23 @@ const formLogin = props => {
   );
 }
 
-const Login = () => {
-  const [ token, setToken ] = useState(null);
-
-  useEffect(() => {
-    if (token) cookies.set('token', token);
-    console.log('cookie has been set');
-  }, [token]);
-
+const Login = props => {
+  const { user, setUser } = props;
   const submitLogin = async (values, { setSubmitting }) => {
-    let apiUrl = `http://localhost:${process.env.PORT}/auth`;
-    if (process.env.NODE_ENV === 'production') apiUrl = `${process.env.API_URL}/auth`;
-    const res = await axios.post(apiUrl, values);
-    if (res.data.token) setToken(res.data.token);
-    setSubmitting(false);
+    try {
+      let apiUrl = `http://localhost:${process.env.PORT}/auth`;
+      if (process.env.NODE_ENV === 'production') apiUrl = `${process.env.API_URL}/auth`;
+      const res = await axios.post(apiUrl, values);
+      console.log(res.data)
+      if (res.data.token) {
+        cookies.set('token', res.data.token);
+        setUser(res.data);
+        Router.push('/admin')
+      }
+      setSubmitting(false);
+    } catch(e) {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -113,13 +119,24 @@ const Login = () => {
   </div>);
 };
 
-Login.getInitialProps = async props => {
-  const { req, res, err, pathname, query, asPath } = props;
-  // const res = await fetch('https://api.github.com/repos/zeit/next.js');
-  // const json = await res.json();
-  // return { stars: json.stargazers_count };
-  // console.log(props);
-  return [];
+Login.getInitialProps = async ctx => {
+  const token = cookies.get('token');
+  if (token) {
+    if (ctx.res) {
+      ctx.res.writeHead(302, {
+        Location: '/admin'
+      })
+      ctx.res.end()
+    } else {
+      Router.push('/admin')
+    }
+  } else {
+    return {};
+  }
 };
 
-export default Login;
+const mapStateToProps = state => {
+  return { user: state.user };
+}
+
+export default connect(mapStateToProps, { setUser })(Login);

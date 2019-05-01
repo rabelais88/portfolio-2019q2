@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 
-const UserSchema = {
-  name: String
-    // ...
+const PostSchema = {
+  title: String,
+  context: String
 }
-const User = new mongoose.Schema(UserSchema)
+const Post = new mongoose.Schema(PostSchema, { timestamps: true })
 
 // custom method
 // myModel.methods.changeTitle = function (newTitle) {
@@ -21,4 +21,4 @@ const User = new mongoose.Schema(UserSchema)
 
 // 나중에 await MyModel.changeTitle('this will be the new title'); 로 실행
 
-export default mongoose.model('User', User); // <- 여기에 String으로 전달하는 인자가 실제 mongoose에서 사용할 이름/테이블 이름
+export default mongoose.model('Post', Post); // <- 여기에 String으로 전달하는 인자가 실제 mongoose에서 사용할 이름/테이블 이름

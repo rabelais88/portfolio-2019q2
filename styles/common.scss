@@ -1,0 +1,71 @@
+// main colors
+$color-main: #3949ab;
+$color-black: #424242;
+$color-white: #fafafa;
+$color-gray: #c0c0c0;
+$font-main: 'Roboto', sans-serif;
+$font-cond: 'Roboto Condensed', sans-serif;
+$font-kr: 'Noto Sans KR', sans-serif;
+
+body {
+  font-family: $font-main;
+  margin: 0;
+  padding: 0;
+  color: $color-black;
+}
+
+button {
+  padding: 20px;
+  border-radius: 15px;
+}
+
+#menu {
+  position: fixed;
+  top: calc(50% - 200px);
+  right: 20px;
+  width: 70px;
+  text-align: center;
+  background-color: rgba(0,0,0, .3);
+  border-radius: 45px;
+  .menu--container {
+    background-color: $color-white;
+    box-shadow: 0 0 4px rgba(0,0,0, .5);
+    border-radius: 45px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+  .link {
+    display:block;
+    color:$color-black;
+    text-decoration:none;
+    width:100%;
+    margin-left:auto;
+    margin-right:auto;
+    > img {
+      transition: all .2s ease-in-out;
+      width: 20px;
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+    &.active > img{
+      width: 30px;
+      animation: pulse 2s infinite;
+    }
+  }
+}
+
+table#dest {
+  font-family: $font-cond;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+.dest__dotted {
+  width: 50%;
+  border-right: dotted 2px $color-white;
+}
+.dest__joint {
+  color: $color-white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}

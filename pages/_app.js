@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { Children } from 'react';
 import App, { Container } from 'next/app';
 import Helmet from 'react-helmet';
 import { PageTransition } from 'next-page-transitions';
+import withReduxStore from '../reducers/with-redux-store';
 import Router from 'next/router';
 import NProgress from 'nprogress';
-import stylePageTransition from '../styles/page-transition.scss';
+import { Provider } from 'react-redux';
+import '../styles/page-transition.scss';
+import '../styles/common.scss';
 
 // https://www.npmjs.com/package/next-page-transitions
 /* <PageTransition
@@ -21,13 +24,14 @@ import stylePageTransition from '../styles/page-transition.scss';
   <Component {...pageProps} key={router.route} />
 </PageTransition> */
 
+NProgress.configure({ showSpinner: false });
 Router.events.on('routeChangeStart', url => {
   NProgress.start();
 });
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
-export default class MyApp extends App {
+class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
 
@@ -39,25 +43,30 @@ export default class MyApp extends App {
   }
 
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, reduxStore } = this.props;
+    console.log('current page:', Component.name);
 
     return (
       <Container>
-        <Helmet
-          htmlAttributes={{ lang: 'en' }}
-          title="Hello next.js!"
-          meta={[
-            {
-              name: 'viewport',
-              content: 'width=device-width, initial-scale=1',
-            },
-            { property: 'og:title', content: 'Hello next.js!' },
-          ]}
-        />
-        <PageTransition timeout={300} classNames="page-transition">
-          <Component {...pageProps} />
-        </PageTransition>
+        <Provider store={reduxStore}>
+          <Helmet
+            htmlAttributes={{ lang: 'en' }}
+            title="Hello next.js!"
+            meta={[
+              {
+                name: 'viewport',
+                content: 'width=device-width, initial-scale=1',
+              },
+              { property: 'og:title', content: 'Hello next.js!' },
+            ]}
+          />
+          <PageTransition timeout={300} classNames="page-transition">
+            <Component {...pageProps} />
+          </PageTransition>
+        </Provider>
       </Container>
     );
   }
 }
+
+export default withReduxStore(MyApp);

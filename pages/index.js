@@ -1,15 +1,19 @@
-import styleTest from '../styles/test.scss';
+import './index.scss';
 import Helmet from 'react-helmet';
 import Menu from '../components/menu';
 const Home = () => {
   return (
-  <div className="example">
+  <div>
     <Helmet
-      title='Index | Hello next.js!'
+      title='Park Sungryeol - portfolio'
       meta={[{ property: 'og:title', content: 'Index' }]}
     />
     <Menu />
-    Welcome to Next.js!
+    <div className="titlebox">
+      <h1>Park Sungryeol</h1>
+      <h2>박_성렬</h2>
+      <h3>work and portfolio</h3>
+    </div>
   </div>);
 };
 

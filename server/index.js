@@ -1,8 +1,9 @@
 require('dotenv').config(); // injects to process.env.~
-const express = require('express');
-const next = require('next');
-const bodyParser = require("body-parser");
-const cookieParser = require('cookie-parser');
+import express from 'express';
+import next from 'next';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import mongoose from 'mongoose';
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -14,7 +15,10 @@ const handle = app.getRequestHandler();
 
 const server = express();
 const { authHandler, corsHandler } = require('./controllers/handlers');
-const controllers = require('./controllers');
+const authControllers = require('./controllers/auth');
+import { infoIndex } from './controllers/info';
+
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true });
 
 if (process.env.NODE_ENV === 'development') {
   server.use(corsHandler);
@@ -36,8 +40,9 @@ server.get('/posts/:id', (req, res) => {
   return app.render(req, res, '/posts', { id: req.params.id })
 })
 
-server.post('/auth', controllers.login(process.env.JWT_SECRET));
-server.get('/auth', authHandler(process.env.JWT_SECRET), controllers.auth(app));
+server.post('/auth', authControllers.login(process.env.JWT_SECRET));
+server.get('/auth', authHandler(process.env.JWT_SECRET), authControllers.auth(app)); // token ping
+server.get('/info-index', authHandler(process.env.JWT_SECRET), infoIndex(app));
 
 server.get('*', (req, res) => {
   return handle(req, res)
