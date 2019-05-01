@@ -1,6 +1,6 @@
-# Latest Next.js + Express + Mongoose + Mocha + Redux + JWT + Cookie
-
-@author sungryeol park(sungryeolp@gmail.com)
+# Portfolio /w Next.js(React-redux) + MongoDB
+- author sungryeol park(sungryeolp@gmail.com)
+- used tech stack: Next.js + Express + Mongoose + Mocha(TDD) + Redux + JWT + Cookie + SCSS
 
 ## Commands
 initialize & register admin to db
