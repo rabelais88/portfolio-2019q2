@@ -22,6 +22,8 @@ module.exports = {
     'react/jsx-filename-extension': 'off',
     'jsx-a11y/html-has-lang': 'warn',
     'arrow-parens': 'off',
-    'no-unused-vars': ' warn',
+    'no-unused-vars': 'warn',
+    'import/prefer-default-export': 'off',
+    'consistent-return': 'off',
   }
 };

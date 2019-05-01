@@ -1,46 +1,90 @@
-# Latest Next.js + Express + Mongoose + Mocha
+# Latest Next.js + Express + Mongoose + Mocha + Redux + JWT + Cookie
 
 @author sungryeol park(sungryeolp@gmail.com)
 
+## Commands
+initialize & register admin to db
+```bash
+yarn install
+yarn setup
+```
+mongodb daemon(must be installed) + next.js dev env (all in one)
+```bash
+yarn dev
+```
+just next.js dev env
+```bash
+yarn dev:start
+```
+actual run
+```bash
+yarn build
+yarn start
+```
+analyze size
+```bash
+yarn analyze
+yarn analyze:server # only for server
+yarn analyze:browser # only for browser
+```
+in case of changing lint setup
+```bash
+yarn lint:init
+```
+
+
 ## solved & ongoing issues
- - [x] *jest* doesn't work properly with mongoose testing -> replaced with *mocha*
- - [x] `mocha --watch` doesn't work properly with *mongoose*.
+ - [x] *jest* doesn't work properly with mongoose testing &rarr; replaced with *mocha*
+ - [x] `mocha --watch` doesn't work properly with *mongoose*. &rarr;
     https://github.com/Automattic/mongoose/issues/1251
- - [x] apply https
+ - [x] apply `https` &rarr;
     https should be served via nginx proxy
     https://www.codementor.io/marcoscasagrande/installing-express-nginx-app-on-ubuntu-18-04-with-ssl-using-certbot-pdt44g5gs
- - [x] apply scss
- - [x] apply eslint & prettier for frontend(react)
- - [x] apply jwt & cookie auth model
+ - [x] apply `scss`
+ - [x] apply `eslint` & `prettier` for frontend(react)
+ - [x] apply `jwt` & cookie auth model
+ - [x] apply `eslint` & `prettier` for backend
+ - [x] apply `typescript`(or ts type definition) &rarr; decided to substitute with `JSDOC`
 
 ## unsolved, next milestones
- - [ ] apply eslint & prettier for backend
  - [ ] doesn't properly compile on personal windows machine; fails on reading JSX. working fine on Mac
- - [ ] apply typescript(or ts type definition)
+ - [ ] replace `scss` with better substitute - it breaks easily on different environment
 
 ## file structure
 use `tree --dirsfirst -I 'node_modules|build|.git|yarn.lock|yarn-error.log|readme.md|.next|*.scss' -L 2 -a` to refresh this list
 ```.
+├── actions
+│   └── user.js # --- redux action
 ├── components
-│   ├── go.js # ---- customized link menu
+│   ├── createPost.js
+│   ├── editIndex.js
+│   ├── editStack.js
+│   ├── go.js # ---- customized link component
 │   └── menu.js # ---- nav menu
 ├── models
-│   └── User.js # ---- sample user mongo model
+│   ├── Admin.js
+│   ├── Info.js
+│   ├── Post.js
+│   └── User.js
 ├── pages # ---- any react components here are accessible by /${componentname}
 │   ├── _app.js # ---- next.js root instance 
-│   └── _document.js # ---- next.js root instance for DOM parents(body & title & document)
+│   └── _document.js # ---- next.js root instance for DOM parents(body & title & 
+├── reducers
+│   ├── store.js # --- combined redux store
+│   ├── user.js # --- state.user
+│   └── with-redux-store.js # --- attaches redux devtool to store + compatibility for Next.js
 ├── server
-│   ├── controllers # ---- server controllers
-│   └── index.js # ---- express.js root
+│   ├── controllers # --- middlewares
+│   ├── index.js # --- server root
+│   └── typedefs.js # --- JSDOC global type definitions
 ├── static # ---- any assets here are accessible by /static
-│   └── nprogress.css
-├── styles
+├── styles # ---- common .scss styles
 ├── test
 │   ├── index.test.js
-│   ├── mocha.opts # ----- mocha.js argument
-│   └── mongoose.test.js
+│   ├── mocha.opts # --- mocha arguments
+│   └── mongoose.test.js # --- testing db
 ├── utils
-│   └── auth.js
+│   └── auth.js # --- middleware for Next.js page
 ├── .babelrc
 ├── .env
 ├── .env-sample
@@ -51,14 +95,12 @@ use `tree --dirsfirst -I 'node_modules|build|.git|yarn.lock|yarn-error.log|readm
 ├── mocha.setup.js
 ├── next.config.js
 ├── nodemon.json
-└── package.json
-```
-
-## build and running docker image
-```bash
-$ docker build -t app .
-$ docker run --rm -it -p 3000:3000 -e "PORT=3000" --env-file=.env app
+├── package.json
+├── setup.js # --- setup file for registering admin
+└── start.js # --- a wrapper. transpiles & run ./server/index.js
 ```
 
 ## addendum
  - https://github.com/zeit/next.js/tree/canary/examples
+ - https://www.typescriptlang.org/docs/handbook/type-checking-javascript-files.html
+ - https://www.typescriptlang.org/docs/handbook/declaration-files/templates/module-d-ts.html

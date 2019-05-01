@@ -1,20 +1,22 @@
 import './index.scss';
 import Helmet from 'react-helmet';
 import Menu from '../components/menu';
+
 const Home = () => {
   return (
-  <div>
-    <Helmet
-      title='Park Sungryeol - portfolio'
-      meta={[{ property: 'og:title', content: 'Index' }]}
-    />
-    <Menu />
-    <div className="titlebox">
-      <h1>Park Sungryeol</h1>
-      <h2>박_성렬</h2>
-      <h3>work and portfolio</h3>
+    <div>
+      <Helmet
+        title="Park Sungryeol - portfolio"
+        meta={[{ property: 'og:title', content: 'Index' }]}
+      />
+      <Menu />
+      <div className="titlebox">
+        <h1>Park Sungryeol</h1>
+        <h2>박_성렬</h2>
+        <h3>work and portfolio</h3>
+      </div>
     </div>
-  </div>);
+  );
 };
 
 Home.getInitialProps = async props => {

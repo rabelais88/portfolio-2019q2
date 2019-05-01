@@ -4,8 +4,8 @@ export const LOGOUT = 'LOGOUT';
 export const setUser = userInfo => ({
   type: SET_USER,
   userInfo,
-})
+});
 
-export const logout = userInfo => ({
-  type: LOGOUT
-})
+export const logout = () => ({
+  type: LOGOUT,
+});

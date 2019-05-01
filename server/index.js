@@ -1,27 +1,25 @@
-require('dotenv').config(); // injects to process.env.~
 import express from 'express';
 import next from 'next';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 
+import { validateHeaderToken, allowCORS } from './controllers/handlers';
+import { tokenValidated, login } from './controllers/auth';
+import { infoIndex } from './controllers/info';
+
+require('dotenv').config(); // injects to process.env.~
+
+const server = express();
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-// cert should be handled via nginx proxy
-// https://www.codementor.io/marcoscasagrande/installing-express-nginx-app-on-ubuntu-18-04-with-ssl-using-certbot-pdt44g5gs
-
-const server = express();
-const { authHandler, corsHandler } = require('./controllers/handlers');
-const authControllers = require('./controllers/auth');
-import { infoIndex } from './controllers/info';
-
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true });
 
 if (process.env.NODE_ENV === 'development') {
-  server.use(corsHandler);
+  server.use(allowCORS);
 }
 
 server.use(bodyParser.json());
@@ -40,9 +38,9 @@ server.get('/posts/:id', (req, res) => {
   return app.render(req, res, '/posts', { id: req.params.id })
 })
 
-server.post('/auth', authControllers.login(process.env.JWT_SECRET));
-server.get('/auth', authHandler(process.env.JWT_SECRET), authControllers.auth(app)); // token ping
-server.get('/info-index', authHandler(process.env.JWT_SECRET), infoIndex(app));
+server.post('/auth', login);
+server.get('/auth', validateHeaderToken, tokenValidated(app)); // token ping
+server.get('/info-index', validateHeaderToken, infoIndex);
 
 server.get('*', (req, res) => {
   return handle(req, res)
