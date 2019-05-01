@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@babel/register": "^7.4.4",
     "@zeit/next-bundle-analyzer": "^0.1.2",
     "@zeit/next-sass": "^1.0.1",
     "axios": "^0.18.0",
@@ -32,9 +33,9 @@
     "yup": "^0.27.0"
   },
   "scripts": {
-    "dev:all": "concurrently 'yarn dev:start' 'yarn dev:db'",
+    "dev:all": "concurrently 'yarn dev' 'yarn dev:db'",
     "dev": "cross-env NODE_ENV=development nodemon ./start.js",
-    "dev:db": "mongod",
+    "dev:db": "mongod --quiet",
     "setup": "babel-node ./setup.js",
     "build": "next build",
     "start": "cross-env NODE_ENV=production node ./start.js",
@@ -50,7 +51,6 @@
     "@babel/core": "^7.4.3",
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.4.4",
-    "@babel/register": "^7.4.0",
     "chai": "^4.2.0",
     "concurrently": "^4.1.0",
     "enzyme": "^3.9.0",

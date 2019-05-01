@@ -27,28 +27,28 @@ server.use(bodyParser.urlencoded({ extended: true }));
 server.use(cookieParser());
 
 server.get('/a', (req, res) => {
-  return app.render(req, res, '/a', req.query)
-})
+  return app.render(req, res, '/a', req.query);
+});
 
 server.get('/b', (req, res) => {
-  return app.render(req, res, '/b', req.query)
-})
+  return app.render(req, res, '/b', req.query);
+});
 
 server.get('/posts/:id', (req, res) => {
-  return app.render(req, res, '/posts', { id: req.params.id })
-})
+  return app.render(req, res, '/posts', { id: req.params.id });
+});
 
 server.post('/auth', login);
 server.get('/auth', validateHeaderToken, tokenValidated(app)); // token ping
 server.get('/info-index', validateHeaderToken, infoIndex);
 
 server.get('*', (req, res) => {
-  return handle(req, res)
-})
+  return handle(req, res);
+});
 
 app.prepare().then(() => {
   server.listen(port, err => {
-    if (err) throw err
-    console.log(`> Ready on http://localhost:${port}`)
-  })
-})
+    if (err) throw err;
+    console.log(`> Ready on http://localhost:${port}`);
+  });
+});

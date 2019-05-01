@@ -25,5 +25,9 @@ module.exports = {
     'no-unused-vars': 'warn',
     'import/prefer-default-export': 'off',
     'consistent-return': 'off',
+    'func-names': 'off',
+    'react/prop-types': 'off',
+    'arrow-body-style': 'warn',
+    'object-curly-newline': 'warn'
   }
 };

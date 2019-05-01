@@ -3,32 +3,34 @@ import mongoose from 'mongoose';
 const InfoSchema = {
   stacks: {
     type: Array,
-    default: []
+    default: [],
   },
   indexMarkdown: {
     type: String,
-    default: 'index page info goes here'
+    default: 'index page info goes here',
   },
-}
-const Info = new mongoose.Schema(InfoSchema, { timestamps: true })
+};
+const Info = new mongoose.Schema(InfoSchema, { timestamps: true });
 
 const getLatest = async () => {
   const isAvail = await this.countDocuments();
   if (!isAvail) await this.create();
-  const latest = await this.findOne().sort({created_at: -1});
+  const latest = await this.findOne().sort({ created_at: -1 });
   return latest;
-}
+};
 
 Info.statics = {
   async updateStacks(newStacks) {
     const latest = await getLatest.call(this);
     latest.set('stacks', newStacks);
-    return await latest.save();
+    await latest.save();
+    return null;
   },
   async updateIndex(newIndex) {
     const latest = await getLatest.call(this);
     latest.set('indexMarkdown', newIndex);
-    return await latest.save();
+    await latest.save();
+    return null;
   },
   async getStacks() {
     const latest = await getLatest.call(this);
@@ -37,8 +39,8 @@ Info.statics = {
   async getIndex() {
     const latest = await getLatest.call(this);
     return latest.indexMarkdown;
-  }
-}
+  },
+};
 
 // custom method
 // myModel.methods.changeTitle = function (newTitle) {

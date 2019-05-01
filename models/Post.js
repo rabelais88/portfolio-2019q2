@@ -2,9 +2,9 @@ import mongoose from 'mongoose';
 
 const PostSchema = {
   title: String,
-  context: String
-}
-const Post = new mongoose.Schema(PostSchema, { timestamps: true })
+  context: String,
+};
+const Post = new mongoose.Schema(PostSchema, { timestamps: true });
 
 // custom method
 // myModel.methods.changeTitle = function (newTitle) {

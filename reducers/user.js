@@ -6,14 +6,14 @@ const defaultState = {
   token: null,
 };
 const userReducer = (state = defaultState, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case SET_USER:
-      return {...state, auth: true, ...action.userInfo };
+      return { ...state, auth: true, ...action.userInfo };
     case LOGOUT:
       return defaultState;
     default:
-      return state
+      return state;
   }
-}
+};
 
 export default userReducer;

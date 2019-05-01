@@ -14,16 +14,21 @@ export const login = async (req, res, next) => {
   const { email, password } = req.body;
   const adminInfo = await Admin.login(email, password);
   if (adminInfo) {
-    const token = jwt.sign({ email: adminInfo.email, username: adminInfo.username }, process.env.JWT_SECRET, { expiresIn: 60 }) // 1 min token
-    res.status(200).json({ email: adminInfo.email, username: adminInfo.username, token });
+    const token = jwt.sign(
+      { email: adminInfo.email, username: adminInfo.username },
+      process.env.JWT_SECRET,
+      { expiresIn: 60 },
+    ); // 1 min token
+    res
+      .status(200)
+      .json({ email: adminInfo.email, username: adminInfo.username, token });
   } else {
     const err = new Error('wrong password');
     err.statusCode = 401;
     console.log(err);
     res.status(401).json(err);
   }
-
-}
+};
 
 /**
  * GET this module does nothing except sending out a message that says 'token is proper'
@@ -35,5 +40,7 @@ export const login = async (req, res, next) => {
  */
 export const tokenValidated = app => (req, res, next) => {
   console.log('token check inside auth controller');
-  return res.status(200).json({ message: 'token is validated', data: req.jwtPayload });
-}
+  return res
+    .status(200)
+    .json({ message: 'token is validated', data: req.jwtPayload });
+};

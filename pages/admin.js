@@ -9,32 +9,35 @@ import EditStack from '../components/editStack';
 
 const Post = props => {
   const { type } = props;
-  switch(type) {
+  switch (type) {
     case 'index':
-      return <EditIndex {...props}/>
+      return <EditIndex {...props} />;
     case 'stack':
-      return <EditStack {...props}/>
+      return <EditStack {...props} />;
     case 'post':
-      return <CreatePost {...props}/>
+      return <CreatePost {...props} />;
+    default:
+      return null;
   }
-}
+};
 
 const Admin = props => {
   const [postType, setPostType] = useState('index');
   return (
-  <div className="example">
-    <Helmet
-      title='Sungryeol Park Admin Page'
-      meta={[{ property: 'og:title', content: 'Admin' }]}
-    />
-    <Menu />
-    <select onChange={e => setPostType(e.target.value)} value={postType}>
-      <option value="index">modify info for index page</option>
-      <option value="stack">modify tech stack</option>
-      <option value="post">post new work</option>
-    </select>
-    <Post type={postType} {...props} />
-  </div>);
+    <div className="example">
+      <Helmet
+        title="Sungryeol Park Admin Page"
+        meta={[{ property: 'og:title', content: 'Admin' }]}
+      />
+      <Menu />
+      <select onChange={e => setPostType(e.target.value)} value={postType}>
+        <option value="index">modify info for index page</option>
+        <option value="stack">modify tech stack</option>
+        <option value="post">post new work</option>
+      </select>
+      <Post type={postType} {...props} />
+    </div>
+  );
 };
 
 Admin.getInitialProps = async ctx => {

@@ -20,7 +20,7 @@ const validationLogin = Yup.object().shape({
   password: Yup.string()
     .trim()
     .min(3)
-    .required('Required')
+    .required('Required'),
 });
 
 const formLogin = props => {
@@ -52,8 +52,9 @@ const formLogin = props => {
           errors.email && touched.email ? 'text-input error' : 'text-input'
         }
       />
-      {errors.email &&
-        touched.email && <div className="input-feedback">{errors.email}</div>}
+      {errors.email && touched.email && (
+        <div className="input-feedback">{errors.email}</div>
+      )}
       <label htmlFor="password" style={{ display: 'block' }}>
         password
       </label>
@@ -64,7 +65,11 @@ const formLogin = props => {
         value={values.password}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={errors.password && touched.password ? 'text-input error' : 'text-input'}
+        className={
+          errors.password && touched.password
+            ? 'text-input error'
+            : 'text-input'
+        }
       />
       <button
         type="button"
@@ -80,43 +85,43 @@ const formLogin = props => {
       {JSON.stringify(props)}
     </form>
   );
-}
+};
 
 const Login = props => {
   const { user, setUser } = props;
   const submitLogin = async (values, { setSubmitting }) => {
     try {
-      let apiUrl = `http://localhost:${process.env.PORT}/auth`;
-      if (process.env.NODE_ENV === 'production') apiUrl = `${process.env.API_URL}/auth`;
+      const apiUrl = `${process.env.API_URL}/auth`;
       const res = await axios.post(apiUrl, values);
-      console.log(res.data)
+      console.log(res.data);
       if (res.data.token) {
         cookies.set('token', res.data.token);
         setUser(res.data);
-        Router.push('/admin')
+        Router.push('/admin');
       }
       setSubmitting(false);
-    } catch(e) {
+    } catch (e) {
       setSubmitting(false);
     }
   };
 
   return (
-  <div className="example">
-    <Helmet
-      title='Login | Hello next.js!'
-      meta={[{ property: 'og:title', content: 'Login' }]}
-    />
-    <Menu />
-    Please Log in
-    <Formik
-      initialValues={{ email: '', password: '' }}
-      onSubmit={submitLogin}
-      validationSchema={validationLogin}
-    >
-      {formLogin}
-    </Formik>
-  </div>);
+    <div className="example">
+      <Helmet
+        title="Login | Hello next.js!"
+        meta={[{ property: 'og:title', content: 'Login' }]}
+      />
+      <Menu />
+      Please Log in
+      <Formik
+        initialValues={{ email: '', password: '' }}
+        onSubmit={submitLogin}
+        validationSchema={validationLogin}
+      >
+        {formLogin}
+      </Formik>
+    </div>
+  );
 };
 
 Login.getInitialProps = async ctx => {
@@ -124,11 +129,11 @@ Login.getInitialProps = async ctx => {
   if (token) {
     if (ctx.res) {
       ctx.res.writeHead(302, {
-        Location: '/admin'
-      })
-      ctx.res.end()
+        Location: '/admin',
+      });
+      ctx.res.end();
     } else {
-      Router.push('/admin')
+      Router.push('/admin');
     }
   } else {
     return {};
@@ -137,6 +142,9 @@ Login.getInitialProps = async ctx => {
 
 const mapStateToProps = state => {
   return { user: state.user };
-}
+};
 
-export default connect(mapStateToProps, { setUser })(Login);
+export default connect(
+  mapStateToProps,
+  { setUser },
+)(Login);

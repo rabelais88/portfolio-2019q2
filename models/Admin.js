@@ -11,10 +11,10 @@ const AdminSchema = {
     required: true,
   },
   username: String,
-}
+};
 const Admin = new mongoose.Schema(AdminSchema);
 
-Admin.pre('save', async function(next) {
+Admin.pre('save', async function (next) {
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
@@ -25,7 +25,7 @@ Admin.statics = {
     if (!admin) return false;
     const isValid = await bcrypt.compare(password, admin.password);
     return isValid ? admin : false;
-  }
-}
+  },
+};
 
 export default mongoose.model('Admin', Admin);

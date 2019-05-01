@@ -1,11 +1,12 @@
 import React, { Children } from 'react';
 import App, { Container } from 'next/app';
+import { Provider } from 'react-redux';
+import Router from 'next/router';
 import Helmet from 'react-helmet';
 import { PageTransition } from 'next-page-transitions';
-import withReduxStore from '../reducers/with-redux-store';
-import Router from 'next/router';
 import NProgress from 'nprogress';
-import { Provider } from 'react-redux';
+import withReduxStore from '../reducers/with-redux-store';
+
 import '../styles/page-transition.scss';
 import '../styles/common.scss';
 

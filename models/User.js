@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 
 const UserSchema = {
-  name: String
-    // ...
-}
-const User = new mongoose.Schema(UserSchema)
+  name: String,
+  // ...
+};
+const User = new mongoose.Schema(UserSchema);
 
 // custom method
 // myModel.methods.changeTitle = function (newTitle) {

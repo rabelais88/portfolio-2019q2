@@ -1,5 +1,5 @@
 require('dotenv').config();
-const withSass = require('@zeit/next-sass')
+const withSass = require('@zeit/next-sass');
 const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
@@ -10,26 +10,30 @@ const defaultConfig = {
   bundleAnalyzerConfig: {
     server: {
       analyzerMode: 'static',
-      reportFilename: '../bundles/server.html'
+      reportFilename: '../bundles/server.html',
     },
     browser: {
       analyzerMode: 'static',
-      reportFilename: '../bundles/client.html'
-    }
+      reportFilename: '../bundles/client.html',
+    },
   },
 };
 if (process.env.NODE_ENV === 'production') {
   defaultConfig.distDir = 'build';
 }
 
-module.exports = withBundleAnalyzer(withSass({
-  ...defaultConfig,
-  webpack(_config, options) {
-    _config.plugins = _config.plugins || [];
-    _config.plugins.push(new Dotenv({
-      path: path.join(__dirname, '.env'),
-      systemvars: true
-    }));
-    return _config;
-  }
-}));
+module.exports = withBundleAnalyzer(
+  withSass({
+    ...defaultConfig,
+    webpack(_config, options) {
+      _config.plugins = _config.plugins || [];
+      _config.plugins.push(
+        new Dotenv({
+          path: path.join(__dirname, '.env'),
+          systemvars: true,
+        }),
+      );
+      return _config;
+    },
+  }),
+);

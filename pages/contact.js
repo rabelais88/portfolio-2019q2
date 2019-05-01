@@ -1,15 +1,17 @@
 import Helmet from 'react-helmet';
 import Menu from '../components/menu';
+
 const Contact = () => {
   return (
-  <div className="example">
-    <Helmet
-      title='Contact | Hello next.js!'
-      meta={[{ property: 'og:title', content: 'Contact' }]}
-    />
-    <Menu />
-    This is about page;
-  </div>);
+    <div className="example">
+      <Helmet
+        title="Contact | Hello next.js!"
+        meta={[{ property: 'og:title', content: 'Contact' }]}
+      />
+      <Menu />
+      This is about page;
+    </div>
+  );
 };
 
 Contact.getInitialProps = async ctx => {

@@ -32,8 +32,8 @@ export default class extends Document {
         <Head>{this.helmetHeadComponents}</Head>
         <link rel="stylesheet" type="text/css" href="/static/nprogress.css" />
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed" rel="stylesheet"></link>
-        <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet"></link>
+        <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet" />
         <body {...this.helmetBodyAttrComponents}>
           <Main />
           <NextScript />
