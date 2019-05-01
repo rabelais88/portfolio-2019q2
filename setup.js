@@ -23,7 +23,8 @@ const mainProc = async () => {
   ];
   const { email, password, username } = await prompts(questions);
   console.log('accepted input:', email);
-  if (Admin.findOne({ email })) {
+  const isEmailTaken = await Admin.findOne({ email });
+  if (isEmailTaken) {
     console.log('user with same email already exists');
     process.exit(0);
   }
