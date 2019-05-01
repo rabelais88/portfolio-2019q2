@@ -8,9 +8,6 @@ require('dotenv').config();
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true });
 
-mongoose.connection.on('connected', () => {
-  console.log('Connected to database');
-});
 mongoose.connection.on('error', err => {
   console.log(`Database error: ${err}`);
 });
@@ -25,7 +22,7 @@ const mainProc = async () => {
   console.log('accepted input:', email);
   const isEmailTaken = await Admin.findOne({ email });
   if (isEmailTaken) {
-    console.log('user with same email already exists');
+    console.log('user with same email already exists', isEmailTaken);
     process.exit(0);
   }
   await Admin.create({ email, password, username });
