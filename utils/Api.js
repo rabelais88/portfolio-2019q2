@@ -48,6 +48,11 @@ class api {
   postLogin({ email, password }) {
     return this.api.post('/auth', { email, password });
   }
+
+  async getStacks() {
+    const res = await this.api.get('/info-stacks');
+    return res.stacks;
+  }
 }
 
 export default api;

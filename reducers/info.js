@@ -1,11 +1,11 @@
-import { SET_INDEX, SET_STACKS, ADD_POST } from '../actions/admin';
+import { SET_INDEX, SET_STACKS, ADD_POST } from '../actions/info';
 
 const defaultState = {
   indexMarkdown: '',
   stacks: [],
   editingPost: [],
 };
-const adminReducer = (state = defaultState, action) => {
+const infoReducer = (state = defaultState, action) => {
   switch (action.type) {
     case SET_INDEX:
       return { ...state, indexMarkdown: action.payload };
@@ -18,4 +18,4 @@ const adminReducer = (state = defaultState, action) => {
   }
 };
 
-export default adminReducer;
+export default infoReducer;

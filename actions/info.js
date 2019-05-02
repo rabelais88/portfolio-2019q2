@@ -11,12 +11,28 @@ export const setIndex = payload => ({
   payload,
 });
 
+export const setStacks = payload => ({
+  type: SET_STACKS,
+  payload,
+});
+
 export const asyncGetIndex = () => (dispatch, getState) => {
   // console.log('getindex. getstate', getState());
   const token = _get(getState(), 'user.token');
   const api = new Api().onError(dispatch(logout)).setToken(token);
+  console.log(api);
   api.getIndex().then(indexMarkdown => {
     dispatch(setIndex(indexMarkdown));
   });
-  return {};
+  return null;
+};
+
+export const asyncGetStacks = () => (dispatch, getState) => {
+  const token = _get(getState(), 'user.token');
+  const api = new Api().onError(dispatch(logout)).setToken(token);
+  console.log(api);
+  api.getStacks().then(stacks => {
+    dispatch(setStacks(stacks));
+  });
+  return null;
 };

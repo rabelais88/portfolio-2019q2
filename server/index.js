@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 
 import { validateHeaderToken, allowCORS } from './controllers/handlers';
 import { tokenValidated, login } from './controllers/auth';
-import { infoIndex } from './controllers/info';
+import { infoIndex, infoStacks } from './controllers/info';
 
 require('dotenv').config(); // injects to process.env.~
 
@@ -48,6 +48,7 @@ server.get('/posts/:id', (req, res) => {
 server.post('/auth', login);
 server.get('/auth', validateHeaderToken, tokenValidated(app)); // token ping
 server.get('/info-index', validateHeaderToken, infoIndex);
+server.get('/info-stacks', validateHeaderToken, infoStacks);
 
 server.get('*', (req, res) => {
   return handle(req, res);

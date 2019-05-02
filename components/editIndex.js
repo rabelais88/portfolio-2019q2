@@ -7,10 +7,10 @@ import _get from 'lodash/get';
 
 // import { getIndex } from '../utils/api';
 import { logout } from '../actions/user';
-import { asyncGetIndex, setIndex } from '../actions/admin';
+import { asyncGetIndex, setIndex } from '../actions/info';
 
 const EditIndex = props => {
-  const markdown = _get(props, 'admin.indexMarkdown');
+  const markdown = _get(props, 'info.indexMarkdown');
   // const [markdown, setMarkdown] = useState(null);
   useLayoutEffect(() => {
     props.dispatch(asyncGetIndex());
