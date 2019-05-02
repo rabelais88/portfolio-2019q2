@@ -28,6 +28,7 @@ module.exports = {
 		'func-names': 'off',
 		'react/prop-types': 'off',
 		'arrow-body-style': 'warn',
-		'object-curly-newline': 'warn'
+		'object-curly-newline': 'warn',
+		'class-methods-use-this': 'off'
 	}
 };

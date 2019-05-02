@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Router from 'next/router';
 import { Cookies } from 'react-cookie';
+import _get from 'lodash/get';
 // set up cookies
 const cookies = new Cookies();
 
@@ -11,7 +12,7 @@ export async function handleAuthSSR(ctx) {
   if (ctx.req) {
     // ugly way to get cookie value from a string of values
     // good enough for demostration
-    token = ctx.req.headers.cookie.replace(
+    token = _get(ctx, 'req.headers.cookie', '').replace(
       /(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/,
       '$1',
     );

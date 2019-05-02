@@ -1,13 +1,12 @@
 import Helmet from 'react-helmet';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import axios from 'axios';
 import { Cookies } from 'react-cookie';
-import { useState, useEffect, Fragment } from 'react';
-import Router from 'next/router';
+import { useEffect, Fragment } from 'react';
+import Router, { withRouter } from 'next/router'; // Router is for server, withRouter is for client
 import { connect } from 'react-redux';
 
-import { setUser } from '../actions/user';
+import { asyncLogin } from '../actions/user';
 import Menu from '../components/menu';
 
 const cookies = new Cookies();
@@ -90,21 +89,13 @@ const formLogin = props => {
 };
 
 const Login = props => {
-  const { user, setUser } = props;
-  const submitLogin = async (values, { setSubmitting }) => {
-    try {
-      const apiUrl = `${process.env.API_URL}/auth`;
-      const res = await axios.post(apiUrl, values);
-      console.log(res.data);
-      if (res.data.token) {
-        cookies.set('token', res.data.token);
-        setUser(res.data);
-        Router.push('/admin');
-      }
-      setSubmitting(false);
-    } catch (e) {
-      setSubmitting(false);
-    }
+  const { user, dispatch, router } = props;
+  useEffect(() => {
+    if (user.token) router.push('/admin');
+  }, [user]);
+  const submitLogin = async ({ email, password }, { setSubmitting }) => {
+    dispatch(asyncLogin(email, password));
+    setSubmitting(false);
   };
 
   return (
@@ -142,11 +133,5 @@ Login.getInitialProps = async ctx => {
   }
 };
 
-const mapStateToProps = state => {
-  return { user: state.user };
-};
-
-export default connect(
-  mapStateToProps,
-  { setUser },
-)(Login);
+const mapStateToProps = state => state;
+export default connect(mapStateToProps)(withRouter(Login));

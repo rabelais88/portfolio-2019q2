@@ -36,13 +36,12 @@ export const allowCORS = (req, res, next) => {
  * app.get('/sercurepage', authHandler, pageController)
  * */
 export const validateHeaderToken = (req, res, next) => {
-  console.log('token check inside auth handler');
-  console.log(req.headers);
+  // console.log(req.headers);
   const token = req.headers.authorization;
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.jwtPayload = decoded;
-    console.log('decoded', decoded);
+    // console.log('decoded', decoded);
   } catch (e) {
     return res.status(401).json({ msg: e.message });
   }

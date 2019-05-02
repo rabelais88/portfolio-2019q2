@@ -1,11 +1,9 @@
 import { withRouter } from 'next/router';
 import _get from 'lodash/get';
 import { connect } from 'react-redux';
-import { Cookies } from 'react-cookie';
 import { logout } from '../actions/user';
 import Go from './go';
 
-const cookies = new Cookies();
 
 const names = {
   '/': 'HOME',
@@ -13,11 +11,10 @@ const names = {
   '/contact': 'CONTACT',
   '/login': 'ADMIN',
 };
-const Menu = ({ router, logOut, user }) => {
+const Menu = ({ router, user, dispatch }) => {
   const onLogout = e => {
     e.preventDefault();
-    cookies.remove('token'); // remove cookie
-    logOut(); // clear redux store
+    dispatch(logout());
     if (router.pathname === '/admin') router.push('/');
   };
 
@@ -59,11 +56,5 @@ const Menu = ({ router, logOut, user }) => {
   );
 };
 
-const mapStateToProps = state => {
-  return { user: state.user };
-};
-
-export default connect(
-  mapStateToProps,
-  { logOut: logout },
-)(withRouter(Menu));
+const mapStateToProps = state => state;
+export default connect(mapStateToProps)(withRouter(Menu));
