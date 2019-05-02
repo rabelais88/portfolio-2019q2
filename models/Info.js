@@ -2,7 +2,9 @@ import mongoose from 'mongoose';
 
 const InfoSchema = {
   stacks: {
-    type: Array,
+    type: [
+      { name: String, desc: String, icon: String },
+    ],
     default: [],
   },
   indexMarkdown: {
@@ -12,32 +14,37 @@ const InfoSchema = {
 };
 const Info = new mongoose.Schema(InfoSchema, { timestamps: true });
 
-const getLatest = async () => {
-  const isAvail = await this.countDocuments();
-  if (!isAvail) await this.create();
-  const latest = await this.findOne().sort({ created_at: -1 });
-  return latest;
-};
-
 Info.statics = {
+  async getLatest() {
+    const isAvail = await this.countDocuments() >= 1;
+    if (!isAvail) await this.create({});
+    const latest = await this.findOne().sort({ created_at: -1 });
+    return latest;
+  },
+  async addStack({ name, desc, icon }) {
+    const latest = await this.getLatest();
+    latest.set('stacks', [...latest.stacks, { name, desc, icon }]);
+    await latest.save();
+    return latest.stacks;
+  },
   async updateStacks(newStacks) {
-    const latest = await getLatest.call(this);
+    const latest = await this.getLatest();
     latest.set('stacks', newStacks);
     await latest.save();
-    return null;
+    return latest.stacks;
   },
   async updateIndex(newIndex) {
-    const latest = await getLatest.call(this);
+    const latest = await this.getLatest();
     latest.set('indexMarkdown', newIndex);
     await latest.save();
-    return null;
+    return latest.indexMarkdown;
   },
   async getStacks() {
-    const latest = await getLatest.call(this);
+    const latest = await this.getLatest();
     return latest.stacks;
   },
   async getIndex() {
-    const latest = await getLatest.call(this);
+    const latest = await this.getLatest();
     return latest.indexMarkdown;
   },
 };

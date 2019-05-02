@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import MongoMemoryServer from 'mongodb-memory-server';
 import User from '../models/User';
 import Admin from '../models/Admin';
+import Info from '../models/Info';
 
 let mongoServer;
 
@@ -54,4 +55,25 @@ describe('mongoDB: admin', () => {
   });
 });
 
-describe('mongoDB: info page', () => {});
+describe('mongoDB: info page', () => {
+  it('get latest info from db', async () => {
+    const latest = await Info.getLatest();
+    expect(latest).to.have.property('stacks');
+    expect(latest).to.have.property('indexMarkdown');
+  });
+  it('properly get & updates stack', async () => {
+    const stacks = await Info.getStacks();
+    expect(stacks.length).to.equal(0);
+    await Info.addStack({ name: 'vue', desc: 'vueapp', icon: 'https://google.com' });
+    const newStacks = await Info.getStacks();
+    expect(newStacks.length).to.equal(1);
+  });
+  it('properly get & update index', async () => {
+    const index = await Info.getIndex();
+    expect(typeof index).to.equal('string');
+    await Info.updateIndex('hellow!');
+    const newIndex = await Info.getIndex();
+    expect(newIndex).to.equal('hellow!');
+  });
+});
+
