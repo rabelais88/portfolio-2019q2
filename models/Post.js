@@ -1,8 +1,15 @@
 import mongoose from 'mongoose';
 
 const PostSchema = {
-  title: String,
-  context: String,
+  title: {
+    type: String,
+    required: true,
+  },
+  context: {
+    type: String,
+    required: true,
+  },
+  image: String,
 };
 const Post = new mongoose.Schema(PostSchema, { timestamps: true });
 

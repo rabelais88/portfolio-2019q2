@@ -1,12 +1,12 @@
 import React, { Children } from 'react';
 import App, { Container } from 'next/app';
 import { Provider } from 'react-redux';
-import Router from 'next/router';
+import Router, { withRouter } from 'next/router';
 import Helmet from 'react-helmet';
 import { PageTransition } from 'next-page-transitions';
 import NProgress from 'nprogress';
-import withReduxStore from '../reducers/with-redux-store';
 
+import withReduxStore from '../reducers/with-redux-store';
 import '../styles/page-transition.scss';
 import '../styles/common.scss';
 
@@ -44,11 +44,12 @@ class MyApp extends App {
   }
 
   render() {
-    const { Component, pageProps, reduxStore } = this.props;
+    const { Component, pageProps, reduxStore, router } = this.props;
     console.log('current page:', Component.name);
 
     return (
       <Container>
+
         <Provider store={reduxStore}>
           <Helmet
             htmlAttributes={{ lang: 'en' }}
@@ -62,7 +63,7 @@ class MyApp extends App {
             ]}
           />
           <PageTransition timeout={300} classNames="page-transition">
-            <Component {...pageProps} />
+            <Component {...pageProps} key={router.route} />
           </PageTransition>
         </Provider>
       </Container>
@@ -70,4 +71,4 @@ class MyApp extends App {
   }
 }
 
-export default withReduxStore(MyApp);
+export default withRouter(withReduxStore(MyApp));

@@ -6,10 +6,12 @@ const InfoSchema = {
       { name: String, desc: String, icon: String },
     ],
     default: [],
+    required: true,
   },
   indexMarkdown: {
     type: String,
     default: 'index page info goes here',
+    required: true,
   },
 };
 const Info = new mongoose.Schema(InfoSchema, { timestamps: true });

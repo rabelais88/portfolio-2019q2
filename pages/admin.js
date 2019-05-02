@@ -1,11 +1,9 @@
 import Helmet from 'react-helmet';
-import Menu from '../components/menu';
-import { handleAuthSSR } from '../utils/auth';
-import ReactMarkdown from 'react-markdown';
-import { useState } from 'react';
 import CreatePost from '../components/createPost';
 import EditIndex from '../components/editIndex';
 import EditStack from '../components/editStack';
+import Menu from '../components/menu';
+import { handleAuthSSR } from '../utils/auth';
 
 const Post = props => {
   const { type } = props;

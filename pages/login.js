@@ -1,14 +1,14 @@
 import Helmet from 'react-helmet';
-import Menu from '../components/menu';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
-import { useState, useEffect } from 'react';
-import _get from 'lodash/get';
+import { useState, useEffect, Fragment } from 'react';
 import Router from 'next/router';
 import { connect } from 'react-redux';
+
 import { setUser } from '../actions/user';
+import Menu from '../components/menu';
 
 const cookies = new Cookies();
 
@@ -37,53 +37,55 @@ const formLogin = props => {
   } = props;
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="email" style={{ display: 'block' }}>
-        Email
-      </label>
-      <input
-        id="email"
-        placeholder="Enter your email"
-        type="text"
-        value={values.email}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        className={
-          errors.email && touched.email ? 'text-input error' : 'text-input'
-        }
-      />
-      {errors.email && touched.email && (
-        <div className="input-feedback">{errors.email}</div>
-      )}
-      <label htmlFor="password" style={{ display: 'block' }}>
-        password
-      </label>
-      <input
-        id="password"
-        placeholder="Enter your password"
-        type="password"
-        value={values.password}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        className={
-          errors.password && touched.password
-            ? 'text-input error'
-            : 'text-input'
-        }
-      />
-      <button
-        type="button"
-        className="outline"
-        onClick={handleReset}
-        disabled={!dirty || isSubmitting}
-      >
-        Reset
-      </button>
-      <button type="submit" disabled={isSubmitting}>
-        Submit
-      </button>
-      {JSON.stringify(props)}
-    </form>
+    <Fragment>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="email" style={{ display: 'block' }}>
+          Email
+        </label>
+        <input
+          id="email"
+          placeholder="Enter your email"
+          type="text"
+          value={values.email}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          className={
+            errors.email && touched.email ? 'text-input error' : 'text-input'
+          }
+        />
+        {errors.email && touched.email && (
+          <div className="input-feedback">{errors.email}</div>
+        )}
+        <label htmlFor="password" style={{ display: 'block' }}>
+          password
+        </label>
+        <input
+          id="password"
+          placeholder="Enter your password"
+          type="password"
+          value={values.password}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          className={
+            errors.password && touched.password
+              ? 'text-input error'
+              : 'text-input'
+          }
+        />
+        <button
+          type="button"
+          className="outline"
+          onClick={handleReset}
+          disabled={!dirty || isSubmitting}
+        >
+          Reset
+        </button>
+        <button type="submit" disabled={isSubmitting}>
+          Submit
+        </button>
+        {JSON.stringify(props)}
+      </form>
+    </Fragment>
   );
 };
 

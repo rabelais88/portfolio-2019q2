@@ -30,6 +30,7 @@ export default class extends Document {
     return (
       <html {...this.helmetHtmlAttrComponents}>
         <Head>{this.helmetHeadComponents}</Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" type="text/css" href="/static/nprogress.css" />
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed" rel="stylesheet" />

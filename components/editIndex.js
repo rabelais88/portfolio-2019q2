@@ -14,7 +14,9 @@ const EditIndex = props => {
       const infoIndex = await axios.get(`${process.env.API_URL}/info-index`, {
         headers: { authorization: token },
       });
-      setMarkdown(infoIndex);
+      const fetched = _get(infoIndex, 'data.indexMarkdown', '');
+      console.log(fetched);
+      setMarkdown(fetched);
     })();
   }, []);
   if (!markdown) {
@@ -28,6 +30,7 @@ const EditIndex = props => {
     <form>
       <h1>editing index page</h1>
       <textarea onChange={e => setMarkdown(e.target.value)} value={markdown} />
+      <h2>markdown preview</h2>
       <ReactMarkdown source={markdown} />
       <button type="submit">submit and modify</button>
     </form>

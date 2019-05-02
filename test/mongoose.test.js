@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import mongoose from 'mongoose';
 import MongoMemoryServer from 'mongodb-memory-server';
-import User from '../models/User';
 import Admin from '../models/Admin';
 import Info from '../models/Info';
 
@@ -27,10 +26,10 @@ after(() => {
 
 describe('mongoose connect & model', () => {
   it('model creation & save', async () => {
-    const cnt = await User.countDocuments();
+    const cnt = await Admin.countDocuments();
     expect(cnt).to.equal(0);
-    await User.create({ name: 'Kim' });
-    const afterCnt = await User.countDocuments();
+    await Admin.create({ email: 'a@a.com', password: '1234' });
+    const afterCnt = await Admin.countDocuments();
     expect(afterCnt).to.equal(1);
   });
 });
