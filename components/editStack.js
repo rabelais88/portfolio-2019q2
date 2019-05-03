@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { withRouter } from 'next/router';
 import { Formik, FieldArray, Field } from 'formik';
 import { connect } from 'react-redux';
 import { useLayoutEffect, useState, useEffect } from 'react';
@@ -34,9 +35,9 @@ const renderStacks = (aryHelper) => {
 };
 
 
-const EditStack = ({ info: { stacks }, dispatch }) => {
+const EditStack = ({ info: { stacks }, dispatch, router }) => {
   useLayoutEffect(() => {
-    dispatch(asyncGetStacks());
+    dispatch(asyncGetStacks(router));
   }, []); // on mount
 
   const createStack = e => {
@@ -71,4 +72,4 @@ const EditStack = ({ info: { stacks }, dispatch }) => {
 };
 
 const mapStateToProps = state => state;
-export default connect(mapStateToProps)(EditStack);
+export default connect(mapStateToProps)(withRouter(EditStack));

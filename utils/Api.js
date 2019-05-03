@@ -38,7 +38,7 @@ class api {
    */
   async getIndex() {
     const res = await this.api.get('/info-index');
-    return res.indexMarkdown;
+    return _get(res, 'indexMarkdown');
   }
 
   /**
@@ -51,7 +51,7 @@ class api {
 
   async getStacks() {
     const res = await this.api.get('/info-stacks');
-    return res.stacks;
+    return _get(res, 'stacks');
   }
 }
 
