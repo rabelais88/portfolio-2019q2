@@ -1,7 +1,7 @@
 import { withRouter } from 'next/router';
 import _get from 'lodash/get';
 import { connect } from 'react-redux';
-import { useTransition, animated, useSpring } from 'react-spring'
+import { useTransition, animated, useSpring } from 'react-spring';
 
 import { logout } from '../actions/user';
 import { menuShow } from '../actions/ui';
@@ -13,10 +13,6 @@ const names = {
   '/contact': 'CONTACT',
   '/login': 'ADMIN',
   '/admin': 'ADMIN',
-};
-
-const classList = (...classes) => {
-  return classes.filter(c => c).join(' ');
 };
 
 const Menu = ({ router, user, dispatch, ui }) => {

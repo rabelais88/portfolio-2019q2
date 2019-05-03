@@ -1,19 +1,18 @@
 import * as Yup from 'yup';
-import { Formik } from 'formik';
+import { Formik, Field } from 'formik';
 import { useLayoutEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { connect } from 'react-redux';
 import _get from 'lodash/get';
+import { withRouter } from 'next/router';
 
-// import { getIndex } from '../utils/api';
-import { logout } from '../actions/user';
-import { asyncGetIndex, setIndex } from '../actions/info';
+import { asyncGetIndex } from '../actions/info';
 
 const EditIndex = props => {
-  const markdown = _get(props, 'info.indexMarkdown');
-  // const [markdown, setMarkdown] = useState(null);
+  const { info, router, dispatch } = props;
+  const markdown = _get(info, 'indexMarkdown');
   useLayoutEffect(() => {
-    props.dispatch(asyncGetIndex());
+    dispatch(asyncGetIndex(router));
   }, []);
   if (!markdown) {
     return (
@@ -22,15 +21,25 @@ const EditIndex = props => {
       </div>
     );
   }
+
+  const submitIndex = (values) => {
+    console.log(values)
+    // dispatch(setIndex(values.indexMarkdown));
+  };
+
   return (
-    <form>
-      <h1>editing index page</h1>
-      <textarea onChange={e => props.dispatch(setIndex(e.target.value))} value={markdown} />
-      <h2>markdown preview</h2>
-      <ReactMarkdown source={markdown} />
-      <button type="submit">submit and modify</button>
-    </form>
+    <Formik onSubmit={submitIndex} initialValues={{ indexMarkdown: markdown }}>
+      {({ handleSubmit }) => (
+        <form onSubmit={handleSubmit}>
+          <h1>editing index page</h1>
+          <Field name="indexMarkdown" component="textarea" />
+          <h2>markdown preview</h2>
+          <ReactMarkdown source={markdown} />
+          <button type="submit">submit and modify</button>
+        </form>
+      )}
+    </Formik>
   );
 };
 const mapStateToProps = state => state;
-export default connect(mapStateToProps)(EditIndex);
+export default connect(mapStateToProps)(withRouter(EditIndex));
