@@ -1,13 +1,38 @@
 import * as Yup from 'yup';
-import { Formik } from 'formik';
+import { Formik, FieldArray, Field } from 'formik';
 import { connect } from 'react-redux';
 import { useLayoutEffect, useState, useEffect } from 'react';
-import { asyncGetStacks, setStacks } from '../actions/info';
+import { asyncGetStacks, setStacks, setStack } from '../actions/info';
+import FileUpload from './fileUpload';
 
-const Elstack = ({ name, desc, icon }) => {
-  const [stack, setStack] = useState({ name, desc, icon });
-  return <div>{JSON.stringify(stack)}</div>;
+const renderStacks = (aryHelper) => {
+  console.log(aryHelper);
+  const { remove, push, form } = aryHelper;
+  return (
+    <div>
+      {form.values.stacks.map((stack, index) => (
+        <div key={index}>
+          <label htmlFor={`stacks[${index}].name`}>
+            name
+            <Field name={`stacks[${index}].name`} />
+          </label>
+          <label>
+            desc
+            <Field name={`stacks[${index}].desc`} />
+          </label>
+          <FileUpload name={`stacks[${index}].icon`} form={form} />
+          <button type="button" onClick={() => remove(index)}>
+            -
+          </button>
+        </div>
+      ))}
+      <button type="button" onClick={() => push({ name: '', age: '' })}>
+        +
+      </button>
+    </div>
+  );
 };
+
 
 const EditStack = ({ info: { stacks }, dispatch }) => {
   useLayoutEffect(() => {
@@ -26,11 +51,21 @@ const EditStack = ({ info: { stacks }, dispatch }) => {
     // TODO
   };
 
+  const submitStacks = (props, { setSubmitting }) => {
+    console.log('submitting', props.stacks);
+    setSubmitting(false);
+  };
+
   return (
     <div>
-      {stacks.map(stack => <Elstack {...stack} />)}
-      <button onClick={createStack}>add new stack</button>
-      <button onClick={saveStack}>save current stacks</button>
+      <Formik initialValues={{ stacks }} onSubmit={submitStacks}>
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <FieldArray name="stacks" render={renderStacks} />
+            <button type="submit">save current stacks</button>
+          </form>
+        )}
+      </Formik>
     </div>
   );
 };

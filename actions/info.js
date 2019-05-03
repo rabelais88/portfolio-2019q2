@@ -4,6 +4,7 @@ import Api from '../utils/Api';
 
 export const SET_INDEX = 'SET_INDEX';
 export const SET_STACKS = 'SET_STACKS';
+export const SET_STACK = 'SET_STACK';
 export const ADD_POST = 'ADD_POST';
 
 export const setIndex = payload => ({
@@ -13,6 +14,12 @@ export const setIndex = payload => ({
 
 export const setStacks = payload => ({
   type: SET_STACKS,
+  payload,
+});
+
+export const setStack = (idx, payload) => ({
+  type: SET_STACK,
+  idx,
   payload,
 });
 
