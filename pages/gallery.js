@@ -4,7 +4,7 @@ import { handleAuthSSR } from '../utils/auth';
 
 const Gallery = () => {
   return (
-    <div className="example">
+    <div>
       <Helmet
         title="Gallery | Hello next.js!"
         meta={[{ property: 'og:title', content: 'About' }]}

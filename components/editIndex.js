@@ -29,12 +29,12 @@ const EditIndex = props => {
 
   return (
     <Formik onSubmit={submitIndex} initialValues={{ indexMarkdown: markdown }}>
-      {({ handleSubmit }) => (
-        <form onSubmit={handleSubmit}>
+      {({ handleSubmit, values }) => (
+        <form onSubmit={handleSubmit} className="admin--index">
           <h1>editing index page</h1>
           <Field name="indexMarkdown" component="textarea" />
           <h2>markdown preview</h2>
-          <ReactMarkdown source={markdown} />
+          <ReactMarkdown source={values.indexMarkdown} />
           <button type="submit">submit and modify</button>
         </form>
       )}

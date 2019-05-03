@@ -3,7 +3,7 @@ import Menu from '../components/menu';
 
 const Contact = () => {
   return (
-    <div className="example">
+    <div>
       <Helmet
         title="Contact | Hello next.js!"
         meta={[{ property: 'og:title', content: 'Contact' }]}

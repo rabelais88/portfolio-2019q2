@@ -12,22 +12,25 @@ const renderStacks = (aryHelper) => {
   return (
     <div>
       {form.values.stacks.map((stack, index) => (
-        <div key={index}>
-          <label htmlFor={`stacks[${index}].name`}>
-            name
+        <div key={index} className="stack-element--form">
+          <label>
+            <span>name</span>
             <Field name={`stacks[${index}].name`} />
           </label>
           <label>
-            desc
-            <Field name={`stacks[${index}].desc`} />
+            <span>description</span>
+            <Field name={`stacks[${index}].desc`} component="textarea" />
           </label>
-          <FileUpload name={`stacks[${index}].icon`} form={form} />
+          <label>
+            <span>icon</span>
+            <FileUpload name={`stacks[${index}].icon`} form={form} />
+          </label>
           <button type="button" onClick={() => remove(index)}>
             -
           </button>
         </div>
       ))}
-      <button type="button" onClick={() => push({ name: '', age: '' })}>
+      <button type="button" onClick={() => push({ name: '', desc: '', icon: null })}>
         +
       </button>
     </div>
@@ -61,7 +64,7 @@ const EditStack = ({ info: { stacks }, dispatch, router }) => {
     <div>
       <Formik initialValues={{ stacks }} onSubmit={submitStacks}>
         {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="admin--stack">
             <FieldArray name="stacks" render={renderStacks} />
             <button type="submit">save current stacks</button>
           </form>

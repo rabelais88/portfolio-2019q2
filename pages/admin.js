@@ -7,6 +7,8 @@ import EditStack from '../components/editStack';
 import Menu from '../components/menu';
 import { handleAuthSSR } from '../utils/auth';
 
+import './admin.scss';
+
 const Post = props => {
   const { type } = props;
   switch (type) {
@@ -24,7 +26,7 @@ const Post = props => {
 const Admin = props => {
   const [postType, setPostType] = useState('index');
   return (
-    <div className="example">
+    <div>
       <Helmet
         title="Sungryeol Park Admin Page"
         meta={[{ property: 'og:title', content: 'Admin' }]}

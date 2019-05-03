@@ -99,7 +99,7 @@ const Login = props => {
   };
 
   return (
-    <div className="example">
+    <div>
       <Helmet
         title="Login | Hello next.js!"
         meta={[{ property: 'og:title', content: 'Login' }]}

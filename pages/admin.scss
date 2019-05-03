@@ -1,0 +1,24 @@
+.admin--index {
+  textarea {
+    width: 100%;
+    height: 400px;
+  }
+}
+
+.admin--stack {
+  .stack-element--form {
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(0,0,0,.5);
+    label {
+      display:block;
+      input {
+        padding: 3px;
+        border-radius: 2px;
+      }
+      span {
+        display: inline-block;
+        width: 100px;
+      }
+    }
+  }
+}
