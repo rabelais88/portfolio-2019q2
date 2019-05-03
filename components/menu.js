@@ -23,19 +23,7 @@ const Menu = ({ router, logOut, user }) => {
 
   return (
     <nav id="menu">
-      <table id="dest" width="100%">
-        <tbody>
-          <tr>
-            <td colSpan="2" className="dest__joint">
-              {_get(names, router.pathname, '')}
-            </td>
-          </tr>
-          <tr height="50px">
-            <td className="dest__dotted" />
-            <td />
-          </tr>
-        </tbody>
-      </table>
+      <p>{_get(names, router.pathname, '')}</p>
       <div className="menu--container">
         <Go to="/">
           <img src="/static/home.svg" alt="home" />
@@ -55,6 +43,7 @@ const Menu = ({ router, logOut, user }) => {
           </a>
         ) : null}
       </div>
+      <button>open</button>
     </nav>
   );
 };
