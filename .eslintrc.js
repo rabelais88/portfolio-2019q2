@@ -29,6 +29,7 @@ module.exports = {
 		'react/prop-types': 'off',
 		'arrow-body-style': 'warn',
 		'object-curly-newline': 'warn',
-		'react/button-has-type': 'off'
+		'react/button-has-type': 'off',
+		'class-methods-use-this': 'off'
 	}
 };

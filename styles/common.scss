@@ -14,15 +14,13 @@ body {
   color: $color-black;
 }
 
-button {
-  padding: 20px;
-  border-radius: 15px;
-}
-
 #menu {
   position: fixed;
+  z-index:2;
+  right: 0;
   .menu--container {
     background-color: $color-white;
+    position: fixed;
   }
   .link {
     display:block;
@@ -41,6 +39,9 @@ button {
     &.active > img{
       width: 30px;
     }
+  }
+  button {
+    margin-top: 130px;
   }
 }
 

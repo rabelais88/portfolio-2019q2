@@ -39,7 +39,6 @@ export const login = async (req, res, next) => {
  * @param {function} [next]
  */
 export const tokenValidated = app => (req, res, next) => {
-  console.log('token check inside auth controller');
   return res
     .status(200)
     .json({ message: 'token is validated', data: req.jwtPayload });

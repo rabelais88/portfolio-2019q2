@@ -1,4 +1,6 @@
 import Helmet from 'react-helmet';
+import { useState } from 'react';
+
 import CreatePost from '../components/createPost';
 import EditIndex from '../components/editIndex';
 import EditStack from '../components/editStack';

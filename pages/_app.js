@@ -7,7 +7,7 @@ import { PageTransition } from 'next-page-transitions';
 import NProgress from 'nprogress';
 
 import withReduxStore from '../reducers/with-redux-store';
-import '../styles/page-transition.scss';
+import '../styles/anim.scss';
 import '../styles/common.scss';
 
 // https://www.npmjs.com/package/next-page-transitions

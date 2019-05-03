@@ -16,7 +16,7 @@ const Gallery = () => {
 };
 
 Gallery.getInitialProps = async ctx => {
-  console.log(ctx);
+  // console.log(ctx);
   return {};
 };
 

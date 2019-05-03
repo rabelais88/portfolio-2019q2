@@ -1,6 +1,9 @@
-import './index.scss';
 import Helmet from 'react-helmet';
+import Fade from 'react-reveal/Fade';
+// https://www.react-reveal.com/examples/common/fade/
+
 import Menu from '../components/menu';
+import './index.scss';
 
 const Home = () => {
   return (
@@ -10,11 +13,13 @@ const Home = () => {
         meta={[{ property: 'og:title', content: 'Index' }]}
       />
       <Menu />
-      <div className="titlebox">
-        <h1>Park Sungryeol</h1>
-        <h2>박_성렬</h2>
-        <h3>work and portfolio</h3>
-      </div>
+      <Fade left className="titlebox">
+        <div>
+          <h1>Park Sungryeol</h1>
+          <h2>박_성렬</h2>
+          <h3>work and portfolio</h3>
+        </div>
+      </Fade>
     </div>
   );
 };
