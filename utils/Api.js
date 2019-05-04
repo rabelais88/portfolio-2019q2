@@ -53,6 +53,21 @@ class api {
     const res = await this.api.get('/info-stacks');
     return _get(res, 'stacks');
   }
+
+  async setIndex(indexMarkdown) {
+    const res = await this.api.patch('/info-index', { indexMarkdown });
+    return _get(res, 'indexMarkdown');
+  }
+
+  async setStacks(stacks) {
+    const res = await this.api.patch('/info-stacks', { stacks });
+    return _get(res, 'stacks');
+  }
+
+  async createPost(post) {
+    const res = await this.api.post('/info-post', post);
+    return res;
+  }
 }
 
 export default api;

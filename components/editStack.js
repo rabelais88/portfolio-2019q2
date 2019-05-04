@@ -1,4 +1,3 @@
-import * as Yup from 'yup';
 import { withRouter } from 'next/router';
 import { Formik, FieldArray, Field } from 'formik';
 import { connect } from 'react-redux';
@@ -37,7 +36,6 @@ const renderStacks = (aryHelper) => {
   );
 };
 
-
 const EditStack = ({ info: { stacks }, dispatch, router }) => {
   useLayoutEffect(() => {
     dispatch(asyncGetStacks(router));
@@ -56,7 +54,7 @@ const EditStack = ({ info: { stacks }, dispatch, router }) => {
   };
 
   const submitStacks = (props, { setSubmitting }) => {
-    console.log('submitting', props.stacks);
+    // console.log('submitting', props.stacks);
     setSubmitting(false);
   };
 

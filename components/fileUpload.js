@@ -1,8 +1,22 @@
+import { useLayoutEffect } from 'react';
+import _get from 'lodash/get';
+
 function FileUpload(props) {
   const { name, form } = props;
 
+  useLayoutEffect(() => {
+    const imgTag = document.getElementById(`image-${name}`);
+    const loadedImg = _get(form, `values.${name}`);
+    if (loadedImg && loadedImg !== '') {
+      imgTag.src = loadedImg;
+    }
+  }, []); // on mount
+
   const handleChange = e => {
     const file = e.currentTarget.files[0];
+    if (!file) {
+      return null;
+    } // when the file is not chosen, just bail out
     const reader = new FileReader();
     const imgTag = document.getElementById(`image-${name}`);
     imgTag.title = file.name;

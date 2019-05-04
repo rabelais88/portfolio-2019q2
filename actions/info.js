@@ -29,16 +29,17 @@ export const setStack = (idx, payload) => ({
  * @param {Function} [actOnSuccess] action creator
  * @return {function} redux-thunk function
  */
-const authFetchFactory = (apiFuncName, actOnSuccess) => (router) => (dispatch, getState) => {
+const apiAuthFactory = (apiFuncName, actOnSuccess) => (router, arg) => (dispatch, getState) => {
   // console.log('getindex. getstate', getState());
   const token = _get(getState(), 'user.token');
-  const errorHandle = () => {
+  const errorHandle = (err) => {
+    console.log(err);
     dispatch(logout());
     router.push('/');
   };
   const api = new Api().onError(errorHandle).setToken(token);
-  api[apiFuncName]().then(res => {
-    dispatch(actOnSuccess(res));
+  api[apiFuncName](arg).then(res => {
+    if (actOnSuccess) dispatch(actOnSuccess(res));
   });
 };
 
@@ -46,6 +47,15 @@ const authFetchFactory = (apiFuncName, actOnSuccess) => (router) => (dispatch, g
 /**
  * @example
  * dispatch(asyncGetIndex(router));
+ * dispatch(asyncCreatePost(router, arg))
  */
-export const asyncGetIndex = authFetchFactory('getIndex', setIndex);
-export const asyncGetStacks = authFetchFactory('getStacks', setStacks);
+export const asyncGetIndex = apiAuthFactory('getIndex', setIndex);
+export const asyncGetStacks = apiAuthFactory('getStacks', setStacks);
+
+/**
+ * @example
+ * dispatch(asyncSetIndex(router, data));
+ */
+export const asyncSetIndex = apiAuthFactory('setIndex', setIndex);
+export const asyncSetStacks = apiAuthFactory('setIndex', setIndex);
+export const asyncCreatePost = apiAuthFactory('createPost');

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import _get from 'lodash/get';
 import { withRouter } from 'next/router';
 
-import { asyncGetIndex } from '../actions/info';
+import { asyncGetIndex, asyncSetIndex } from '../actions/info';
 
 const EditIndex = props => {
   const { info, router, dispatch } = props;
@@ -23,7 +23,8 @@ const EditIndex = props => {
   }
 
   const submitIndex = (values) => {
-    console.log(values)
+    console.log(values.indexMarkdown);
+    dispatch(asyncSetIndex(router, values.indexMarkdown));
     // dispatch(setIndex(values.indexMarkdown));
   };
 

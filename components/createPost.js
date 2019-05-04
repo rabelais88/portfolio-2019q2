@@ -1,8 +1,38 @@
-import * as Yup from 'yup';
-import { Formik } from 'formik';
+import { Formik, Field } from 'formik';
+import FileUpload from './fileUpload';
+
+const defaultPost = {
+  title: '',
+  context: '',
+  image: null,
+};
 
 const CreatePost = () => {
-  return <p>CreatePost</p>;
+  const submitPost = () => {
+    // TODO
+  };
+  return (
+    <Formik onSubmit={submitPost} initialValues={{ post: defaultPost }}>
+      {({ handleSubmit, form }) => (
+        <form onSubmit={handleSubmit}>
+          <h1>create post</h1>
+          <label>
+            title
+            <Field name="title" />
+          </label>
+          <label>
+            context
+            <Field name="context" component="textarea" />
+          </label>
+          <label>
+            image
+            <FileUpload name="image" form={form} />
+          </label>
+          <button type="submit">submit</button>
+        </form>
+      )}
+    </Formik>
+  );
 };
 
 export default CreatePost;
