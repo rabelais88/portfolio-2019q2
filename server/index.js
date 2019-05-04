@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import { validateHeaderToken, allowCORS } from './controllers/handlers';
 import { tokenValidated, login } from './controllers/auth';
 import { infoIndex, infoSetIndex, infoStacks, infoSetStacks, infoCreatePost } from './controllers/info';
+import { indexProvider } from './controllers/dataprovider';
 
 require('dotenv').config(); // injects to process.env.~
 
@@ -32,6 +33,8 @@ if (process.env.NODE_ENV === 'development') {
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(cookieParser());
+
+server.get('/', indexProvider);
 
 server.get('/a', (req, res) => {
   return app.render(req, res, '/a', req.query);

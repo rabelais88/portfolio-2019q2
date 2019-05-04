@@ -2,11 +2,13 @@ import Helmet from 'react-helmet';
 import Fade from 'react-reveal/Fade';
 // https://www.react-reveal.com/examples/common/fade/
 import { toast } from "react-toastify";
+import ReactMarkdown from 'react-markdown';
 
 import Menu from '../components/menu';
 import './index.scss';
 
-const Home = () => {
+const Home = props => {
+  const { indexMarkdown } = props;
   return (
     <div>
       <Helmet
@@ -21,6 +23,7 @@ const Home = () => {
           <h3>work and portfolio</h3>
         </div>
       </Fade>
+      <ReactMarkdown source={indexMarkdown} />
       <button onClick={() => toast.success('show me toast!')}>show me toast</button>
     </div>
   );
@@ -28,6 +31,9 @@ const Home = () => {
 
 Home.getInitialProps = async props => {
   const { req, res, err, pathname, query, asPath } = props;
+  if (req) { // server side 
+    return { indexMarkdown: req.dataIndex };
+  }
   // const res = await fetch('https://api.github.com/repos/zeit/next.js');
   // const json = await res.json();
   // return { stars: json.stargazers_count };
