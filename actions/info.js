@@ -1,6 +1,7 @@
 import _get from 'lodash/get';
 import { logout } from './user';
 import Api from '../utils/Api';
+import { toast } from "react-toastify";
 
 export const SET_INDEX = 'SET_INDEX';
 export const SET_STACKS = 'SET_STACKS';
@@ -33,9 +34,14 @@ const apiAuthFactory = (apiFuncName, actOnSuccess) => (router, arg) => (dispatch
   // console.log('getindex. getstate', getState());
   const token = _get(getState(), 'user.token');
   const errorHandle = (err) => {
-    console.log(err);
-    dispatch(logout());
-    router.push('/');
+    console.log(err.response)
+    if (err.response.status === 401) {
+      toast.error('token outdated, cannot proceed');
+      dispatch(logout());
+      router.push('/');
+    } else {
+      toast.error(JSON.stringify(err.response.data));
+    }
   };
   const api = new Api().onError(errorHandle).setToken(token);
   api[apiFuncName](arg).then(res => {
