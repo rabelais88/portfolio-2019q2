@@ -30,7 +30,7 @@ export const setStack = (idx, payload) => ({
  * @param {Function} [actOnSuccess] action creator
  * @return {function} redux-thunk function
  */
-const apiAuthFactory = (apiFuncName, actOnSuccess) => (router, arg) => (dispatch, getState) => {
+const apiAuthFactory = (apiFuncName, actOnSuccess) => (router, arg, toastOnSuccess) => (dispatch, getState) => {
   // console.log('getindex. getstate', getState());
   const token = _get(getState(), 'user.token');
   const errorHandle = (err) => {
@@ -45,7 +45,10 @@ const apiAuthFactory = (apiFuncName, actOnSuccess) => (router, arg) => (dispatch
   };
   const api = new Api().onError(errorHandle).setToken(token);
   api[apiFuncName](arg).then(res => {
-    if (actOnSuccess) dispatch(actOnSuccess(res));
+    if (actOnSuccess) {
+      if (typeof toastOnSuccess === 'string') toast.success(toastOnSuccess);
+      dispatch(actOnSuccess(res));
+    }
   });
 };
 

@@ -8,7 +8,7 @@ const defaultPost = {
 };
 
 const CreatePost = () => {
-  const submitPost = () => {
+  const submitPost = ({ title, context, image }) => {
     // TODO
   };
   return (

@@ -34,11 +34,12 @@ Home.getInitialProps = async props => {
   if (req) { // server side 
     return { indexMarkdown: req.dataIndex };
   }
+  // client side
   // const res = await fetch('https://api.github.com/repos/zeit/next.js');
   // const json = await res.json();
   // return { stars: json.stargazers_count };
   // console.log(props);
-  return [];
+  return {};
 };
 
 export default Home;

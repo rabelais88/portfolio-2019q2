@@ -22,9 +22,9 @@ const EditIndex = props => {
     );
   }
 
-  const submitIndex = (values) => {
-    console.log(values.indexMarkdown);
-    dispatch(asyncSetIndex(router, values.indexMarkdown));
+  const submitIndex = ({ indexMarkdown }) => {
+    console.log(indexMarkdown);
+    dispatch(asyncSetIndex(router, indexMarkdown, 'successfully updated index'));
     // dispatch(setIndex(values.indexMarkdown));
   };
 
