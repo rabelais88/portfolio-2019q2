@@ -1,6 +1,7 @@
 import Helmet from 'react-helmet';
 import Fade from 'react-reveal/Fade';
 // https://www.react-reveal.com/examples/common/fade/
+import { toast } from "react-toastify";
 
 import Menu from '../components/menu';
 import './index.scss';
@@ -20,6 +21,7 @@ const Home = () => {
           <h3>work and portfolio</h3>
         </div>
       </Fade>
+      <button onClick={() => toast.success('show me toast!')}>show me toast</button>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 require('dotenv').config();
 const withSass = require('@zeit/next-sass');
+const withCss = require('@zeit/next-css');
 const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
@@ -23,7 +24,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 module.exports = withBundleAnalyzer(
-  withSass({
+  withCss(withSass({
     ...defaultConfig,
     webpack(_config, options) {
       _config.plugins = _config.plugins || [];
@@ -35,5 +36,5 @@ module.exports = withBundleAnalyzer(
       );
       return _config;
     },
-  }),
+  })),
 );

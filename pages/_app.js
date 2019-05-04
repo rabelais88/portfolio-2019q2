@@ -5,6 +5,8 @@ import Router, { withRouter } from 'next/router';
 import Helmet from 'react-helmet';
 import { PageTransition } from 'next-page-transitions';
 import NProgress from 'nprogress';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import withReduxStore from '../reducers/with-redux-store';
 import '../styles/anim.scss';
@@ -62,6 +64,7 @@ class MyApp extends App {
               { property: 'og:title', content: 'Hello next.js!' },
             ]}
           />
+          <ToastContainer autoClose={3000} />
           <PageTransition timeout={300} classNames="page-transition">
             <Component {...pageProps} key={router.route} />
           </PageTransition>
