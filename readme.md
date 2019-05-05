@@ -5,24 +5,28 @@
 ## Commands
 initialize & register admin to db
 ```bash
+# mongodb should be running background first
+# api/
 yarn install
 yarn setup
+# www/
+yarn install
 ```
-mongodb daemon(must be installed) + next.js dev env (all in one)
+test run
 ```bash
-yarn dev:all
-```
-just next.js dev env
-```bash
+# for both www and api
 yarn dev
+yarn dev:all # + db
 ```
-actual run
+production deployment
 ```bash
+# for both www and api
 yarn build
 yarn start
 ```
 analyze size
 ```bash
+# only for www
 yarn analyze
 yarn analyze:server # only for server
 yarn analyze:browser # only for browser
@@ -45,59 +49,31 @@ yarn lint:init
  - [x] apply `jwt` & cookie auth model
  - [x] apply `eslint` & `prettier` for backend
  - [x] apply `typescript`(or ts type definition) &rarr; decided to substitute with `JSDOC`
+ - [x] api separation
 
 ## unsolved, next milestones
  - [ ] doesn't properly compile on personal windows machine; fails on reading JSX. working fine on Mac
  - [ ] replace `scss` with better substitute - it breaks easily on different environment
+ - [ ] full graphql adoption
+ - [ ] full typescript adoption
 
 ## file structure
-use `tree --dirsfirst -I 'node_modules|build|.git|yarn.lock|yarn-error.log|readme.md|.next|*.scss' -L 2 -a` to refresh this list
+use `tree --dirsfirst -I 'node_modules|build|.git|yarn.lock|yarn-error.log|readme.md|.next|*.scss|.DS_Store' -L 2 -a -d` to refresh this list
 ```.
-├── actions
-│   └── user.js # --- redux action
-├── components
-│   ├── createPost.js
-│   ├── editIndex.js
-│   ├── editStack.js
-│   ├── go.js # ---- customized link component
-│   └── menu.js # ---- nav menu
-├── models
-│   ├── Admin.js
-│   ├── Info.js
-│   ├── Post.js
-│   └── User.js
-├── pages # ---- any react components here are accessible by /${componentname}
-│   ├── _app.js # ---- next.js root instance 
-│   └── _document.js # ---- next.js root instance for DOM parents(body & title & 
-├── reducers
-│   ├── store.js # --- combined redux store
-│   ├── user.js # --- state.user
-│   └── with-redux-store.js # --- attaches redux devtool to store + compatibility for Next.js
-├── server
-│   ├── controllers # --- middlewares
-│   ├── index.js # --- server root
-│   └── typedefs.js # --- JSDOC global type definitions
-├── static # ---- any assets here are accessible by /static
-├── styles # ---- common .scss styles
-├── test
-│   ├── index.test.js
-│   ├── mocha.opts # --- mocha arguments
-│   └── mongoose.test.js # --- testing db
-├── utils
-│   └── auth.js # --- middleware for Next.js page
-├── .babelrc
-├── .env
-├── .env-sample
-├── .eslintignore
-├── .eslintrc.js
-├── .gitignore
-├── .prettierrc
-├── mocha.setup.js
-├── next.config.js
-├── nodemon.json
-├── package.json
-├── setup.js # --- setup file for registering admin
-└── start.js # --- a wrapper. transpiles & run ./server/index.js
+├── api # --- express.js api
+│   ├── src
+│   └── test
+├── shared # utils both shared by api and www --- must maintain full backward compatibility
+└── www # --- next.js
+    ├── actions
+    ├── components
+    ├── pages
+    ├── reducers
+    ├── server
+    ├── static
+    ├── styles # common styles
+    ├── test
+    └── utils
 ```
 
 ## addendum
