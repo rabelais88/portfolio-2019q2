@@ -2,14 +2,15 @@
 // this part will only be used for initial setup
 import mongoose from 'mongoose';
 import prompts from 'prompts';
-import Admin from './models/Admin';
+import Admin from './src/models/Admin';
 
 require('dotenv').config();
 
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true });
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useCreateIndex: true });
 
 mongoose.connection.on('error', err => {
-  console.log(`Database error: ${err}`);
+  console.log('Database error', err, 'please launch mongodb first');
+  process.exit(1);
 });
 
 const mainProc = async () => {
@@ -23,11 +24,11 @@ const mainProc = async () => {
   const isEmailTaken = await Admin.findOne({ email });
   if (isEmailTaken) {
     console.log('user with same email already exists', isEmailTaken);
-    process.exit(0);
+    process.exit(1);
   }
   await Admin.create({ email, password, username });
   console.log('your db has been set up.');
-  process.exit(1);
+  process.exit(0);
 };
 
 mainProc();

@@ -2,7 +2,6 @@ import express from 'express';
 import next from 'next';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import mongoose from 'mongoose';
 
 import { validateHeaderToken, allowCORS } from './controllers/handlers';
 import { tokenValidated, login } from './controllers/auth';
@@ -16,15 +15,6 @@ const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
-
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true });
-
-mongoose.connection.on('connected', () => {
-  console.log('Connected to database');
-});
-mongoose.connection.on('error', err => {
-  console.log(`Database error: ${err}`);
-});
 
 if (process.env.NODE_ENV === 'development') {
   server.use(allowCORS);

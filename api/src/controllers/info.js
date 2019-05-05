@@ -1,7 +1,7 @@
 import _get from 'lodash/get';
 
-import Info from '../../models/Info';
-import Post from '../../models/Post';
+import Info from '../models/Info';
+import Post from '../models/Post';
 
 /**
  * returns index page markdown
