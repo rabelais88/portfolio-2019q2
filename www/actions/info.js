@@ -33,21 +33,24 @@ export const setStack = (idx, payload) => ({
 const apiAuthFactory = (apiFuncName, actOnSuccess) => (router, arg, toastOnSuccess) => (dispatch, getState) => {
   // console.log('getindex. getstate', getState());
   const token = _get(getState(), 'user.token');
-  const errorHandle = (err) => {
-    console.log(err.response)
-    if (err.response.status === 401) {
-      toast.error('token outdated, please log in');
-      dispatch(logout());
-      router.push('/');
-    } else {
-      toast.error(JSON.stringify(err.response.data));
-    }
-  };
-  const api = new Api().onError(errorHandle).setToken(token);
+  // const errorHandle = (err) => {
+  //   console.log(err.response)
+  //   if (err.response.status === 401) {
+  //     toast.error('token outdated, please log in');
+  //     dispatch(logout());
+  //     router.push('/');
+  //   } else {
+  //     toast.error(JSON.stringify(err.response.data));
+  //   }
+  // };
+  const api = new Api().setToken(token);
   api[apiFuncName](arg).then(res => {
-    if (actOnSuccess) {
+    if (res && actOnSuccess) {
       if (typeof toastOnSuccess === 'string') toast.success(toastOnSuccess);
       dispatch(actOnSuccess(res));
+    }
+    if (!res) {
+      console.log('error!');
     }
   });
 };

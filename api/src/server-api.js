@@ -29,6 +29,10 @@ mongoose.connection.on('error', err => {
 
 if (process.env.NODE_ENV === 'development') {
   app.use(allowCors);
+  app.use((req, res, next) => {
+    console.log(req.headers);
+    next();
+  })
 };
 
 passport.use(new BasicStrategy((username, password, done) => {

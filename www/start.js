@@ -3,4 +3,4 @@ require('@babel/register')({
   ignore: ['node_modules', '.next', 'build'],
 });
 
-module.exports = require('./server');
+module.exports = require('./server/server');

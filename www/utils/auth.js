@@ -1,7 +1,7 @@
-import axios from 'axios';
 import Router from 'next/router';
 import { Cookies } from 'react-cookie';
 import _get from 'lodash/get';
+import Api from './Api';
 // set up cookies
 const cookies = new Cookies();
 
@@ -21,14 +21,8 @@ export async function handleAuthSSR(ctx) {
     token = cookies.get('token');
   }
 
-  const apiUrl = `${process.env.API_URL}/auth`;
-  try {
-    const response = await axios.get(apiUrl, {
-      headers: { Authorization: token },
-    });
-    // dont really care about response, as long as it not an error
-    console.log('token ping:', response.data);
-  } catch (err) {
+
+  const api = new Api().setToken(token).onError(err => {
     cookies.remove('token');
     // in case of error
     console.log(err.response.data.msg);
@@ -42,5 +36,7 @@ export async function handleAuthSSR(ctx) {
     } else {
       Router.push('/login');
     }
-  }
+  });
+  const tokenValidation = await api.tokenValidate();
+  console.log('handleAuthSSR - token check result', tokenValidation);
 }

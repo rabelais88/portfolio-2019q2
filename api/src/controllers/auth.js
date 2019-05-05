@@ -14,7 +14,7 @@ export const login = async (req, res, next) => {
     const { email, username } = user;
     if (user) {
       const token = jwt.sign({ email, username }, process.env.JWT_SECRET, { expiresIn: 60 * 60 }) // 1 min
-      res.status(200).json({ token }); // token has both email and username info
+      res.status(200).json({ email, username, token }); // token has both email and username info
     }
   } catch(err) {
     next(err);

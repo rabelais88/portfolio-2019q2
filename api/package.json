@@ -16,8 +16,8 @@
     "prompts": "^2.0.4"
   },
   "scripts": {
-    "dev:all": "concurrently -k 'yarn dev:db' 'yarn dev'",
-    "dev:db": "mongod --quiet",
+    "dev:all": "concurrently -k 'yarn dev:db' 'yarn dev' && pkill -f nodemon",
+    "dev:db": "mongod --quiet && pkill -f mongod",
     "dev": "cross-env NODE_ENV=development nodemon --exec babel-node ./src/server-api",
     "setup": "babel-node ./setup",
     "build": "cross-env NODE_ENV=production babel src --out-dir build",

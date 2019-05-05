@@ -40,9 +40,8 @@
   },
   "scripts": {
     "dev:all": "concurrently 'yarn dev' 'yarn dev:db'",
-    "dev": "cross-env NODE_ENV=development nodemon ./start.js",
-    "dev:db": "mongod --quiet",
-    "setup": "babel-node ./setup.js",
+    "dev": "cross-env NODE_ENV=development nodemon ./start.js && pkill -f nodemon",
+    "dev:db": "mongod --quiet && pkill -f mongod",
     "build": "next build",
     "start": "cross-env NODE_ENV=production node ./start.js",
     "test": "cross-env NODE_ENV=test mocha",
