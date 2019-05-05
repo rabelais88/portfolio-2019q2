@@ -1,7 +1,6 @@
 import Helmet from 'react-helmet';
 import Fade from 'react-reveal/Fade';
 // https://www.react-reveal.com/examples/common/fade/
-import { toast } from "react-toastify";
 import ReactMarkdown from 'react-markdown';
 
 import Menu from '../components/menu';
@@ -24,7 +23,6 @@ const Home = props => {
         </div>
       </Fade>
       <ReactMarkdown source={indexMarkdown} />
-      <button onClick={() => toast.success('show me toast!')}>show me toast</button>
     </div>
   );
 };

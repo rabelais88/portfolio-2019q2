@@ -5,6 +5,8 @@ import ReactMarkdown from 'react-markdown';
 import { connect } from 'react-redux';
 import _get from 'lodash/get';
 import { withRouter } from 'next/router';
+import { TextField } from 'formik-material-ui';
+import Button from '@material-ui/core/Button';
 
 import { asyncGetIndex, asyncSetIndex } from '../actions/info';
 
@@ -31,12 +33,12 @@ const EditIndex = props => {
   return (
     <Formik onSubmit={submitIndex} initialValues={{ indexMarkdown: markdown }}>
       {({ handleSubmit, values }) => (
-        <form onSubmit={handleSubmit} className="admin--index">
+        <form onSubmit={handleSubmit} className="page--admin-index--form">
           <h1>editing index page</h1>
-          <Field name="indexMarkdown" component="textarea" />
+          <Field name="indexMarkdown" label="markdown" component="textarea" />
           <h2>markdown preview</h2>
           <ReactMarkdown source={values.indexMarkdown} />
-          <button type="submit">submit and modify</button>
+          <Button type="submit" color="primary" variant="contained">submit and modify</Button>
         </form>
       )}
     </Formik>

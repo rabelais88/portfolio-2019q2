@@ -1,5 +1,6 @@
 import Helmet from 'react-helmet';
 import { useState } from 'react';
+import { Select, MenuItem } from '@material-ui/core';
 
 import CreatePost from '../components/createPost';
 import EditIndex from '../components/editIndex';
@@ -26,17 +27,18 @@ const Post = props => {
 const Admin = props => {
   const [postType, setPostType] = useState('index');
   return (
-    <div>
+    <div className="page--admin">
       <Helmet
         title="Sungryeol Park Admin Page"
         meta={[{ property: 'og:title', content: 'Admin' }]}
       />
       <Menu />
-      <select onChange={e => setPostType(e.target.value)} value={postType}>
-        <option value="index">modify info for index page</option>
-        <option value="stack">modify tech stack</option>
-        <option value="post">post new work</option>
-      </select>
+      <Select onChange={e => setPostType(e.target.value)} value={postType}>
+        <MenuItem value="index">modify info for index page</MenuItem>
+        <MenuItem value="stack">modify tech stack</MenuItem>
+        <MenuItem value="post">post new work</MenuItem>
+      </Select>
+      {/* props are optional, they are there for expansion */}
       <Post type={postType} {...props} />
     </div>
   );

@@ -1,10 +1,12 @@
 import Helmet from 'react-helmet';
 import * as Yup from 'yup';
-import { Formik } from 'formik';
+import { Formik, Field } from 'formik';
 import { Cookies } from 'react-cookie';
 import { useEffect, Fragment } from 'react';
 import Router, { withRouter } from 'next/router'; // Router is for server, withRouter is for client
 import { connect } from 'react-redux';
+import { TextField } from 'formik-material-ui';
+import Button from '@material-ui/core/Button';
 
 import { asyncLogin } from '../actions/user';
 import Menu from '../components/menu';
@@ -27,7 +29,7 @@ const formLogin = props => {
     values,
     touched,
     errors,
-    dirty,
+    dirty, // when valiation fails
     isSubmitting,
     handleChange,
     handleBlur,
@@ -38,7 +40,7 @@ const formLogin = props => {
   return (
     <Fragment>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="email" style={{ display: 'block' }}>
+        {/* <label htmlFor="email" style={{ display: 'block' }}>
           Email
         </label>
         <input
@@ -70,19 +72,21 @@ const formLogin = props => {
               ? 'text-input error'
               : 'text-input'
           }
-        />
-        <button
-          type="button"
-          className="outline"
+        /> */}
+        <Field name="email" type="text" label="email" component={TextField} />
+        <Field name="password" type="password" label="password" component={TextField} />
+        <Button
           onClick={handleReset}
           disabled={!dirty || isSubmitting}
+          color="primary"
+          variant="contained"
         >
           Reset
-        </button>
-        <button type="submit" disabled={isSubmitting}>
+        </Button>
+        <Button type="submit" disabled={isSubmitting} color="primary" variant="contained">
           Submit
-        </button>
-        {JSON.stringify(props)}
+        </Button>
+        {/* {JSON.stringify(props)} */}
       </form>
     </Fragment>
   );

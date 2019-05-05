@@ -14,7 +14,7 @@ const CreatePost = () => {
   return (
     <Formik onSubmit={submitPost} initialValues={{ post: defaultPost }}>
       {({ handleSubmit, form }) => (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="page--admin-post--form">
           <h1>create post</h1>
           <label>
             title

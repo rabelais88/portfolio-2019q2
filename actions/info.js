@@ -36,7 +36,7 @@ const apiAuthFactory = (apiFuncName, actOnSuccess) => (router, arg, toastOnSucce
   const errorHandle = (err) => {
     console.log(err.response)
     if (err.response.status === 401) {
-      toast.error('token outdated, cannot proceed');
+      toast.error('token outdated, please log in');
       dispatch(logout());
       router.push('/');
     } else {

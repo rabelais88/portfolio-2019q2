@@ -2,6 +2,9 @@ import { withRouter } from 'next/router';
 import { Formik, FieldArray, Field } from 'formik';
 import { connect } from 'react-redux';
 import { useLayoutEffect, useState, useEffect } from 'react';
+import { Button } from '@material-ui/core';
+import { TextField } from 'formik-material-ui';
+
 import { asyncGetStacks, setStacks, setStack } from '../actions/info';
 import FileUpload from './fileUpload';
 
@@ -12,26 +15,20 @@ const renderStacks = (aryHelper) => {
     <div>
       {form.values.stacks.map((stack, index) => (
         <div key={index} className="stack-element--form">
-          <label>
-            <span>name</span>
-            <Field name={`stacks[${index}].name`} />
-          </label>
-          <label>
-            <span>description</span>
-            <Field name={`stacks[${index}].desc`} component="textarea" />
-          </label>
+          <Field name={`stacks[${index}].name`} component={TextField} label="name" />
+          <Field name={`stacks[${index}].desc`} component="textarea" label="description" />
           <label>
             <span>icon</span>
             <FileUpload name={`stacks[${index}].icon`} form={form} />
           </label>
-          <button type="button" onClick={() => remove(index)}>
+          <Button onClick={() => remove(index)} color="primary" variant="contained">
             -
-          </button>
+          </Button>
         </div>
       ))}
-      <button type="button" onClick={() => push({ name: '', desc: '', icon: null })}>
+      <Button onClick={() => push({ name: '', desc: '', icon: null })} color="primary" variant="contained">
         +
-      </button>
+      </Button>
     </div>
   );
 };
@@ -62,9 +59,9 @@ const EditStack = ({ info: { stacks }, dispatch, router }) => {
     <div>
       <Formik initialValues={{ stacks }} onSubmit={submitStacks}>
         {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit} className="admin--stack">
+          <form onSubmit={handleSubmit} className="page--admin-stack--form">
             <FieldArray name="stacks" render={renderStacks} />
-            <button type="submit">save current stacks</button>
+            <Button type="submit" color="primary" variant="contained">save current stacks</Button>
           </form>
         )}
       </Formik>
