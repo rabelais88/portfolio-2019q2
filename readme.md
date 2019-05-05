@@ -36,6 +36,18 @@ in case of changing lint setup
 yarn lint:init
 ```
 
+## troubleshooting
+in dev mode, the programs don't shut down properly due to bugs in concurrency.js.
+when it happens, use the following commands.
+node-sass causes errors in windows environment. please use Mac or Linux environment.
+```bash
+# check pid & status
+ps aux | grep nodemon
+ps aux | grep mongod
+# kill process
+pkill -f *nodemon*
+kill -9 mongod
+```
 
 ## solved & ongoing issues
  - [x] *jest* doesn't work properly with mongoose testing &rarr; replaced with *mocha*
