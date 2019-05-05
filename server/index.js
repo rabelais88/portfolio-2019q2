@@ -34,7 +34,7 @@ server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(cookieParser());
 
-server.get('/', indexProvider);
+server.get('/', indexProvider(app));
 
 server.get('/a', (req, res) => {
   return app.render(req, res, '/a', req.query);

@@ -23,10 +23,7 @@ export const login = async (req, res, next) => {
       .status(200)
       .json({ email: adminInfo.email, username: adminInfo.username, token });
   } else {
-    const err = new Error('wrong password');
-    err.statusCode = 401;
-    console.log(err);
-    res.status(401).json(err);
+    res.status(401).json('wrong password');
   }
 };
 
