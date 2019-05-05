@@ -26,12 +26,13 @@ export const asyncLogin = (email, password) => (dispatch, getState) => {
       dispatch(logout());
     }
   };
-  const api = new Api().onError(errorHandler);
-  api.postLogin({ email, password }).then(res => {
+  const api = new Api().onError(errorHandler).setBasicAuth({ email, password });
+  console.log('login request');
+  api.loginAdmin().then(res => {
     const { token, username } = res;
     toast.success('logged in!');
     // console.log('login succeed', token, username);
     cookies.set('token', token);
     dispatch(setUser({ email, token, username }));
-  }).catch(err => {});
+  }).catch(err => { console.error(err) });
 };

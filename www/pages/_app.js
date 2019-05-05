@@ -7,10 +7,12 @@ import { PageTransition } from 'next-page-transitions';
 import NProgress from 'nprogress';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Cookies } from 'react-cookie';
 
 import withReduxStore from '../reducers/with-redux-store';
 import '../styles/anim.scss';
 import '../styles/common.scss';
+import { setUser } from '../actions/user';
 
 // https://www.npmjs.com/package/next-page-transitions
 /* <PageTransition
@@ -34,6 +36,8 @@ Router.events.on('routeChangeStart', url => {
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
+const cookies = new Cookies();
+
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
@@ -47,6 +51,8 @@ class MyApp extends App {
 
   render() {
     const { Component, pageProps, reduxStore, router } = this.props;
+    const token = cookies.get('token');
+    if (token) reduxStore.dispatch(setUser({ ...reduxStore.user, token }));
     console.log('current page:', Component.name);
 
     return (

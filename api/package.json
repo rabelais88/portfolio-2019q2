@@ -1,0 +1,43 @@
+{
+  "dependencies": {
+    "@babel/register": "^7.4.4",
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "cross-env": "^5.2.0",
+    "dotenv": "^8.0.0",
+    "dotenv-webpack": "^1.7.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.11",
+    "mongoose": "^5.5.5",
+    "passport": "^0.4.0",
+    "passport-http": "^0.3.0",
+    "passport-jwt": "^4.0.0",
+    "prompts": "^2.0.4"
+  },
+  "scripts": {
+    "dev:all": "concurrently -k 'yarn dev:db' 'yarn dev' && pkill -f nodemon",
+    "dev:db": "mongod --quiet && pkill -f mongod",
+    "dev": "cross-env NODE_ENV=development nodemon --exec babel-node ./src/server-api",
+    "setup": "babel-node ./setup",
+    "build": "cross-env NODE_ENV=production babel src --out-dir build",
+    "start": "cross-env NODE_ENV=production node ./build/server-api"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.4",
+    "chai": "^4.2.0",
+    "concurrently": "^4.1.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.2.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "mocha": "^6.1.4",
+    "nodemon": "^1.19.0",
+    "prettier": "^1.17.0"
+  }
+}

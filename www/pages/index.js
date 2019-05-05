@@ -2,10 +2,14 @@ import Helmet from 'react-helmet';
 import Fade from 'react-reveal/Fade';
 // https://www.react-reveal.com/examples/common/fade/
 import ReactMarkdown from 'react-markdown';
+import axios from 'axios';
+import { Cookies } from 'react-cookie'; 
 
+import Api from '../utils/Api';
 import Menu from '../components/menu';
 import './index.scss';
 
+const cookies = new Cookies();
 const Home = props => {
   const { indexMarkdown } = props;
   return (
@@ -29,15 +33,15 @@ const Home = props => {
 
 Home.getInitialProps = async props => {
   const { req, res, err, pathname, query, asPath } = props;
-  if (req) { // server side 
-    return { indexMarkdown: req.dataIndex };
+  if (req) {
+    // server side
   }
-  // client side
-  // const res = await fetch('https://api.github.com/repos/zeit/next.js');
-  // const json = await res.json();
-  // return { stars: json.stargazers_count };
-  // console.log(props);
-  return {};
+  // client & server side
+  const api = new Api();
+  if (!req) api.setToken(cookies.get('token'));
+  const indexMarkdown = await api.getIndex();
+  console.log('index markdown', indexMarkdown);
+  return { indexMarkdown };
 };
 
 export default Home;
