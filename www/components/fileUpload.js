@@ -1,10 +1,10 @@
-import { useLayoutEffect } from 'react';
+import { useEffect } from 'react';
 import _get from 'lodash/get';
 
 function FileUpload(props) {
   const { name, form } = props;
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const imgTag = document.getElementById(`image-${name}`);
     const loadedImg = _get(form, `values.${name}`);
     if (loadedImg && loadedImg !== '') {

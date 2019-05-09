@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { Formik, Field } from 'formik';
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { connect } from 'react-redux';
 import _get from 'lodash/get';
@@ -13,7 +13,7 @@ import { asyncGetIndex, asyncSetIndex } from '../actions/info';
 const EditIndex = props => {
   const { info, router, dispatch } = props;
   const markdown = _get(info, 'indexMarkdown');
-  useLayoutEffect(() => {
+  useEffect(() => {
     dispatch(asyncGetIndex(router));
   }, []);
   if (!markdown) {

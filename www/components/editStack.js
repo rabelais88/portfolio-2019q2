@@ -1,7 +1,7 @@
 import { withRouter } from 'next/router';
 import { Formik, FieldArray, Field } from 'formik';
 import { connect } from 'react-redux';
-import { useLayoutEffect, useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@material-ui/core';
 import { TextField } from 'formik-material-ui';
 
@@ -34,7 +34,7 @@ const renderStacks = (aryHelper) => {
 };
 
 const EditStack = ({ info: { stacks }, dispatch, router }) => {
-  useLayoutEffect(() => {
+  useEffect(() => {
     dispatch(asyncGetStacks(router));
   }, []); // on mount
 

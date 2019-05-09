@@ -35,14 +35,17 @@ const Admin = props => {
         meta={[{ property: 'og:title', content: 'Admin' }]}
       />
       <Menu />
-      <Select onChange={e => setPostType(e.target.value)} value={postType}>
-        <MenuItem value="index">modify info for index page</MenuItem>
-        <MenuItem value="stack">modify tech stack</MenuItem>
-        <MenuItem value="post">post new work</MenuItem>
-      </Select>
-      {/* props are optional, they are there for expansion */}
+      {
+        <Select onChange={e => setPostType(e.target.value)} value={postType}>
+          <MenuItem value="index">modify info for index page</MenuItem>
+          <MenuItem value="stack">modify tech stack</MenuItem>
+          <MenuItem value="post">post new work</MenuItem>
+        </Select>
+      }
       <Paper>
-        <Post type={postType} {...props} />
+        {/* props are optional, they are there for expansion */}
+        {/* dynamic components === {Component} instead of <Component /> */}
+        {Post({ ...props, type: postType })}
       </Paper>
     </div>
   );
