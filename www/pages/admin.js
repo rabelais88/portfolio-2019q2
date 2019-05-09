@@ -1,6 +1,8 @@
 import Helmet from 'react-helmet';
 import { useState } from 'react';
-import { Select, MenuItem } from '@material-ui/core';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import Paper from '@material-ui/core/Paper';
 
 import CreatePost from '../components/createPost';
 import EditIndex from '../components/editIndex';
@@ -39,7 +41,9 @@ const Admin = props => {
         <MenuItem value="post">post new work</MenuItem>
       </Select>
       {/* props are optional, they are there for expansion */}
-      <Post type={postType} {...props} />
+      <Paper>
+        <Post type={postType} {...props} />
+      </Paper>
     </div>
   );
 };

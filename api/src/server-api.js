@@ -38,7 +38,7 @@ if (process.env.NODE_ENV === 'development') {
 passport.use(new BasicStrategy((username, password, done) => {
   // username should be email
   Admin.login(username, password).then(adminInfo => {
-    if (!adminInfo) return (null, false);
+    if (!adminInfo) return done(null, false);
     return done(null, adminInfo);
   }).catch(err => done(err));
 }));

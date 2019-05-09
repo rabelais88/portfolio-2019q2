@@ -49,6 +49,7 @@
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.4",
+    "babel-plugin-styled-components": "^1.10.0",
     "chai": "^4.2.0",
     "concurrently": "^4.1.0",
     "enzyme": "^3.9.0",

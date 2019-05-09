@@ -9,15 +9,12 @@ import _get from 'lodash/get';
  * @param {function} [next]
  */
 export const login = async (req, res, next) => {
-  try {
-    const { user } = req; // passed down by passport basic strategy
-    const { email, username } = user;
-    if (user) {
-      const token = jwt.sign({ email, username }, process.env.JWT_SECRET, { expiresIn: 60 * 60 }) // 1 min
-      res.status(200).json({ email, username, token }); // token has both email and username info
-    }
-  } catch(err) {
-    next(err);
+  const { user } = req; // passed down by passport basic strategy
+  if (!user) res.status(401).json({ message: 'wrong user info' });
+  const { email, username } = user;
+  if (user) {
+    const token = jwt.sign({ email, username }, process.env.JWT_SECRET, { expiresIn: 60 * 60 }) // 1 min
+    res.status(200).json({ email, username, token }); // token has both email and username info
   }
 };
 
@@ -30,7 +27,7 @@ export const login = async (req, res, next) => {
  * @param {function} [next]
  */
 export const tokenValidated = (req, res, next) => {
-  console.log('token validated');
+  console.log('token validated', req.user);
   return res
     .status(200)
     .json(req.user);

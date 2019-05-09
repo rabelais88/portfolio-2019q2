@@ -7,6 +7,7 @@ import Router, { withRouter } from 'next/router'; // Router is for server, withR
 import { connect } from 'react-redux';
 import { TextField } from 'formik-material-ui';
 import Button from '@material-ui/core/Button';
+// import withStyles from '@material-ui/core/styles/withStyles';
 
 import { asyncLogin } from '../actions/user';
 import Menu from '../components/menu';
@@ -24,7 +25,7 @@ const validationLogin = Yup.object().shape({
     .required('Required'),
 });
 
-const formLogin = props => {
+const FormLogin = props => {
   const {
     values,
     touched,
@@ -115,7 +116,7 @@ const Login = props => {
         onSubmit={submitLogin}
         validationSchema={validationLogin}
       >
-        {formLogin}
+        {FormLogin}
       </Formik>
     </div>
   );
