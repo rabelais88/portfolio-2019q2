@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import { allowCors } from '../../shared/middlewares';
-import router from './controllers';
+import router from './router';
 import passport from 'passport';
 import { BasicStrategy } from 'passport-http';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';

@@ -1,13 +1,6 @@
 import mongoose from 'mongoose';
 
 const InfoSchema = {
-  stacks: {
-    type: [
-      { name: String, desc: String, icon: String },
-    ],
-    default: [],
-    required: true,
-  },
   indexMarkdown: {
     type: String,
     default: 'index page info goes here',
@@ -23,27 +16,11 @@ Info.statics = {
     const latest = await this.findOne().sort({ created_at: -1 });
     return latest;
   },
-  async addStack({ name, desc, icon }) {
-    const latest = await this.getLatest();
-    latest.set('stacks', [...latest.stacks, { name, desc, icon }]);
-    await latest.save();
-    return latest.stacks;
-  },
-  async updateStacks(newStacks) {
-    const latest = await this.getLatest();
-    latest.set('stacks', newStacks);
-    await latest.save();
-    return latest.stacks;
-  },
   async updateIndex(newIndex) {
     const latest = await this.getLatest();
     latest.set('indexMarkdown', newIndex);
     await latest.save();
     return latest.indexMarkdown;
-  },
-  async getStacks() {
-    const latest = await this.getLatest();
-    return latest.stacks;
   },
   async getIndex() {
     const latest = await this.getLatest();

@@ -2,6 +2,7 @@ import _get from 'lodash/get';
 
 import Info from '../models/Info';
 import Post from '../models/Post';
+import Stack from '../models/Stack';
 
 /**
  * returns index page markdown
@@ -9,10 +10,10 @@ import Post from '../models/Post';
  * @param {Response} [res]
  * @param {Function} [next]
  */
-export const infoIndex = async (req, res, next) => {
+export const getIndex = async (req, res, next) => {
   const indexMarkdown = await Info.getIndex();
   console.log('controllers/info.js : index requested - ', indexMarkdown);
-  res.status(200).json({ indexMarkdown });
+  res.status(200).json(indexMarkdown); // returns string
 };
 
 /**
@@ -21,31 +22,64 @@ export const infoIndex = async (req, res, next) => {
  * @param {Response} [res]
  * @param {Function} [next]
  */
-export const infoStacks = async (req, res, next) => {
-  const stacks = await Info.getStacks();
+export const getStacks = async (req, res, next) => {
+  const stacks = await Stack.find();
   console.log('controllers/info.js : stack requested - ', stacks);
-  res.status(200).json({ stacks });
+  res.status(200).json(stacks); // [] returns array
 };
 
-export const infoSetIndex = async (req, res, next) => {
+export const setStack = async (req, res, next) => {
+  const stack = req.body;
+  console.log('controllers/info.js : stack adjust requested', stack);
+  let stackData = await Stack.findOne({ id: stack.id });
+  stackData = { ...stackData, ...stack };
+  await stackData.save();
+  res.status(200).json(stackData);
+};
+
+export const createStack = async (req, res, next) => {
+  const stack = req.body;
+  console.log('controllers/info.js : stack create requested', stack);
+  await Stack.create(stack);
+  res.status(200).json(stack);
+}
+
+export const deleteStack = async (req, res, next) => {
+  const stackId = _get(req, 'body.id');
+  console.log('controllers/info.js : stack delete requested', stackId);
+  await Stack.remove({ id: stackId });
+  res.status(200);
+};
+
+export const setIndex = async (req, res, next) => {
   const indexMarkdown = _get(req, 'body.indexMarkdown');
   if (!indexMarkdown || indexMarkdown === '')
     return res.status(400).json({ message: 'wrong index request' });
   await Info.updateIndex(indexMarkdown);
-  res.status(200).json({ indexMarkdown });
+  res.status(200).json(indexMarkdown);
 };
 
-export const infoSetStacks = async (req, res, next) => {
-  const stacks = _get(req, 'body.stacks');
-  if (!stacks || !Array.isArray(stacks))
-    return res.status(400).json({ message: 'wrong stack request' });
-  await Info.updateStacks(stacks);
-  res.status(200).json({ stacks });
-};
-
-export const infoCreatePost = async (req, res, next) => {
-  const post = _get(req, 'body');
+export const createPost = async (req, res, next) => {
+  const post = req.body;
   if (!post) return res.status(400).json({ message: 'wrong post request' });
   await Post.create(post);
-  res.status(200).json({ post });
+  res.status(200).json(post);
+};
+
+export const deletePost = async (req, res, next) => {
+  const postId = _get(req, 'body.id');
+  if (!postId) return res.status(400).json({ message: 'wrong post deletion request' });
+  console.log('controllers/info.js : post delete requested', postId);
+  await Post.remove({ id: postId });
+  res.status(200);
+};
+
+export const setPost = async (req, res, next) => {
+  const post = req.body;
+  if (!post) return res.status(400).json({ message: 'wrong post mod request' });
+  console.log('controllers/info.js : post set requested', post);
+  let postData = await Post.findOne({ id: post.id });
+  postData = { ...postData, post };
+  postData.save();
+  res.status(200).json(postData);
 };

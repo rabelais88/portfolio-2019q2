@@ -92,22 +92,22 @@ class api {
    */
   async getIndex() {
     const res = await this.api.get('/info/index');
-    return _get(res, 'indexMarkdown');
+    return res;
   }
 
   async getStacks() {
     const res = await this.api.get('/info/stacks');
-    return _get(res, 'stacks');
+    return res;
   }
 
   async setIndex(indexMarkdown) {
     const res = await this.api.patch('/info/index', { indexMarkdown });
-    return _get(res, 'indexMarkdown');
+    return res;
   }
 
   async setStacks(stacks) {
     const res = await this.api.patch('/info/stacks', { stacks });
-    return _get(res, 'stacks');
+    return res;
   }
 
   async createPost(post) {
