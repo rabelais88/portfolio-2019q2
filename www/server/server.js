@@ -1,5 +1,6 @@
 import express from 'express';
 import next from 'next';
+import path from 'path';
 // import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 
@@ -34,12 +35,15 @@ server.use(cookieParser());
 // server.get('/posts/:id', (req, res) => {
 //   return app.render(req, res, '/posts', { id: req.params.id });
 // });
-
-server.get('*', (req, res) => {
-  return handle(req, res);
-});
-
 app.prepare().then(() => {
+  server.get('/service-worker.js', (req, res) => {
+    const swPath = path.join(__dirname, '..', '.next', 'service-worker.js');
+    return app.serveStatic(req, res, swPath);
+  });
+
+  server.get('*', (req, res) => {
+    return handle(req, res);
+  });
   server.listen(port, err => {
     if (err) throw err;
     console.log(`> Ready on http://localhost:${port}`);
