@@ -10,15 +10,16 @@
  * app.use(corsHandler)
  * */
 exports.allowCors = (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', req.headers.origin);
   res.header(
     'Access-Control-Allow-Methods',
     'GET, POST, PATCH, PUT, DELETE, OPTIONS',
   );
   res.header(
     'Access-Control-Allow-Headers',
-    'Origin, Accept, Content-Type, Authorization',
+    'Origin, Accept, Content-Type, Authorization, X-Token',
   );
+  res.header('Access-Control-Allow-Credentials', true);
   if (req.method === 'OPTIONS') {
     // Stop the middleware chain
     return res.status(200).end();
