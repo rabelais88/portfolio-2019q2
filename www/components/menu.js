@@ -12,14 +12,14 @@ const names = {
   '/gallery': 'WORKS',
   '/contact': 'CONTACT',
   '/login': 'ADMIN',
-  '/admin': 'ADMIN',
+  // '/admin': 'ADMIN',
 };
 
 const Menu = ({ router, user, dispatch, ui }) => {
 
   const menuTrans = useTransition(ui.menuVisible, null, {
     from: { opacity: 0, right: '-100px' },
-    enter: { opacity: 1, right: '0px' },
+    enter: { opacity: 1, right: '20px' },
     leave: { opacity: 0, right: '-100px' },
   });
 
@@ -27,17 +27,19 @@ const Menu = ({ router, user, dispatch, ui }) => {
     marginTop: ui.menuVisible ? '130px' : '0px',
   });
 
-  const onLogout = e => {
-    e.preventDefault();
-    dispatch(logout());
-    if (router.pathname === '/admin') router.push('/');
-  };
+  // const onLogout = e => {
+  //   e.preventDefault();
+  //   dispatch(logout());
+  //   if (router.pathname === '/admin') router.push('/');
+  // };
+
+  const menuAct = ui.menuVisible ? 'close' : 'open';
 
   return (
     <nav id="menu">
       <p>{_get(names, router.pathname, '')}</p>
       {menuTrans.map(
-        ({ item, key, props: { right, opacity, marginTop } }) =>
+        ({ item, key, props: { right, opacity } }) =>
           item && (
             <animated.div
               className="menu--container"
@@ -53,14 +55,14 @@ const Menu = ({ router, user, dispatch, ui }) => {
               <Go to="/contact">
                 <img src="/static/email.svg" alt="contact" />
               </Go>
-              <Go to="/login">
+              {/* <Go to="/login">
                 <img src="/static/cloud-upload.svg" alt="login" />
               </Go>
               {user.auth ? (
                 <a href="#" className="link" onClick={onLogout}>
                   <img src="/static/power-outline.svg" alt="logout" />
                 </a>
-              ) : null}
+              ) : null} */}
             </animated.div>
           ),
       )}
@@ -68,7 +70,7 @@ const Menu = ({ router, user, dispatch, ui }) => {
         onClick={e => dispatch(menuShow(!ui.menuVisible))}
         style={menuSpringBtn}
       >
-        {ui.menuVisible ? 'close' : 'open'}
+        <img src={`/static/menu-${menuAct}.svg`} alt={`menu-${menuAct}`} />
       </animated.button>
     </nav>
   );

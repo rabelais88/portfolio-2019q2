@@ -40,14 +40,14 @@ const workboxOpts = {
   runtimeCaching: [
     {
       urlPattern: /\.js$/,
-      handler: 'StaleWhileRevalidate',
+      handler: 'NetworkFirst',
       options: {
         cacheName: 'js',
       },
     },
     {
       urlPattern: /\.(png|jpg|jpeg|gif|svg)$/i,
-      handler: 'CacheFirst',
+      handler: 'NetworkFirst',
       options: {
         cacheName: 'images',
       },

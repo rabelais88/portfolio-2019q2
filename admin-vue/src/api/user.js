@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from '@/utils/request';
 
 export function login({ username, password }) {
   return request({
@@ -6,10 +6,10 @@ export function login({ username, password }) {
     method: 'post',
     auth: {
       username,
-      password
+      password,
     },
-    withCredentials: false
-  })
+    withCredentials: false,
+  });
 }
 
 export function getInfo(token) {
@@ -20,12 +20,12 @@ export function getInfo(token) {
     //   Authorization: `Bearer ${token}`
     // },
     // withCredentials: false
-  })
+  });
 }
 
 export function logout() {
   return request({
     url: '/user/logout',
-    method: 'post'
-  })
+    method: 'post',
+  });
 }

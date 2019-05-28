@@ -15,20 +15,26 @@ body {
 }
 
 #menu {
+  color: $color-white;
+  background-color: rgba(0,0,0, .4);
+  padding: 20px;
   position: fixed;
   z-index:2;
   right: 0;
   .menu--container {
-    background-color: $color-white;
     position: fixed;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
   }
   .link {
     display:block;
-    color:$color-black;
+    color:$color-white;
     text-decoration:none;
     width:100%;
     margin-left:auto;
     margin-right:auto;
+    padding-bottom: 15px;
     > img {
       transition: all .2s ease-in-out;
       width: 20px;
@@ -42,28 +48,9 @@ body {
   }
   button {
     margin-top: 130px;
-  }
-}
-
-table#dest {
-  font-family: $font-cond;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-.dest__dotted {
-  width: 50%;
-  border-right: dotted 2px $color-white;
-}
-.dest__joint {
-  color: $color-white;
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
-.image-uploader {
-  
-  img {
-    width: 100px;
-    height: 100px;
+    background-color: transparent;
+    border:none;
+    width: 30px;
+    height: 30px;
   }
 }

@@ -34,5 +34,7 @@ module.exports = {
 		'jsx-a11y/label-has-associated-control': 'off',
 		'jsx-a11y/label-has-for': 'off',
 		'react/no-array-index-key': 'warn',
+		'jsx-a11y/anchor-is-valid': 'warn',
+		'jsx-a11y/no-static-element': 'warn',
 	}
 };

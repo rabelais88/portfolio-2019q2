@@ -19,13 +19,15 @@ const Home = props => {
         meta={[{ property: 'og:title', content: 'Index' }]}
       />
       <Menu />
-      <Fade left className="titlebox">
-        <div>
-          <h1>Park Sungryeol</h1>
-          <h2>박_성렬</h2>
-          <h3>work and portfolio</h3>
-        </div>
-      </Fade>
+      <div className="titlebox">
+        <Fade left>
+          <div>
+            <h1>Park Sungryeol</h1>
+            <h2>박_성렬</h2>
+            <h3>work and portfolio</h3>
+          </div>
+        </Fade>
+      </div>
       <ReactMarkdown source={indexMarkdown} />
     </div>
   );

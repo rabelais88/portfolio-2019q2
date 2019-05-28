@@ -1,20 +1,23 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
+    <div class="dashboard-text">
+      <h1>welcome, {{ name }}</h1>
+      <ul>
+        <li>email: {{ email }}</li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex';
 
 export default {
   name: 'Dashboard',
   computed: {
-    ...mapGetters([
-      'name'
-    ])
-  }
-}
+    ...mapState('user', ['name', 'email']),
+  },
+};
 </script>
 
 <style lang="scss" scoped>
