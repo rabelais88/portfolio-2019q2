@@ -5,7 +5,7 @@ import Select from '@material-ui/core/Select';
 import Paper from '@material-ui/core/Paper';
 
 import CreatePost from '../components/createPost';
-import EditIndex from '../components/editIndex';
+import EditIntro from '../components/editIndex';
 import EditStack from '../components/editStack';
 import Menu from '../components/menu';
 import { handleAuthSSR } from '../utils/auth';
@@ -15,8 +15,8 @@ import './admin.scss';
 const Post = props => {
   const { type } = props;
   switch (type) {
-    case 'index':
-      return <EditIndex {...props} />;
+    case 'intro':
+      return <EditIntro {...props} />;
     case 'stack':
       return <EditStack {...props} />;
     case 'post':
@@ -37,7 +37,7 @@ const Admin = props => {
       <Menu />
       {
         <Select onChange={e => setPostType(e.target.value)} value={postType}>
-          <MenuItem value="index">modify info for index page</MenuItem>
+          <MenuItem value="intro">modify info for index page</MenuItem>
           <MenuItem value="stack">modify tech stack</MenuItem>
           <MenuItem value="post">post new work</MenuItem>
         </Select>

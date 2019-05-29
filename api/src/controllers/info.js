@@ -10,10 +10,10 @@ import Stack from '../models/Stack';
  * @param {Response} [res]
  * @param {Function} [next]
  */
-export const getIndex = async (req, res, next) => {
-  const indexMarkdown = await Info.getIndex();
-  console.log('controllers/info.js : index requested - ', indexMarkdown);
-  res.status(200).json(indexMarkdown); // returns string
+export const getIntro = async (req, res, next) => {
+  const intro = await Info.getIntro();
+  console.log('controllers/info.js : index requested - ', intro);
+  res.status(200).json(intro); // returns string
 };
 
 /**
@@ -51,12 +51,12 @@ export const deleteStack = async (req, res, next) => {
   res.status(200);
 };
 
-export const setIndex = async (req, res, next) => {
-  const indexMarkdown = _get(req, 'body.indexMarkdown');
-  if (!indexMarkdown || indexMarkdown === '')
+export const setIntro = async (req, res, next) => {
+  const intro = _get(req, 'body.intro');
+  if (!intro || intro === '')
     return res.status(400).json({ message: 'wrong index request' });
-  await Info.updateIndex(indexMarkdown);
-  res.status(200).json(indexMarkdown);
+  await Info.updateIndex(intro);
+  res.status(200).json(intro);
 };
 
 export const createPost = async (req, res, next) => {

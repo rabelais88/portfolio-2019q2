@@ -90,8 +90,8 @@ class api {
    * get index page markdown info
    * @returns {String} markdown text
    */
-  async getIndex() {
-    const res = await this.api.get('/info/index');
+  async getIntro() {
+    const res = await this.api.get('/info/intro');
     return res;
   }
 
@@ -100,8 +100,8 @@ class api {
     return res;
   }
 
-  async setIndex(indexMarkdown) {
-    const res = await this.api.patch('/info/index', { indexMarkdown });
+  async setIntro(intro) {
+    const res = await this.api.patch('/info/intro', { intro });
     return res;
   }
 

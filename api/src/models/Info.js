@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const InfoSchema = {
-  indexMarkdown: {
+  intro: {
     type: String,
     default: 'index page info goes here',
     required: true,
@@ -16,15 +16,15 @@ Info.statics = {
     const latest = await this.findOne().sort({ created_at: -1 });
     return latest;
   },
-  async updateIndex(newIndex) {
+  async updateIndex(newIntro) {
     const latest = await this.getLatest();
-    latest.set('indexMarkdown', newIndex);
+    latest.set('intro', newIntro);
     await latest.save();
-    return latest.indexMarkdown;
+    return latest.intro;
   },
-  async getIndex() {
+  async getIntro() {
     const latest = await this.getLatest();
-    return latest.indexMarkdown;
+    return latest.intro;
   },
 };
 

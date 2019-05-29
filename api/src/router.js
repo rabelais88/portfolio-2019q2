@@ -1,6 +1,6 @@
 import express from 'express';
 import { login, validateHeaderToken, tokenValidated } from './controllers/auth';
-import { getIndex, setIndex, setStack, deleteStack, getStacks, createPost, deletePost, setPost } from './controllers/info';
+import { getIntro, setIntro, setStack, deleteStack, getStacks, createPost, deletePost, setPost } from './controllers/info';
 import passport from 'passport';
 
 const router = express.Router();
@@ -11,8 +11,8 @@ const authJwt = passport.authenticate('jwt', { session: false });
 router.post('/auth', authBasic, login);
 router.get('/auth', authJwt, tokenValidated);
 
-router.get('/info/index', getIndex);
-router.patch('/info/index', authJwt, setIndex);
+router.get('/info/intro', getIntro);
+router.patch('/info/intro', authJwt, setIntro);
 router.get('/info/stacks', getStacks);
 router.patch('/info/stacks', authJwt, setStack);
 router.delete('/info/stacks', authJwt, deleteStack);

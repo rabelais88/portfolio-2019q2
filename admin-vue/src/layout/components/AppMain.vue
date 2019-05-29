@@ -11,10 +11,10 @@ export default {
   name: 'AppMain',
   computed: {
     key() {
-      return this.$route.fullPath
+      return this.$route.fullPath;
     }
   }
-}
+};
 </script>
 
 <style scoped>

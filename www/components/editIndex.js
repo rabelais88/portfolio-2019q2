@@ -10,9 +10,9 @@ import Button from '@material-ui/core/Button';
 
 import { asyncGetIndex, asyncSetIndex } from '../actions/info';
 
-const EditIndex = props => {
+const EditIntro = props => {
   const { info, router, dispatch } = props;
-  const markdown = _get(info, 'indexMarkdown');
+  const markdown = _get(info, 'intro');
   useEffect(() => {
     dispatch(asyncGetIndex(router));
   }, []);
@@ -24,20 +24,20 @@ const EditIndex = props => {
     );
   }
 
-  const submitIndex = ({ indexMarkdown }) => {
-    console.log(indexMarkdown);
-    dispatch(asyncSetIndex(router, indexMarkdown, 'successfully updated index'));
+  const submitIndex = ({ intro }) => {
+    console.log(intro);
+    dispatch(asyncSetIndex(router, intro, 'successfully updated index'));
     // dispatch(setIndex(values.indexMarkdown));
   };
 
   return (
-    <Formik onSubmit={submitIndex} initialValues={{ indexMarkdown: markdown }}>
+    <Formik onSubmit={submitIndex} initialValues={{ intro: markdown }}>
       {({ handleSubmit, values }) => (
         <form onSubmit={handleSubmit} className="page--admin-index--form">
           <h1>editing index page</h1>
-          <Field name="indexMarkdown" label="markdown" component="textarea" />
+          <Field name="intro" label="markdown" component="textarea" />
           <h2>markdown preview</h2>
-          <ReactMarkdown source={values.indexMarkdown} />
+          <ReactMarkdown source={values.intro} />
           <Button type="submit" color="primary" variant="contained">submit and modify</Button>
         </form>
       )}
@@ -45,4 +45,4 @@ const EditIndex = props => {
   );
 };
 const mapStateToProps = state => state;
-export default connect(mapStateToProps)(withRouter(EditIndex));
+export default connect(mapStateToProps)(withRouter(EditIntro));

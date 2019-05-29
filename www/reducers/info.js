@@ -1,15 +1,15 @@
 import _set from 'lodash/set';
-import { SET_INDEX, SET_STACKS, SET_STACK, ADD_POST } from '../actions/info';
+import { SET_INTRO, SET_STACKS, SET_STACK, ADD_POST } from '../actions/info';
 
 const defaultState = {
-  indexMarkdown: '',
+  intro: '',
   stacks: [],
   editingPost: [],
 };
 const infoReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case SET_INDEX:
-      return { ...state, indexMarkdown: action.payload };
+    case SET_INTRO:
+      return { ...state, intro: action.payload };
     case SET_STACKS:
       return { ...state, stacks: action.payload };
     case SET_STACK:

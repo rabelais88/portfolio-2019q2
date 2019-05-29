@@ -93,37 +93,37 @@ export const constantRoutes = [
   },
 
   {
-    path: '/edit-index',
+    path: '/edit/intro',
     component: Layout,
     children: [
       {
-        path: '/edit-index',
-        name: 'Edit Index',
-        component: () => import('@/views/edit-index'),
-        meta: { title: 'Edit Index', icon: 'form' },
+        path: '/edit/intro',
+        name: 'Edit Intro',
+        component: () => import('@/views/edit/intro'),
+        meta: { title: 'Edit Intro', icon: 'form' },
       },
     ],
   },
   {
-    path: '/edit-info',
+    path: '/edit/posts',
     component: Layout,
     children: [
       {
-        path: '/edit-info',
-        name: 'Edit Info',
-        component: () => import('@/views/edit-index'),
-        meta: { title: 'Edit Info', icon: 'form' },
+        path: '/edit/posts',
+        name: 'Edit Posts',
+        component: () => import('@/views/edit/intro'),
+        meta: { title: 'Edit Posts', icon: 'form' },
       },
     ],
   },
   {
-    path: '/edit-stacks',
+    path: '/edit/stacks',
     component: Layout,
     children: [
       {
-        path: '/edit-stacks',
+        path: '/edit/stacks',
         name: 'Edit Stack',
-        component: () => import('@/views/edit-index'),
+        component: () => import('@/views/edit/intro'),
         meta: { title: 'Edit Stacks', icon: 'form' },
       },
     ],

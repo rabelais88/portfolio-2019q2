@@ -11,7 +11,7 @@ import './index.scss';
 
 const cookies = new Cookies();
 const Home = props => {
-  const { indexMarkdown } = props;
+  const { intro } = props;
   return (
     <div>
       <Helmet
@@ -28,7 +28,7 @@ const Home = props => {
           </div>
         </Fade>
       </div>
-      <ReactMarkdown source={indexMarkdown} />
+      <ReactMarkdown source={intro} />
     </div>
   );
 };
@@ -41,9 +41,9 @@ Home.getInitialProps = async props => {
   // client & server side
   const api = new Api();
   if (!req) api.setToken(cookies.get('token'));
-  const indexMarkdown = await api.getIndex();
-  console.log('index markdown', indexMarkdown);
-  return { indexMarkdown };
+  const intro = await api.getIntro();
+  console.log('index(intro) markdown', intro);
+  return { intro };
 };
 
 export default Home;

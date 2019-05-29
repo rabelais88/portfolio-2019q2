@@ -3,13 +3,13 @@ import { logout } from './user';
 import Api from '../utils/Api';
 import { toast } from "react-toastify";
 
-export const SET_INDEX = 'SET_INDEX';
+export const SET_INTRO = 'SET_INTRO';
 export const SET_STACKS = 'SET_STACKS';
 export const SET_STACK = 'SET_STACK';
 export const ADD_POST = 'ADD_POST';
 
-export const setIndex = payload => ({
-  type: SET_INDEX,
+export const setIntro = payload => ({
+  type: SET_INTRO,
   payload,
 });
 
@@ -31,7 +31,7 @@ export const setStack = (idx, payload) => ({
  * @return {function} redux-thunk function
  */
 const apiAuthFactory = (apiFuncName, actOnSuccess) => (router, arg, toastOnSuccess) => (dispatch, getState) => {
-  // console.log('getindex. getstate', getState());
+  // console.log('getintro. getstate', getState());
   const token = _get(getState(), 'user.token');
   // const errorHandle = (err) => {
   //   console.log(err.response)
@@ -61,13 +61,13 @@ const apiAuthFactory = (apiFuncName, actOnSuccess) => (router, arg, toastOnSucce
  * dispatch(asyncGetIndex(router));
  * dispatch(asyncCreatePost(router, arg))
  */
-export const asyncGetIndex = apiAuthFactory('getIndex', setIndex);
+export const asyncGetIndex = apiAuthFactory('getIndex', setIntro);
 export const asyncGetStacks = apiAuthFactory('getStacks', setStacks);
 
 /**
  * @example
  * dispatch(asyncSetIndex(router, data));
  */
-export const asyncSetIndex = apiAuthFactory('setIndex', setIndex);
-export const asyncSetStacks = apiAuthFactory('setIndex', setIndex);
+export const asyncSetInro = apiAuthFactory('setIndex', setIntro);
+export const asyncSetStacks = apiAuthFactory('setIndex', setIntro);
 export const asyncCreatePost = apiAuthFactory('createPost');

@@ -58,7 +58,7 @@ describe('mongoDB: info page', () => {
   it('get latest info from db', async () => {
     const latest = await Info.getLatest();
     expect(latest).to.have.property('stacks');
-    expect(latest).to.have.property('indexMarkdown');
+    expect(latest).to.have.property('intro');
   });
   it('properly get & updates stack', async () => {
     const stacks = await Info.getStacks();
@@ -68,11 +68,11 @@ describe('mongoDB: info page', () => {
     expect(newStacks.length).to.equal(1);
   });
   it('properly get & update index', async () => {
-    const index = await Info.getIndex();
-    expect(typeof index).to.equal('string');
-    await Info.updateIndex('hellow!');
-    const newIndex = await Info.getIndex();
-    expect(newIndex).to.equal('hellow!');
+    const intro = await Info.getIntro();
+    expect(typeof intro).to.equal('string');
+    await Info.updateIntro('hellow!');
+    const newIntro = await Info.getIndex();
+    expect(newIntro).to.equal('hellow!');
   });
 });
 

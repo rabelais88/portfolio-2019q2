@@ -21,41 +21,21 @@ const mutations = {
 
 const actions = {
   // user login
-  login({ commit }, userInfo) {
+  async login({ commit }, userInfo) {
     const { username, password } = userInfo;
-    return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password })
-        .then(res => {
-          commit('SET_TOKEN', res.token);
-          setToken(res.token);
-          resolve();
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
+    const res = await login({ username: username.trim(), password: password });
+    commit('SET_TOKEN', res.token);
+    setToken(res.token);
+    return res;
   },
-
   // get user info
-  getInfo({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      getInfo(state.token)
-        .then(res => {
-          if (!res) {
-            reject('Verification failed, please Login again.');
-          }
-
-          const { username, email } = res;
-
-          commit('SET_NAME', username);
-          commit('SET_EMAIL', email);
-          // commit('SET_AVATAR', avatar)
-          resolve(res);
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
+  async getInfo({ commit, state }) {
+    const res = await getInfo(state.token);
+    if (!res) throw Error('Verification failed, please login again');
+    const { username, email } = res;
+    commit('SET_NAME', username);
+    commit('SET_EMAIL', email);
+    return res;
   },
 
   // user logout
@@ -73,13 +53,11 @@ const actions = {
   },
 
   // remove token
-  resetToken({ commit }) {
-    return new Promise(resolve => {
-      commit('SET_TOKEN', '');
-      removeToken();
-      resolve();
-    });
-  },
+  async resetToken({ commit }) {
+    commit('SET_TOKEN', '');
+    removeToken();
+    return;
+  }
 };
 
 export default {
