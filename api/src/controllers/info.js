@@ -28,6 +28,12 @@ export const getStacks = async (req, res, next) => {
   res.status(200).json(stacks); // [] returns array
 };
 
+export const getStack = async (req, res, next) => {
+  const stackId = _get(req, 'body.id');
+  const stack = await Stack.findOne({ id: stackId });
+  return stack;
+};
+
 export const setStack = async (req, res, next) => {
   const stack = req.body;
   console.log('controllers/info.js : stack adjust requested', stack);
@@ -42,7 +48,7 @@ export const createStack = async (req, res, next) => {
   console.log('controllers/info.js : stack create requested', stack);
   await Stack.create(stack);
   res.status(200).json(stack);
-}
+};
 
 export const deleteStack = async (req, res, next) => {
   const stackId = _get(req, 'body.id');
@@ -68,7 +74,8 @@ export const createPost = async (req, res, next) => {
 
 export const deletePost = async (req, res, next) => {
   const postId = _get(req, 'body.id');
-  if (!postId) return res.status(400).json({ message: 'wrong post deletion request' });
+  if (!postId)
+    return res.status(400).json({ message: 'wrong post deletion request' });
   console.log('controllers/info.js : post delete requested', postId);
   await Post.remove({ id: postId });
   res.status(200);
