@@ -6,6 +6,7 @@ import {
   setStack,
   deleteStack,
   getStacks,
+  getStack,
   createPost,
   deletePost,
   setPost,
