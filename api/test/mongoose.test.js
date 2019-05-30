@@ -5,13 +5,14 @@ import Admin from '../src/models/Admin';
 import Info from '../src/models/Info';
 import Post from '../src/models/Post';
 import Stack from '../src/models/Stack';
+import padStart from 'lodash/padStart';
 
 let mongoServer;
 
 beforeEach(async () => {
   mongoServer = new MongoMemoryServer();
   const mongoUri = await mongoServer.getConnectionString();
-  await mongoose.connect(mongoUri, { useNewUrlParser: true });
+  await mongoose.connect(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
 });
 
 after(() => {
@@ -77,17 +78,22 @@ describe('mongoDB: posts', () => {
     expect(afterDeletion).to.equal(null);
   });
   it('List Query and pagination', async () => {
-    const createPost = (_, i) => Post.create({ title: `title-${i + 1}`, content: `content-${i + 1}` });
+    
+    const createPost = (_, i) => {
+      const c = padStart(i + 1, 3, '0');
+      return Post.create({ title: `title-${c}`, content: `content-${c}` });
+    };
     const promisedPosts = new Array(100).fill(0).map(createPost);
-    await Promise.all(promisedPosts);
-    let postLength = await Post.countDocuments();
-    expect(postLength).to.equal(100);
-    let posts = await Post.getLists(10);
-    expect(posts.posts.length).to.equal(10);
-    expect(posts.nextCursor).to.equal(posts.posts[9].id)
-    expect(posts.hasPrev).to.equal(false);
-    posts = await Post.getLists(10, posts.nextCursor);
-    console.log(posts);
+    const samplePosts = await Promise.all(promisedPosts);
+    expect(samplePosts[99].title).to.contain('100')
+    let posts = await Post.paginate({}, { sort: { title: 'asc' }, limit: 10, page: 1 });
+    expect(posts.docs.length).to.equal(10);
+    // console.log(posts.docs);
+    expect(posts.docs[9].title).to.equal('title-010');
+    let nextPosts = await Post.paginate({}, {  sort: { title: 'asc' }, limit: 10, page: 2 });
+    expect(nextPosts.docs.length).to.equal(10);
+    // console.log(nextPosts.docs)
+    expect(nextPosts.docs[9].title).to.equal('title-020');
   });
 });
 

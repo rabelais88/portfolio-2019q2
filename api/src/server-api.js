@@ -18,15 +18,6 @@ const dev = process.env.NODE_ENV !== 'production';
 
 const app = express();
 
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useCreateIndex: true });
-
-mongoose.connection.on('connected', () => {
-  console.log('> Connected to database');
-});
-mongoose.connection.on('error', err => {
-  console.log(`> Database error: ${err}`);
-});
-
 if (process.env.NODE_ENV === 'development') {
   app.use(allowCors);
   app.use((req, res, next) => {
@@ -60,6 +51,17 @@ app.use(router);
 app.use('*', pageNotFound);
 app.use(errorHandler);
 
-app.listen(port, () => {
-  console.log(`> API server is now listening to ...${port}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useCreateIndex: true });
+  mongoose.connection.on('connected', () => {
+    console.log('> Connected to database');
+  });
+  mongoose.connection.on('error', err => {
+    console.log(`> Database error: ${err}`);
+  });
+  app.listen(port, () => {
+    console.log(`> API server is now listening to ...${port}`);
+  });
+}
+
+export default app;
