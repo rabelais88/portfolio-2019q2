@@ -1,6 +1,6 @@
 # Portfolio /w Next.js(React-redux) + MongoDB
 - author sungryeol park(sungryeolp@gmail.com)
-- used tech stack: Next.js + Express + Mongoose + Mocha(TDD) + Redux + JWT + Cookie + SCSS
+- used tech stack: Next.js + Express + Mongoose + Mocha(TDD) + Redux + passport.js + SCSS
 
 ## Commands
 initialize & register admin to db
@@ -14,15 +14,18 @@ yarn install
 ```
 test run
 ```bash
-# for both www and api
+# for both www, api, admin
 yarn dev
 yarn dev:all # + db
 ```
 production deployment
 ```bash
-# for both www and api
+# for both www, api
 yarn build
 yarn start
+# for admin
+yarn build:prod
+# admin doesn't have server. use nginx to serve.
 ```
 analyze size
 ```bash
@@ -34,6 +37,12 @@ yarn analyze:browser # only for browser
 in case of changing lint setup
 ```bash
 yarn lint:init
+```
+
+mocha test for api server
+```bash
+# only for api
+yarn test:watch --grep ${targetString}
 ```
 
 ## troubleshooting
