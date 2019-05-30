@@ -1,26 +1,27 @@
 module.exports = {
-	env: {
-		browser: true,
-		es6: true,
-		node: true
-	},
-	extends: 'airbnb',
-	globals: {
-		Atomics: 'readonly',
-		SharedArrayBuffer: 'readonly'
-	},
-	parserOptions: {
-		ecmaVersion: 2018,
-		sourceType: 'module'
-	},
-	rules: {
+  env: {
+    es6: true,
+		node: true,
+		mocha: true
+  },
+  extends: 'airbnb-base',
+  globals: {
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly',
+  },
+  parserOptions: {
+    ecmaVersion: 2018,
+    sourceType: 'module',
+  },
+  plugins: ['mocha'],
+  rules: {
+    'no-console': 'warn',
+    'no-unused-vars': 'warn',
+    'consistent-return': 'off',
+    curly: 'off',
+    'nonblock-statement-body-position': 'warn',
 		'arrow-parens': 'off',
-		'no-unused-vars': 'warn',
-		'import/prefer-default-export': 'off',
-		'consistent-return': 'off',
-		'func-names': 'off',
-		'arrow-body-style': 'warn',
-		'object-curly-newline': 'warn',
-		'class-methods-use-this': 'off',
-	}
+    'prefer-destructuring': 'warn',
+    'no-underscore-dangle': 'off',
+  },
 };

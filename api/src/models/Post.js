@@ -16,14 +16,14 @@ const Post = new mongoose.Schema(PostSchema, { timestamps: true });
 
 // custom method
 // myModel.methods.changeTitle = function (newTitle) {
-// 	this.name = newTitle;
-// 	this.save();
+// this.name = newTitle;
+// this.save();
 // }
 
 // static method
 // myModel.statics = {
 //   findUser(name) {
-//   	return this.findOne({name})
+//   return this.findOne({name})
 //   }
 // }
 

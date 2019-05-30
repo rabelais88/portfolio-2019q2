@@ -1,8 +1,14 @@
 import _get from 'lodash/get';
+import _omit from 'lodash/omit';
+import _mapValues from 'lodash/mapValues';
+import Ajv from 'ajv';
 
 import Info from '../models/Info';
 import Post from '../models/Post';
 import Stack from '../models/Stack';
+
+const ajv = new Ajv({ coerceTypes: true });
+const limitMax = 30;
 
 /**
  * returns index page markdown
@@ -89,4 +95,38 @@ export const setPost = async (req, res, next) => {
   postData = { ...postData, post };
   postData.save();
   res.status(200).json(postData);
+};
+
+export const getPosts = async (req, res, next) => {
+  const { limit, page } = req.query;
+  const opts = { limit, page };
+  const optsSchema = {
+    type: 'object',
+    properties: {
+      limit: {
+        type: 'number',
+        minimum: 1,
+        maximum: limitMax,
+      },
+      page: {
+        type: 'number',
+        minimum: 1,
+      },
+    },
+    required: ['page', 'limit'],
+  };
+  const check = (ajv.compile(optsSchema));
+  const isValid = check(opts);
+  if (!isValid) return res.status(422).json(ajv.errorsText(check.errors));
+  const rawQ = _omit(req.query, ['limit', 'page']);
+  const q = _mapValues(rawQ, v => new RegExp(v, 'ig'));
+  opts.select = ['title', 'id', 'createdAt', 'updatedAt'];
+  const posts = await Post.paginate(q, opts);
+  res.status(200).json(posts);
+};
+
+export const getPost = async (req, res, next) => {
+  if (!req.params.postid || req.params.postid === '') return res.status(422).json('wrong post id');
+  const post = await Post.findOne({ _id: req.params.postid });
+  res.status(200).json(post);
 };

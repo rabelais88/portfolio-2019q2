@@ -1,15 +1,17 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import { allowCors } from '../../shared/middlewares';
-import router from './router';
+
 import passport from 'passport';
 import { BasicStrategy } from 'passport-http';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-import Admin from './models/Admin';
-import _get from 'lodash/get';
-import { pageNotFound, errorHandler } from './controllers/error';
 
+import _get from 'lodash/get';
+
+import { allowCors } from '../../shared/middlewares';
+import router from './router';
+import Admin from './models/Admin';
+import { pageNotFound, errorHandler } from './controllers/error';
 
 require('dotenv').config();
 
@@ -23,25 +25,31 @@ if (process.env.NODE_ENV === 'development') {
   app.use((req, res, next) => {
     console.log(req.headers);
     next();
-  })
-};
+  });
+}
 
-passport.use(new BasicStrategy((username, password, done) => {
-  // username should be email
-  Admin.login(username, password).then(adminInfo => {
-    if (!adminInfo) return done(null, false);
-    return done(null, adminInfo);
-  }).catch(err => done(err));
-}));
+passport.use(
+  new BasicStrategy((username, password, done) => {
+    // username should be email
+    Admin.login(username, password)
+      .then(adminInfo => {
+        if (!adminInfo) return done(null, false);
+        return done(null, adminInfo);
+      })
+      .catch(err => done(err));
+  }),
+);
 const jwtOpts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWT_SECRET
-}
-passport.use(new JwtStrategy(jwtOpts, (jwtPayload, done) => {
-  console.log(jwtPayload)
-  if (!jwtPayload) return done(null, false); // failed without reason
-  return done(null, jwtPayload);
-}));
+  secretOrKey: process.env.JWT_SECRET,
+};
+passport.use(
+  new JwtStrategy(jwtOpts, (jwtPayload, done) => {
+    console.log(jwtPayload);
+    if (!jwtPayload) return done(null, false); // failed without reason
+    return done(null, jwtPayload);
+  }),
+);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -52,7 +60,10 @@ app.use('*', pageNotFound);
 app.use(errorHandler);
 
 if (process.env.NODE_ENV !== 'test') {
-  mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useCreateIndex: true });
+  mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+  });
   mongoose.connection.on('connected', () => {
     console.log('> Connected to database');
   });

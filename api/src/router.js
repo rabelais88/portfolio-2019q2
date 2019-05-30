@@ -1,5 +1,6 @@
 import express from 'express';
-import { login, validateHeaderToken, tokenValidated } from './controllers/auth';
+import passport from 'passport';
+import { login, tokenValidated } from './controllers/auth';
 import {
   getIntro,
   setIntro,
@@ -10,8 +11,9 @@ import {
   createPost,
   deletePost,
   setPost,
+  getPosts,
+  getPost,
 } from './controllers/info';
-import passport from 'passport';
 
 const router = express.Router();
 
@@ -30,7 +32,9 @@ router.get('/info/stack', getStack);
 router.patch('/info/stack', authJwt, setStack);
 
 router.post('/info/post', authJwt, createPost);
-router.delete('/info/post', authJwt, deletePost);
-router.patch('/info/post', authJwt, setPost);
+router.delete('/info/post/:postid', authJwt, deletePost);
+router.patch('/info/post/:postid', authJwt, setPost);
+router.get('/info/post/:postid', getPost);
+router.get('/info/posts', getPosts);
 
 export default router;
