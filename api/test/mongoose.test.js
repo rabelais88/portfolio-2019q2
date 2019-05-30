@@ -1,8 +1,10 @@
 import { expect } from 'chai';
 import mongoose from 'mongoose';
 import MongoMemoryServer from 'mongodb-memory-server';
-import Admin from '../models/Admin';
-import Info from '../models/Info';
+import Admin from '../src/models/Admin';
+import Info from '../src/models/Info';
+import Post from '../src/models/Post';
+import Stack from '../src/models/Stack';
 
 let mongoServer;
 
@@ -54,25 +56,38 @@ describe('mongoDB: admin', () => {
   });
 });
 
-describe('mongoDB: info page', () => {
+describe('mongoDB: info page - intro', () => {
   it('get latest info from db', async () => {
     const latest = await Info.getLatest();
-    expect(latest).to.have.property('stacks');
     expect(latest).to.have.property('intro');
   });
-  it('properly get & updates stack', async () => {
-    const stacks = await Info.getStacks();
-    expect(stacks.length).to.equal(0);
-    await Info.addStack({ name: 'vue', desc: 'vueapp', icon: 'https://google.com' });
-    const newStacks = await Info.getStacks();
-    expect(newStacks.length).to.equal(1);
+});
+
+describe('mongoDB: stacks', () => {
+
+});
+
+describe('mongoDB: posts', () => {
+  it('Create and deletion', async () => {
+    const post = await Post.create({ title: 'testtitle', content: 'abcdefg' });
+    expect(post.title).to.equal('testtitle');
+    expect(post.content).to.equal('abcdefg');
+    Post.remove({ id: post.id });
+    const afterDeletion = await Post.findOne({ id: post.id });
+    expect(afterDeletion).to.equal(null);
   });
-  it('properly get & update index', async () => {
-    const intro = await Info.getIntro();
-    expect(typeof intro).to.equal('string');
-    await Info.updateIntro('hellow!');
-    const newIntro = await Info.getIndex();
-    expect(newIntro).to.equal('hellow!');
+  it('List Query and pagination', async () => {
+    const createPost = (_, i) => Post.create({ title: `title-${i + 1}`, content: `content-${i + 1}` });
+    const promisedPosts = new Array(100).fill(0).map(createPost);
+    await Promise.all(promisedPosts);
+    let postLength = await Post.countDocuments();
+    expect(postLength).to.equal(100);
+    let posts = await Post.getLists(10);
+    expect(posts.posts.length).to.equal(10);
+    expect(posts.nextCursor).to.equal(posts.posts[9].id)
+    expect(posts.hasPrev).to.equal(false);
+    posts = await Post.getLists(10, posts.nextCursor);
+    console.log(posts);
   });
 });
 
