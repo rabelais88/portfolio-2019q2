@@ -79,11 +79,12 @@ export const createPost = async (req, res, next) => {
 };
 
 export const deletePost = async (req, res, next) => {
-  const postId = _get(req, 'body.id');
+  // const postId = _get(req, 'body.id');
+  // if (!postId)
+  const postId = req.params.postid;
   if (!postId)
     return res.status(400).json({ message: 'wrong post deletion request' });
-  console.log('controllers/info.js : post delete requested', postId);
-  await Post.remove({ id: postId });
+  await Post.deleteOne({ id: postId });
   res.status(200);
 };
 

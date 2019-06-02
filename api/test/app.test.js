@@ -90,6 +90,11 @@ describe('server app', () => {
   });
 
   it('DELETE /info/post/:postid', async () => {
-    // TODO - must add
+    const postId = (await Post.findOne()).id;
+    await req.delete(`/info/post/${postId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+    const deletedPost = await Post.findOne({ _id: postId });
+    expect(deletedPost).to.equal(null);
   });
 });
