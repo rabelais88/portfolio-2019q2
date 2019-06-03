@@ -93,15 +93,10 @@ export const deletePost = async (req, res, next) => {
 
 export const setPost = async (req, res, next) => {
   const post = req.body;
-  console.log('controllers/info.js : post set requested', post);
   if (!post) return res.status(400).json({ message: 'wrong post mod request' });
   const checked = checkSchema(postSchema, post, ['title', 'content', '_id']);
-  console.log(checked.errors);
   if (!checked.isValid) return res.status(422).json(checked.errors);
-  let postData = await Post.findOne({ _id: post._id });
-  console.log('postData', checked.value);
-  postData = { ...postData, ...checked.value };
-  await postData.save();
+  const postData = await Post.findOneAndUpdate({ _id: post._id }, { $set: checked.value }, { new: true });
   res.status(200).json(postData);
 };
 

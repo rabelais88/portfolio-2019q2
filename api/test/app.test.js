@@ -22,6 +22,7 @@ before(async () => {
   await mongoose.connect(mongoUri, {
     useNewUrlParser: true,
     useCreateIndex: true,
+    useFindAndModify: false,
   });
 });
 
@@ -171,6 +172,7 @@ describe('server app', () => {
       .set('Authorization', `Bearer ${token}`)
       .send(newPost)
       .expect(200);
-    console.log(patched.body);
+    expect(patched.body).to.contain({ title: 'ooo', content: 'ooo' });
+    expect(await Post.findOne({ _id: post._id })).to.contain({ title: 'ooo', content: 'ooo' });
   });
 });
