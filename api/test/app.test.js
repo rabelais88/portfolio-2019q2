@@ -63,6 +63,9 @@ describe('server app', () => {
       .set('Authorization', `Bearer ${token}`)
       .expect(200);
     expect(validation.body).to.include({ email: testAdmin.email });
+    await req
+      .get('/auth')
+      .expect(401);
   });
 
   it('GET /info/posts', async () => {
@@ -89,12 +92,35 @@ describe('server app', () => {
     expect(res.body).to.include({ title: 'testpost' });
   });
 
+  it('POST /info/post', async () => {
+    const newPost = {
+      title: 'title-test',
+      content: 'content-test',
+    };
+    const posted = await req.post('/info/post')
+      .set('Authorization', `Bearer ${token}`)
+      .send(newPost)
+      .expect(200);
+    const post = await Post.findOne({ _id: posted.body._id });
+    expect(post).to.include(newPost);
+    await req.post('/info/post')
+      .set('Authorization', `Bearer ${token}`)
+      .send({})
+      .expect(422);
+  });
+
   it('DELETE /info/post/:postid', async () => {
-    const postId = (await Post.findOne()).id;
+    const postId = (await Post.findOne())._id;
+    const targetPost = await Post.findOne({ _id: postId }); // check if the target post exists
+    expect(targetPost).not.to.equal(null);
     await req.delete(`/info/post/${postId}`)
       .set('Authorization', `Bearer ${token}`)
       .expect(200);
     const deletedPost = await Post.findOne({ _id: postId });
     expect(deletedPost).to.equal(null);
+  });
+
+  it('PATCH /info/post/:postid', async () => {
+
   });
 });

@@ -33,7 +33,7 @@ router.patch('/info/stack', authJwt, setStack);
 
 router.post('/info/post', authJwt, createPost);
 router.delete('/info/post/:postid', authJwt, deletePost);
-router.patch('/info/post/:postid', authJwt, setPost);
+router.patch('/info/post', authJwt, setPost);
 router.get('/info/post/:postid', getPost);
 router.get('/info/posts', getPosts);
 

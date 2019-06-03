@@ -23,5 +23,6 @@ module.exports = {
 		'arrow-parens': 'off',
     'prefer-destructuring': 'warn',
     'no-underscore-dangle': 'off',
+    'import/prefer-default-export': 'off',
   },
 };
