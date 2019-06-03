@@ -32,3 +32,17 @@ export const optsSchema = {
     minimum: 1,
   },
 };
+
+export const stackSchema = {
+  _id: {
+    type: 'string',
+    minLength: 3,
+  },
+  name: {
+    type: 'string',
+    minLength: 2,
+  },
+  desc: {
+    type: 'string',
+  },
+};

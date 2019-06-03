@@ -5,6 +5,7 @@ import {
   getIntro,
   setIntro,
   setStack,
+  createStack,
   deleteStack,
   getStacks,
   getStack,
@@ -27,16 +28,17 @@ router.get('/auth', authJwt, tokenValidated);
 router.get('/info/intro', getIntro);
 router.patch('/info/intro', authJwt, setIntro);
 
-router.get('/info/stacks', getStacks);
-router.delete('/info/stacks', authJwt, deleteStack);
-router.get('/info/stack', getStack);
+router.get('/info/stacks', getStacks); // info/stacks?search=regex
+router.delete('/info/stacks/:stackid', authJwt, deleteStack);
+router.get('/info/stack/:stackid', getStack);
 router.patch('/info/stack', authJwt, setStack);
+router.post('/info/stack', authJwt, createStack);
 
 router.post('/info/post', authJwt, createPost);
 router.delete('/info/post/:postid', authJwt, deletePost);
 router.patch('/info/post', authJwt, setPost);
 router.get('/info/post/:postid', getPost);
-router.get('/info/posts', getPosts);
+router.get('/info/posts', getPosts); // info/posts?page=1&limit=10&title=regex
 router.post('/upload', authJwt, upload.array('file', 15), uploadImages);
 
 export default router;

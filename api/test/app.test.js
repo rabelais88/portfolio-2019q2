@@ -10,11 +10,14 @@ import cloneDeep from 'lodash/cloneDeep';
 import app from '../src/server-api';
 import Admin from '../src/models/Admin';
 import Post from '../src/models/Post';
+import Stack from '../src/models/Stack';
 
 const req = supertest(app);
 const testAdmin = { email: 'aaa@bbb.com', password: '1234' };
 let mongoServer;
 let token;
+
+// if url is not properly designated, supertest may throw 'read.ECONNRESET' error!
 
 before(async () => {
   mongoServer = new MongoMemoryServer();
@@ -29,6 +32,7 @@ before(async () => {
 after(async () => {
   await Admin.deleteMany({});
   await Post.deleteMany({});
+  await Stack.deleteMany({});
   mongoose.disconnect();
   await mongoServer.stop();
 });
@@ -54,12 +58,18 @@ describe('server app', () => {
         content: faker.lorem.paragraph(),
       });
     const randomPosts = new Array(100).fill(0).map(createPost);
-    await Promise.all(randomPosts);
+    const createStack = (_, i) => Stack.create({
+      name: faker.hacker.abbreviation(),
+      desc: faker.lorem.paragraph(),
+    });
+    const randomStacks = new Array(30).fill(0).map(createStack);
+    await Promise.all([...randomPosts, ...randomStacks]);
   });
 
   afterEach(async () => {
     await Admin.deleteMany({});
     await Post.deleteMany({});
+    // await Stack.deleteMany({});
   });
 
   it('GET /wrongaddress', async () => {
@@ -173,5 +183,36 @@ describe('server app', () => {
       .expect(200);
     expect(patched.body).to.contain({ title: 'ooo', content: 'ooo' });
     expect(await Post.findOne({ _id: post._id })).to.contain({ title: 'ooo', content: 'ooo' });
+  });
+
+  it('GET /info/stacks', async () => {
+    const stackLength = await Stack.find({}).countDocuments();
+    let stacks = await req.get('/info/stacks').expect(200);
+    expect(stacks.body.length).to.equal(stackLength);
+    await Stack.create({ name: 'test1', desc: '...' });
+    await Stack.create({ name: 'test2', desc: '...' });
+    stacks = await req.get('/info/stacks?search=test')
+      .expect(200);
+    expect(stacks.body.length).to.equal(2);
+    stacks = await req.get('/info/stacks?search=1')
+      .expect(200);
+    expect(stacks.body.length).to.equal(1);
+  });
+
+  it('POST /info/stack', async () => {
+    const stackData = {
+      name: 'javascript',
+      desc: 'javascript is good',
+    };
+    const stack = await req.post('/info/stack')
+      .set('Authorization', `Bearer ${token}`)
+      .send(stackData)
+      .expect(200);
+    const newStack = await Stack.findOne({ _id: stack.body._id });
+    expect(newStack).to.contain(stackData);
+  });
+
+  it('DELETE /info/stack/:stackid', async () => {
+
   });
 });

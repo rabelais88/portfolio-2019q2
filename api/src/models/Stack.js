@@ -12,7 +12,7 @@ const StackSchema = {
     default: 'unnamed description',
     required: true,
   },
-  icon: String
+  icon: String,
 };
 const Stack = new mongoose.Schema(StackSchema, { timestamps: true });
 

@@ -7,7 +7,7 @@ import Info from '../models/Info';
 import Post from '../models/Post';
 import Stack from '../models/Stack';
 import { checkSchema } from '../util';
-import { postSchema, optsSchema } from './queries';
+import { postSchema, optsSchema, stackSchema } from './queries';
 
 /**
  * returns index page markdown
@@ -28,15 +28,21 @@ export const getIntro = async (req, res, next) => {
  * @param {Function} [next]
  */
 export const getStacks = async (req, res, next) => {
-  const stacks = await Stack.find();
-  console.log('controllers/info.js : stack requested - ', stacks);
+  let query = {};
+  if (req.query.search) {
+    const rgx = new RegExp(req.query.search, 'ig');
+    query = {
+      $or: [{ name: { $regex: rgx } }, { desc: { $regex: rgx } }],
+    };
+  }
+  const stacks = await Stack.find(query);
   res.status(200).json(stacks); // [] returns array
 };
 
 export const getStack = async (req, res, next) => {
   const stackId = _get(req, 'body.id');
   const stack = await Stack.findOne({ id: stackId });
-  return stack;
+  return res.status(200).json(stack);
 };
 
 export const setStack = async (req, res, next) => {
@@ -50,9 +56,11 @@ export const setStack = async (req, res, next) => {
 
 export const createStack = async (req, res, next) => {
   const stack = req.body;
-  console.log('controllers/info.js : stack create requested', stack);
-  await Stack.create(stack);
-  res.status(200).json(stack);
+  // console.log('controllers/info.js : stack create requested', stack);
+  const checked = checkSchema(stackSchema, stack, ['name']);
+  if (!checked.isValid) return res.status(422).json(checked.errors);
+  const newStack = await Stack.create(checked.value);
+  res.status(200).json(newStack);
 };
 
 export const deleteStack = async (req, res, next) => {
@@ -96,7 +104,11 @@ export const setPost = async (req, res, next) => {
   if (!post) return res.status(400).json({ message: 'wrong post mod request' });
   const checked = checkSchema(postSchema, post, ['title', 'content', '_id']);
   if (!checked.isValid) return res.status(422).json(checked.errors);
-  const postData = await Post.findOneAndUpdate({ _id: post._id }, { $set: checked.value }, { new: true });
+  const postData = await Post.findOneAndUpdate(
+    { _id: post._id },
+    { $set: checked.value },
+    { new: true },
+  );
   res.status(200).json(postData);
 };
 
