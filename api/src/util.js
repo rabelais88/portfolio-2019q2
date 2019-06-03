@@ -18,8 +18,8 @@ export const checkSchema = (schema, value, required = []) => {
   };
   const check = ajv.compile(schemaTemplate);
   const isValid = check(value);
-  const filtered = _omitBy(value, (v, key) => {
-    return !Object.keys(schema).includes(key);
+  const filtered = _omitBy(value, (v, k) => {
+    return !Object.keys(schema).includes(k);
   });
   return {
     isValid,
