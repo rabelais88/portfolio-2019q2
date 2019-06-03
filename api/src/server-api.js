@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import path from 'path';
 
 import passport from 'passport';
 import { BasicStrategy } from 'passport-http';
@@ -53,6 +54,7 @@ passport.use(
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/public', express.static(path.resolve('upload')));
 
 app.use(router);
 

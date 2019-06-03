@@ -10,7 +10,7 @@ const PostSchema = {
     type: String,
     required: true,
   },
-  image: String,
+  images: [String],
 };
 const Post = new mongoose.Schema(PostSchema, { timestamps: true });
 

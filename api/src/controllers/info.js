@@ -7,9 +7,7 @@ import Info from '../models/Info';
 import Post from '../models/Post';
 import Stack from '../models/Stack';
 import { checkSchema } from '../util';
-
-const ajv = new Ajv({ coerceTypes: true });
-const limitMax = 30;
+import { postSchema, optsSchema } from './queries';
 
 /**
  * returns index page markdown
@@ -74,20 +72,10 @@ export const setIntro = async (req, res, next) => {
 
 export const createPost = async (req, res, next) => {
   let post = req.body;
-  const postSchema = {
-    title: {
-      type: 'string',
-      minLength: 3,
-    },
-    content: {
-      type: 'string',
-      minLength: 3,
-    },
-  };
-  const checked = checkSchema(postSchema, post, ['title', 'content']);
   if (!post) return res.status(400).json({ message: 'wrong post request' });
+  const checked = checkSchema(postSchema, post, ['title', 'content']);
   if (!checked.isValid) return res.status(422).json(checked.errors);
-  post = await Post.create(post);
+  post = await Post.create(checked.value);
   res.status(200).json(post);
 };
 
@@ -105,34 +93,27 @@ export const deletePost = async (req, res, next) => {
 
 export const setPost = async (req, res, next) => {
   const post = req.body;
-  if (!post) return res.status(400).json({ message: 'wrong post mod request' });
   console.log('controllers/info.js : post set requested', post);
-  let postData = await Post.findOne({ id: post.id });
-  postData = { ...postData, post };
-  postData.save();
+  if (!post) return res.status(400).json({ message: 'wrong post mod request' });
+  const checked = checkSchema(postSchema, post, ['title', 'content', '_id']);
+  console.log(checked.errors);
+  if (!checked.isValid) return res.status(422).json(checked.errors);
+  let postData = await Post.findOne({ _id: post._id });
+  console.log('postData', checked.value);
+  postData = { ...postData, ...checked.value };
+  await postData.save();
   res.status(200).json(postData);
 };
 
 export const getPosts = async (req, res, next) => {
   const { limit, page } = req.query;
   const opts = { limit, page };
-  const optsSchema = {
-    limit: {
-      type: 'number',
-      minimum: 1,
-      maximum: limitMax,
-    },
-    page: {
-      type: 'number',
-      minimum: 1,
-    },
-  };
   const checked = checkSchema(optsSchema, opts, ['page', 'limit']);
   if (!checked.isValid) return res.status(422).json(checked.errors);
   const rawQ = _omit(req.query, ['limit', 'page']);
   const q = _mapValues(rawQ, v => new RegExp(v, 'ig'));
   opts.select = ['title', 'id', 'createdAt', 'updatedAt'];
-  const posts = await Post.paginate(q, opts);
+  const posts = await Post.paginate(q, checked.value);
   res.status(200).json(posts);
 };
 

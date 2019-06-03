@@ -1,4 +1,5 @@
 import Ajv from 'ajv';
+import _omitBy from 'lodash/omitBy';
 /**
  * @function
  * @param {Object} [schema]
@@ -17,9 +18,12 @@ export const checkSchema = (schema, value, required = []) => {
   };
   const check = ajv.compile(schemaTemplate);
   const isValid = check(value);
+  const filtered = _omitBy(value, (v, key) => {
+    return !Object.keys(schema).includes(key);
+  });
   return {
     isValid,
     errors: ajv.errorsText(check.errors),
-    value,
+    value: filtered,
   };
 };

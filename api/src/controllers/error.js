@@ -10,4 +10,5 @@ export const errorHandler = (err, req, res, next) => {
   } else {
     res.status(500).json({ message: 'uncaught error' });
   }
+  console.log(err);
 };

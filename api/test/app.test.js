@@ -3,6 +3,9 @@ import supertest from 'supertest';
 import mongoose from 'mongoose';
 import MongoMemoryServer from 'mongodb-memory-server';
 import faker from 'faker';
+import path from 'path';
+import fs from 'fs';
+import cloneDeep from 'lodash/cloneDeep';
 
 import app from '../src/server-api';
 import Admin from '../src/models/Admin';
@@ -29,6 +32,13 @@ after(async () => {
   await mongoServer.stop();
 });
 
+const removeTempFile = (filename) => new Promise((resolve, reject) => {
+  fs.unlink(path.resolve(`upload/${filename}`), err => {
+    if (err) console.log(err);
+    resolve();
+  });
+});
+
 describe('server app', () => {
   // beforeEach and afterEach must be placed inside same block with the rest of the test!!
   beforeEach(async () => {
@@ -49,6 +59,11 @@ describe('server app', () => {
   afterEach(async () => {
     await Admin.deleteMany({});
     await Post.deleteMany({});
+  });
+
+  it('GET /wrongaddress', async () => {
+    await req.get('/wrongaddress')
+      .expect(404);
   });
 
   it('GET /info/intro', async () => {
@@ -107,6 +122,20 @@ describe('server app', () => {
       .set('Authorization', `Bearer ${token}`)
       .send({})
       .expect(422);
+
+    // polluted property should not be found from database
+    const polluted = await req.post('/info/post')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ title: 'fileupload', content: 'fileupload', polluted: true })
+      .expect(200);
+    expect(polluted.body).not.to.contain({ polluted: true });
+
+    // images should be properly added when needed
+    const uploaded = await req.post('/info/post')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ title: 'fileupload', content: 'fileupload', images: ['imageurl'] })
+      .expect(200);
+    expect(uploaded.body.images[0]).to.equal('imageurl');
   });
 
   it('DELETE /info/post/:postid', async () => {
@@ -120,7 +149,28 @@ describe('server app', () => {
     expect(deletedPost).to.equal(null);
   });
 
-  it('PATCH /info/post/:postid', async () => {
+  it('POST /upload', async () => {
+    const upload = await req.post('/upload')
+      .set('Authorization', `Bearer ${token}`)
+      .attach('file', path.join(__dirname, 'test.png'))
+      .expect(200);
+    const filenames = upload.body;
+    expect(filenames[0]).to.match(/.+\.png/i);
+    await req.get(`/public/${filenames[0]}`)
+      .expect(200);
+    await removeTempFile(filenames[0]);
+  });
 
+  it('PATCH /info/post/:postid', async () => {
+    // TODO: fix here...
+    const post = await Post.create({ title: 'xxx', content: 'xxx' });
+    const newPost = cloneDeep(post);
+    newPost.title = 'ooo';
+    newPost.content = 'ooo';
+    const patched = await req.patch('/info/post')
+      .set('Authorization', `Bearer ${token}`)
+      .send(newPost)
+      .expect(200);
+    console.log(patched.body);
   });
 });

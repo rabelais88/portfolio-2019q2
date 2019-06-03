@@ -14,6 +14,7 @@ import {
   getPosts,
   getPost,
 } from './controllers/info';
+import { upload, uploadImages } from './controllers/upload';
 
 const router = express.Router();
 
@@ -36,5 +37,6 @@ router.delete('/info/post/:postid', authJwt, deletePost);
 router.patch('/info/post', authJwt, setPost);
 router.get('/info/post/:postid', getPost);
 router.get('/info/posts', getPosts);
+router.post('/upload', authJwt, upload.array('file', 15), uploadImages);
 
 export default router;
