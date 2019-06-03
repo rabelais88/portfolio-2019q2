@@ -1,7 +1,6 @@
 import _get from 'lodash/get';
 import _omit from 'lodash/omit';
 import _mapValues from 'lodash/mapValues';
-import Ajv from 'ajv';
 
 import Info from '../models/Info';
 import Post from '../models/Post';
