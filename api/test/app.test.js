@@ -163,7 +163,6 @@ describe('server app', () => {
   });
 
   it('PATCH /info/post/:postid', async () => {
-    // TODO: fix here...
     const post = await Post.create({ title: 'xxx', content: 'xxx' });
     const newPost = cloneDeep(post);
     newPost.title = 'ooo';
