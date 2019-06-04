@@ -111,7 +111,7 @@ export const constantRoutes = [
       {
         path: '/edit/posts',
         name: 'Edit Posts',
-        component: () => import('@/views/edit/intro'),
+        component: () => import('@/views/edit/posts'),
         meta: { title: 'Edit Posts', icon: 'form' },
       },
     ],
