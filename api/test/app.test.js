@@ -37,12 +37,13 @@ after(async () => {
   await mongoServer.stop();
 });
 
-const removeTempFile = (filename) => new Promise((resolve, reject) => {
-  fs.unlink(path.resolve(`upload/${filename}`), err => {
-    if (err) console.log(err);
-    resolve();
+const removeTempFile = filename =>
+  new Promise((resolve, reject) => {
+    fs.unlink(path.resolve(`upload/${filename}`), err => {
+      if (err) console.log(err);
+      resolve();
+    });
   });
-});
 
 describe('server app', () => {
   // beforeEach and afterEach must be placed inside same block with the rest of the test!!
@@ -58,10 +59,11 @@ describe('server app', () => {
         content: faker.lorem.paragraph(),
       });
     const randomPosts = new Array(100).fill(0).map(createPost);
-    const createStack = (_, i) => Stack.create({
-      name: faker.hacker.abbreviation(),
-      desc: faker.lorem.paragraph(),
-    });
+    const createStack = (_, i) =>
+      Stack.create({
+        name: faker.hacker.abbreviation(),
+        desc: faker.lorem.paragraph(),
+      });
     const randomStacks = new Array(30).fill(0).map(createStack);
     await Promise.all([...randomPosts, ...randomStacks]);
   });
@@ -73,8 +75,7 @@ describe('server app', () => {
   });
 
   it('GET /wrongaddress', async () => {
-    await req.get('/wrongaddress')
-      .expect(404);
+    await req.get('/wrongaddress').expect(404);
   });
 
   it('GET /info/intro', async () => {
@@ -89,9 +90,7 @@ describe('server app', () => {
       .set('Authorization', `Bearer ${token}`)
       .expect(200);
     expect(validation.body).to.include({ email: testAdmin.email });
-    await req
-      .get('/auth')
-      .expect(401);
+    await req.get('/auth').expect(401);
   });
 
   it('GET /info/posts', async () => {
@@ -123,28 +122,36 @@ describe('server app', () => {
       title: 'title-test',
       content: 'content-test',
     };
-    const posted = await req.post('/info/post')
+    const posted = await req
+      .post('/info/post')
       .set('Authorization', `Bearer ${token}`)
       .send(newPost)
       .expect(200);
     const post = await Post.findOne({ _id: posted.body._id });
     expect(post).to.include(newPost);
-    await req.post('/info/post')
+    await req
+      .post('/info/post')
       .set('Authorization', `Bearer ${token}`)
       .send({})
       .expect(422);
 
     // polluted property should not be found from database
-    const polluted = await req.post('/info/post')
+    const polluted = await req
+      .post('/info/post')
       .set('Authorization', `Bearer ${token}`)
       .send({ title: 'fileupload', content: 'fileupload', polluted: true })
       .expect(200);
     expect(polluted.body).not.to.contain({ polluted: true });
 
     // images should be properly added when needed
-    const uploaded = await req.post('/info/post')
+    const uploaded = await req
+      .post('/info/post')
       .set('Authorization', `Bearer ${token}`)
-      .send({ title: 'fileupload', content: 'fileupload', images: ['imageurl'] })
+      .send({
+        title: 'fileupload',
+        content: 'fileupload',
+        images: ['imageurl'],
+      })
       .expect(200);
     expect(uploaded.body.images[0]).to.equal('imageurl');
   });
@@ -153,7 +160,8 @@ describe('server app', () => {
     const postId = (await Post.findOne())._id;
     const targetPost = await Post.findOne({ _id: postId }); // check if the target post exists
     expect(targetPost).not.to.equal(null);
-    await req.delete(`/info/post/${postId}`)
+    await req
+      .delete(`/info/post/${postId}`)
       .set('Authorization', `Bearer ${token}`)
       .expect(200);
     const deletedPost = await Post.findOne({ _id: postId });
@@ -161,28 +169,36 @@ describe('server app', () => {
   });
 
   it('POST /upload', async () => {
-    const upload = await req.post('/upload')
+    const upload = await req
+      .post('/upload')
       .set('Authorization', `Bearer ${token}`)
       .attach('file', path.join(__dirname, 'test.png'))
       .expect(200);
     const filenames = upload.body;
     expect(filenames[0]).to.match(/.+\.png/i);
-    await req.get(`/public/${filenames[0]}`)
-      .expect(200);
+    await req.get(`/public/${filenames[0]}`).expect(200);
     await removeTempFile(filenames[0]);
   });
 
-  it('PATCH /info/post/:postid', async () => {
+  it('PATCH /info/post', async () => {
     const post = await Post.create({ title: 'xxx', content: 'xxx' });
-    const newPost = cloneDeep(post);
-    newPost.title = 'ooo';
-    newPost.content = 'ooo';
-    const patched = await req.patch('/info/post')
+    const newPost = {
+      _id: post._id.toString(),
+      title: 'ooo',
+      content: 'ooo',
+    };
+    const patched = await req
+      .patch('/info/post')
       .set('Authorization', `Bearer ${token}`)
       .send(newPost)
       .expect(200);
-    expect(patched.body).to.contain({ title: 'ooo', content: 'ooo' });
-    expect(await Post.findOne({ _id: post._id })).to.contain({ title: 'ooo', content: 'ooo' });
+    expect(patched.body).to.contain({ title: newPost.title, content: newPost.content });
+    expect(await Post.findById(post._id)).to.contain({ title: newPost.title, content: newPost.content });
+    await req
+      .patch('/info/post')
+      .set('Authorization', 'Bearer 12344535693aced')
+      .send(newPost)
+      .expect(401);
   });
 
   it('GET /info/stacks', async () => {
@@ -191,11 +207,9 @@ describe('server app', () => {
     expect(stacks.body.length).to.equal(stackLength);
     await Stack.create({ name: 'test1', desc: '...' });
     await Stack.create({ name: 'test2', desc: '...' });
-    stacks = await req.get('/info/stacks?search=test')
-      .expect(200);
+    stacks = await req.get('/info/stacks?search=test').expect(200);
     expect(stacks.body.length).to.equal(2);
-    stacks = await req.get('/info/stacks?search=1')
-      .expect(200);
+    stacks = await req.get('/info/stacks?search=1').expect(200);
     expect(stacks.body.length).to.equal(1);
   });
 
@@ -204,15 +218,47 @@ describe('server app', () => {
       name: 'javascript',
       desc: 'javascript is good',
     };
-    const stack = await req.post('/info/stack')
+    const stack = await req
+      .post('/info/stack')
       .set('Authorization', `Bearer ${token}`)
       .send(stackData)
       .expect(200);
     const newStack = await Stack.findOne({ _id: stack.body._id });
     expect(newStack).to.contain(stackData);
+    await req
+      .post('/info/stack')
+      .send(stackData)
+      .expect(401);
+    await req
+      .post('/info/stack')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ desc: 's' })
+      .expect(422);
   });
 
   it('DELETE /info/stack/:stackid', async () => {
+    const stackId = (await Stack.create({ name: 'test', desc: 'opioid' }))._id;
+    await req
+      .delete(`/info/stack/${stackId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+    const removed = await Stack.findById(stackId);
+    expect(removed).to.equal(null);
+  });
 
+  it('PATCH /info/stack/:stackid', async () => {
+    const stackId = (await Stack.findOne())._id;
+    const newStack = {
+      _id: stackId.toString(),
+      name: 'oh halala',
+      desc: 'hilolo!'
+    };
+    const patched = await req
+      .patch('/info/stack')
+      .set('Authorization', `Bearer ${token}`)
+      .send(newStack)
+      .expect(200);
+    expect(patched.body).to.contain({ name: newStack.name, desc: newStack.desc });
+    expect(await Stack.findById(stackId)).to.contain({ name: newStack.name, desc: newStack.desc });
   });
 });

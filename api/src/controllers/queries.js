@@ -45,4 +45,7 @@ export const stackSchema = {
   desc: {
     type: 'string',
   },
+  icon: {
+    type: 'string',
+  },
 };

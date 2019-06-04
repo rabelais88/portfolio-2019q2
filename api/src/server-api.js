@@ -2,12 +2,11 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import path from 'path';
+import morgan from 'morgan';
 
 import passport from 'passport';
 import { BasicStrategy } from 'passport-http';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-
-import _get from 'lodash/get';
 
 import { allowCors } from '../../shared/middlewares';
 import router from './router';
@@ -20,14 +19,17 @@ const port = parseInt(process.env.PORT, 10) || 4000;
 const dev = process.env.NODE_ENV !== 'production';
 
 const app = express();
+let morganOpt = 'tiny';
 
-if (process.env.NODE_ENV === 'development') {
+if (['development', 'test'].includes(process.env.NODE_ENV)) {
   app.use(allowCors);
-  app.use((req, res, next) => {
-    console.log(req.headers);
-    next();
-  });
+  // app.use((req, res, next) => {
+  //   console.log(req.headers.params);
+  //   next();
+  // });
+  morganOpt = 'dev';
 }
+app.use(morgan(morganOpt));
 
 passport.use(
   new BasicStrategy((username, password, done) => {

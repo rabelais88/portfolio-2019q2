@@ -29,7 +29,7 @@ router.get('/info/intro', getIntro);
 router.patch('/info/intro', authJwt, setIntro);
 
 router.get('/info/stacks', getStacks); // info/stacks?search=regex
-router.delete('/info/stacks/:stackid', authJwt, deleteStack);
+router.delete('/info/stack/:stackid', authJwt, deleteStack);
 router.get('/info/stack/:stackid', getStack);
 router.patch('/info/stack', authJwt, setStack);
 router.post('/info/stack', authJwt, createStack);

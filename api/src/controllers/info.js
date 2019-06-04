@@ -16,7 +16,6 @@ import { postSchema, optsSchema, stackSchema } from './queries';
  */
 export const getIntro = async (req, res, next) => {
   const intro = await Info.getIntro();
-  console.log('controllers/info.js : index requested - ', intro);
   res.status(200).json(intro); // returns string
 };
 
@@ -40,22 +39,24 @@ export const getStacks = async (req, res, next) => {
 
 export const getStack = async (req, res, next) => {
   const stackId = _get(req, 'body.id');
-  const stack = await Stack.findOne({ id: stackId });
+  const stack = await Stack.findById(stackId);
   return res.status(200).json(stack);
 };
 
 export const setStack = async (req, res, next) => {
   const stack = req.body;
-  console.log('controllers/info.js : stack adjust requested', stack);
-  let stackData = await Stack.findOne({ id: stack.id });
-  stackData = { ...stackData, ...stack };
-  await stackData.save();
+  const checked = checkSchema(stackSchema, stack, ['name', 'desc']);
+  if (!checked.isValid) return res.status(422).json(checked.errors);
+  const stackData = await Stack.findByIdAndUpdate(
+    stack._id,
+    { $set: checked.value },
+    { new: true },
+  );
   res.status(200).json(stackData);
 };
 
 export const createStack = async (req, res, next) => {
   const stack = req.body;
-  // console.log('controllers/info.js : stack create requested', stack);
   const checked = checkSchema(stackSchema, stack, ['name']);
   if (!checked.isValid) return res.status(422).json(checked.errors);
   const newStack = await Stack.create(checked.value);
@@ -63,10 +64,9 @@ export const createStack = async (req, res, next) => {
 };
 
 export const deleteStack = async (req, res, next) => {
-  const stackId = _get(req, 'body.id');
-  console.log('controllers/info.js : stack delete requested', stackId);
-  await Stack.remove({ id: stackId });
-  res.status(200);
+  const stackId = req.params.stackid;
+  await Stack.findByIdAndDelete(stackId);
+  res.status(200).json('success');
 };
 
 export const setIntro = async (req, res, next) => {
@@ -94,7 +94,7 @@ export const deletePost = async (req, res, next) => {
     return res
       .status(400)
       .json({ message: 'target id for deletion is missing' });
-  await Post.deleteOne({ _id: postId });
+  await Post.findByIdAndDelete(postId);
   res.status(200).json('success');
 };
 
@@ -103,8 +103,8 @@ export const setPost = async (req, res, next) => {
   if (!post) return res.status(400).json({ message: 'wrong post mod request' });
   const checked = checkSchema(postSchema, post, ['title', 'content', '_id']);
   if (!checked.isValid) return res.status(422).json(checked.errors);
-  const postData = await Post.findOneAndUpdate(
-    { _id: post._id },
+  const postData = await Post.findByIdAndUpdate(
+    post._id,
     { $set: checked.value },
     { new: true },
   );
@@ -126,6 +126,6 @@ export const getPosts = async (req, res, next) => {
 export const getPost = async (req, res, next) => {
   if (!req.params.postid || req.params.postid === '')
     return res.status(422).json('wrong post id');
-  const post = await Post.findOne({ _id: req.params.postid });
+  const post = await Post.findById(req.params.postid);
   res.status(200).json(post);
 };
