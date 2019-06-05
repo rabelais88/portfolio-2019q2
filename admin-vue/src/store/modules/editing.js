@@ -1,5 +1,6 @@
-import { getIntro, saveIntro, getPosts, createPost } from '@/api/editing';
+import { getIntro, saveIntro, getPosts, createPost, getPost } from '@/api/editing';
 import { Notification } from 'element-ui';
+const SET_POST = 'SET_POST';
 const SET_INTRO = 'SET_INTRO';
 const SET_POSTS = 'SET_POST';
 const ADD_POST = 'ADD_POST';
@@ -12,7 +13,7 @@ const state = {
   posts: [],
   postPage: 1,
   postLimit: 10,
-  postTotalPages: 1
+  postTotalPages: 1,
 };
 
 const mutations = {
@@ -43,6 +44,10 @@ const actions = {
     if (res) Notification.success({ message: 'successfully updated intro' });
     commit(SET_INTRO, res);
   },
+  async getPost({ state, commit }, postId) {
+    const post = await getPost(postId);
+    commit(SET_POST, post)
+  },
   async getPosts({ state, commit }) {
     const optPagination = {
       limit: state.postLimit,
@@ -54,13 +59,13 @@ const actions = {
   },
   async createPost({ commit }, post) {
     const res = await createPost(post);
-    if (res) Notification.success({ message: 'successfully made a new post'});
+    if (res) Notification.success({ message: 'successfully made a new post' });
     commit(ADD_POST, res);
   },
-  async setPostPage({commit, dispatch}, page) {
+  async setPostPage({ commit, dispatch }, page) {
     commit(SET_POST_PAGE, page);
     dispatch('getPosts');
-  }
+  },
 };
 
 export default {

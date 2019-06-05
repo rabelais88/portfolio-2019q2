@@ -25,3 +25,9 @@ export const createPost = post =>
     method: 'post',
     data: post,
   });
+
+export const getPost = postId =>
+  request({
+    url: `/info/post/${postId}}`,
+    method: 'get',
+  });

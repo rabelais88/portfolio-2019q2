@@ -121,10 +121,11 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: '/edit/post',
+        path: '/edit/post/:postid',
         name: 'Create & Edit Post',
         component: () => import('@/views/edit/post'),
         meta: { title: 'Create & Edit Post', icon: 'form' },
+        hidden: true,
       },
     ],
   },
@@ -137,7 +138,6 @@ export const constantRoutes = [
         name: 'Edit Stack',
         component: () => import('@/views/edit/intro'),
         meta: { title: 'Edit Stacks', icon: 'form' },
-        hidden: true,
       },
     ],
   },
