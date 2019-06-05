@@ -11,8 +11,7 @@
       :total="postTotalPages"
       :current-page.sync="postPage"
       @current-change="onCurrentChange"
-    >
-    </el-pagination>
+    />
     <el-button>새로 쓰기</el-button>
   </el-form>
 </template>
@@ -21,7 +20,10 @@
 import { mapState, mapActions } from 'vuex';
 export default {
   computed: {
-    ...mapState('editing', ['posts', 'postTotalPages', 'postPage'])
+    ...mapState('editing', ['posts', 'postTotalPages', 'postPage']),
+  },
+  beforeMount() {
+    if (this.posts.length === 0) this.getPosts();
   },
   methods: {
     ...mapActions({
@@ -32,12 +34,8 @@ export default {
       this.setPostPage();
     },
   },
-  beforeMount() {
-    if (this.posts.length === 0) this.getPosts();
-  },
 };
 </script>
 
 <style>
-
 </style>
