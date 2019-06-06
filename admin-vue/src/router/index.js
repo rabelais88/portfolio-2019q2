@@ -78,27 +78,13 @@ export const constantRoutes = [
       },
     ],
   },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' },
-      },
-    ],
-  },
-
   {
     path: '/edit/intro',
     component: Layout,
     children: [
       {
         path: '/edit/intro',
-        name: 'Edit Intro',
+        name: 'EditIntro',
         component: () => import('@/views/edit/intro'),
         meta: { title: 'Edit Intro', icon: 'form' },
       },
@@ -110,7 +96,7 @@ export const constantRoutes = [
     children: [
       {
         path: '/edit/posts',
-        name: 'Edit Posts',
+        name: 'EditPosts',
         component: () => import('@/views/edit/posts'),
         meta: { title: 'Edit Posts', icon: 'form' },
       },
@@ -122,9 +108,16 @@ export const constantRoutes = [
     children: [
       {
         path: '/edit/post/:postid',
-        name: 'Create & Edit Post',
+        name: 'EditPost',
         component: () => import('@/views/edit/post'),
-        meta: { title: 'Create & Edit Post', icon: 'form' },
+        meta: { title: 'Edit Post', icon: 'form' },
+        hidden: true,
+      },
+      {
+        path: '/edit/post',
+        name: 'CreatePost',
+        component: () => import('@/views/edit/post'),
+        meta: { title: 'Create Post', icon: 'form' },
         hidden: true,
       },
     ],
@@ -135,9 +128,9 @@ export const constantRoutes = [
     children: [
       {
         path: '/edit/stacks',
-        name: 'Edit Stack',
+        name: 'EditStack',
         component: () => import('@/views/edit/intro'),
-        meta: { title: 'Edit Stacks', icon: 'form' },
+        meta: { title: 'Edit Stack', icon: 'form' },
       },
     ],
   },

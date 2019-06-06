@@ -28,6 +28,19 @@ export const createPost = post =>
 
 export const getPost = postId =>
   request({
-    url: `/info/post/${postId}}`,
+    url: `/info/post/${postId}`,
     method: 'get',
+  });
+
+export const modifyPost = post =>
+  request({
+    url: `info/post`,
+    method: 'patch',
+    data: post,
+  });
+
+export const deletePost = postId =>
+  request({
+    url: `info/post/${postId}`,
+    method: 'delete',
   });
