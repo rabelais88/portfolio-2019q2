@@ -33,6 +33,17 @@ export const optsSchema = {
   },
 };
 
+export const sortSchema = {
+  sort: {
+    type: 'string',
+    enum: ['title', 'content', 'createdAt', 'updatedAt'],
+  },
+  direction: {
+    type: 'string',
+    enum: ['asc', 'desc'],
+  },
+}
+
 export const stackSchema = {
   _id: {
     type: 'string',

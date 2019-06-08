@@ -108,6 +108,9 @@ describe('server app', () => {
     expect(res.body.docs.length).to.equal(1);
     res = await req.get('/info/posts?limit=10&page=2');
     expect(res.body.docs.length).to.equal(10);
+    res = await req.get('/info/posts?limit=10&page=1&sort=title&direction=asc');
+    expect(res.body.docs[0].title > res.body.docs[1].title).to.equal(true);
+    expect(res.body.docs[0].title > res.body.docs[2].title).to.equal(true);
   });
 
   it('GET /info/post/:postid', async () => {

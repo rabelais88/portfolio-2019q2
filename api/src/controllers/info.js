@@ -112,11 +112,11 @@ export const setPost = async (req, res, next) => {
 };
 
 export const getPosts = async (req, res, next) => {
-  const { limit, page } = req.query;
+  const { limit, page, sort, direction } = req.query;
   const opts = { limit, page };
   const checked = checkSchema(optsSchema, opts, ['page', 'limit']);
   if (!checked.isValid) return res.status(422).json(checked.errors);
-  const rawQ = _omit(req.query, ['limit', 'page']);
+  const rawQ = _omit(req.query, ['limit', 'page', 'sort', 'direction']);
   const q = _mapValues(rawQ, v => new RegExp(v, 'ig'));
   opts.select = ['title', 'id', 'createdAt', 'updatedAt'];
   const posts = await Post.paginate(q, checked.value);

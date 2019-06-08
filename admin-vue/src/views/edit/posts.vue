@@ -5,6 +5,7 @@
       style="width:100%"
       @row-click="onRowClick"
       @selection-change="onSelectionChange"
+      @sort-change="onSortChange"
     >
       <el-table-column type="selection" />
       <el-table-column prop="title" label="제목" />
@@ -58,6 +59,10 @@ export default {
     },
     onDelete() {
       this.deletePosts(this.chosenIds);
+    },
+    onSortChange(sort) {
+      const { column, prop, order } = sort;
+      console.log(sort);
     },
   },
 };
