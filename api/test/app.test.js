@@ -5,7 +5,7 @@ import MongoMemoryServer from 'mongodb-memory-server';
 import faker from 'faker';
 import path from 'path';
 import fs from 'fs';
-import cloneDeep from 'lodash/cloneDeep';
+import _get from 'lodash/get';
 
 import app from '../src/server-api';
 import Admin from '../src/models/Admin';
@@ -108,9 +108,11 @@ describe('server app', () => {
     expect(res.body.docs.length).to.equal(1);
     res = await req.get('/info/posts?limit=10&page=2');
     expect(res.body.docs.length).to.equal(10);
-    res = await req.get('/info/posts?limit=10&page=1&sort=title&direction=asc');
-    expect(res.body.docs[0].title > res.body.docs[1].title).to.equal(true);
-    expect(res.body.docs[0].title > res.body.docs[2].title).to.equal(true);
+    res = await req.get('/info/posts?limit=10&page=1&sortfield=title&sortdirection=asc');
+    const titles = res.body.docs.map(d => d.title);
+    expect(titles[0] < titles[1]).to.equal(true);
+    expect(titles[1] < titles[2]).to.equal(true);
+    expect(titles[0] < titles[2]).to.equal(true);
   });
 
   it('GET /info/post/:postid', async () => {

@@ -34,11 +34,11 @@ export const optsSchema = {
 };
 
 export const sortSchema = {
-  sort: {
+  sortfield: {
     type: 'string',
     enum: ['title', 'content', 'createdAt', 'updatedAt'],
   },
-  direction: {
+  sortdirection: {
     type: 'string',
     enum: ['asc', 'desc'],
   },

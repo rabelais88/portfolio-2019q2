@@ -13,11 +13,13 @@ export const saveIntro = intro =>
     data: { intro },
   });
 
-export const getPosts = ({ limit, page }) =>
-  request({
-    url: `/info/posts?limit=${limit}&page=${page}`,
+export const getPosts = (queries) => {
+  const query = Object.entries(queries).map(q => `${q[0]}=${q[1]}`).join('&');
+  return request({
+    url: `/info/posts?${query}`,
     method: 'get',
   });
+};
 
 export const createPost = post =>
   request({

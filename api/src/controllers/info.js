@@ -6,7 +6,8 @@ import Info from '../models/Info';
 import Post from '../models/Post';
 import Stack from '../models/Stack';
 import { checkSchema } from '../util';
-import { postSchema, optsSchema, stackSchema } from './queries';
+import { postSchema, optsSchema, stackSchema, sortSchema } from './queries';
+
 
 /**
  * returns index page markdown
@@ -111,15 +112,33 @@ export const setPost = async (req, res, next) => {
   res.status(200).json(postData);
 };
 
+// /info/posts?limit=10&page=1&sortfield=title&sortdirection=asc
 export const getPosts = async (req, res, next) => {
-  const { limit, page, sort, direction } = req.query;
+  const { limit, page, sortfield, sortdirection } = req.query;
+
+  // validate pagination options
   const opts = { limit, page };
   const checked = checkSchema(optsSchema, opts, ['page', 'limit']);
   if (!checked.isValid) return res.status(422).json(checked.errors);
-  const rawQ = _omit(req.query, ['limit', 'page', 'sort', 'direction']);
+
+  // validate sort options
+  const sortOpts = { sortfield, sortdirection };
+  const checkedSort = checkSchema(sortSchema, sortOpts);
+  if (!checkedSort.isValid) return res.status(422).json(checkedSort.errors);
+
+  // removes all other options, and add regex queries
+  const rawQ = _omit(req.query, ['limit', 'page', 'sortfield', 'sortdirection']);
   const q = _mapValues(rawQ, v => new RegExp(v, 'ig'));
-  opts.select = ['title', 'id', 'createdAt', 'updatedAt'];
-  const posts = await Post.paginate(q, checked.value);
+  const mergedOpts = checked.value;
+  mergedOpts.select = ['title', 'id', 'createdAt', 'updatedAt'];
+
+  const sort = {};
+  if (sortfield && sortdirection) {
+    sort[checkedSort.value.sortfield] = checkedSort.value.sortdirection;
+    mergedOpts.sort = sort;
+  }
+
+  const posts = await Post.paginate(q, mergedOpts);
   res.status(200).json(posts);
 };
 
