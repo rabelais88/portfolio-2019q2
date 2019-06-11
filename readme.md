@@ -1,6 +1,6 @@
 # Portfolio /w Next.js(React-redux) + MongoDB
 - author sungryeol park(sungryeolp@gmail.com)
-- used tech stack: Next.js + Express + Mongoose + Mocha(TDD) + Redux + passport.js + SCSS
+- used tech stack: React + Next.js(Client) + Vue.js(Admin) + Express + Mongoose + Mocha(TDD) + Redux + passport.js + SCSS
 
 ## Commands
 initialize & register admin to db
@@ -57,6 +57,9 @@ ps aux | grep mongod
 pkill -f *nodemon*
 kill -9 mongod
 ```
+
+as there is *ServiceWorker* working on background,
+> cache TTL/max-age should be set to 0
 
 ## solved & ongoing issues
  - [x] *jest* doesn't work properly with mongoose testing &rarr; replaced with *mocha*

@@ -18,20 +18,15 @@ const names = {
 const Menu = ({ router, user, dispatch, ui }) => {
 
   const menuTrans = useTransition(ui.menuVisible, null, {
-    from: { opacity: 0, right: '-100px' },
-    enter: { opacity: 1, right: '20px' },
-    leave: { opacity: 0, right: '-100px' },
+    from: { opacity: 0, right: '100%' },
+    enter: { opacity: 1, right: '0%' },
+    leave: { opacity: 0, right: '100%' },
   });
 
-  const menuSpringBtn = useSpring({
-    marginTop: ui.menuVisible ? '130px' : '0px',
-  });
+  // const menuSpringBtn = useSpring({
+  //   marginTop: ui.menuVisible ? '130px' : '0px',
+  // });
 
-  // const onLogout = e => {
-  //   e.preventDefault();
-  //   dispatch(logout());
-  //   if (router.pathname === '/admin') router.push('/');
-  // };
 
   const menuAct = ui.menuVisible ? 'close' : 'open';
 
@@ -55,23 +50,15 @@ const Menu = ({ router, user, dispatch, ui }) => {
               <Go to="/contact">
                 <img src="/static/email.svg" alt="contact" />
               </Go>
-              {/* <Go to="/login">
-                <img src="/static/cloud-upload.svg" alt="login" />
-              </Go>
-              {user.auth ? (
-                <a href="#" className="link" onClick={onLogout}>
-                  <img src="/static/power-outline.svg" alt="logout" />
-                </a>
-              ) : null} */}
             </animated.div>
           ),
       )}
-      <animated.button
+      <button
         onClick={e => dispatch(menuShow(!ui.menuVisible))}
-        style={menuSpringBtn}
+        className={ui.menuVisible ? 'menu-visible' : 'menu-hidden'}
       >
         <img src={`/static/menu-${menuAct}.svg`} alt={`menu-${menuAct}`} />
-      </animated.button>
+      </button>
     </nav>
   );
 };

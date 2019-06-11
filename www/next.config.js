@@ -37,9 +37,11 @@ const webpackSetup = (_config, options) => {
 
 // https://developers.google.com/web/tools/workbox/guides/common-recipes
 const workboxOpts = {
+  dontAutoRegisterSw: true,
+  generateInDevMode: true,
   runtimeCaching: [
     {
-      urlPattern: /\.js$/,
+      urlPattern: /\.(js|css)$/,
       handler: 'NetworkFirst',
       options: {
         cacheName: 'js',

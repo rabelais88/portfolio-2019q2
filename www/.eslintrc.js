@@ -36,5 +36,6 @@ module.exports = {
 		'react/no-array-index-key': 'warn',
 		'jsx-a11y/anchor-is-valid': 'warn',
 		'jsx-a11y/no-static-element': 'warn',
+		'no-underscore-dangle': 'off',
 	}
 };

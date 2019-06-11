@@ -100,18 +100,29 @@ class api {
     return res;
   }
 
-  async setIntro(intro) {
-    const res = await this.api.patch('/info/intro', { intro });
+  // async setIntro(intro) {
+  //   const res = await this.api.patch('/info/intro', { intro });
+  //   return res;
+  // }
+
+  // async setStacks(stacks) {
+  //   const res = await this.api.patch('/info/stacks', { stacks });
+  //   return res;
+  // }
+
+  // async createPost(post) {
+  //   const res = await this.api.post('/info/post', post);
+  //   return res;
+  // }
+
+  async getPost(postId) {
+    const res = await this.api.get(`/info/post/${postId}}`);
     return res;
   }
 
-  async setStacks(stacks) {
-    const res = await this.api.patch('/info/stacks', { stacks });
-    return res;
-  }
-
-  async createPost(post) {
-    const res = await this.api.post('/info/post', post);
+  async getPosts(opts) {
+    const query = Object.entries(opts).map(([key, value]) => `&${key}=${value}`);
+    const res = await this.api.get(`/info/posts?${query}`);
     return res;
   }
 }

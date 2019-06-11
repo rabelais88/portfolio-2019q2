@@ -17,10 +17,11 @@ body {
 #menu {
   color: $color-white;
   background-color: rgba(0,0,0, .4);
-  padding: 20px;
   position: fixed;
   z-index:2;
-  right: 0;
+  right: 0%;
+  width: 0%;
+  height: 0%;
   .menu--container {
     position: fixed;
     display: flex;
@@ -47,10 +48,18 @@ body {
     }
   }
   button {
-    margin-top: 130px;
+    position:fixed;
+    right: 20px;
+    top: 20px;
     background-color: transparent;
     border:none;
     width: 30px;
     height: 30px;
+    .menu-visible {
+
+    }
+    .menu-hidden {
+
+    }
   }
 }
