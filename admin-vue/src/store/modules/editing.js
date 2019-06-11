@@ -6,8 +6,13 @@ import {
   modifyPost,
   deletePost,
   getPost,
+  getStacks,
+  createStack,
+  deleteStack,
+  modifyStack,
 } from '@/api/editing';
 import { Notification } from 'element-ui';
+import Vue from 'vue';
 const SET_POST = 'SET_POST';
 const SET_INTRO = 'SET_INTRO';
 const SET_POSTS = 'SET_POSTS';
@@ -16,6 +21,10 @@ const SET_TOTAL_PAGES = 'SET_TOTAL_PAGES';
 const SET_POST_PAGE = 'SET_POST_PAGE';
 const SET_SORT = 'SET_SORT';
 const SET_POST_SEARCH = 'SET_POST_SEARCH';
+const SET_STACKS = 'SET_STACKS';
+const SET_STACK = 'SET_STACK';
+const SET_NEW_STACK = 'SET_NEW_STACK';
+const SET_EDITING_STACK = 'SET_EDITING_STACK';
 
 import _pick from 'lodash/pick';
 
@@ -30,6 +39,12 @@ const state = {
   postSortField: null,
   postSearch: '',
   currentPost: {},
+  newStack: {
+    name: '',
+    desc: '',
+    icon: '',
+  },
+  editingStack: false,
 };
 
 const mutations = {
@@ -57,6 +72,19 @@ const mutations = {
   },
   [SET_POST_SEARCH](state, payload) {
     state.postSearch = payload;
+  },
+  [SET_STACKS](state, payload) {
+    state.stacks = payload;
+  },
+  [SET_STACK](state, stack) {
+    const idx = state.stacks.findIndex(s => s._id === stack._id);
+    Vue.set(state.stacks, idx, stack);
+  },
+  [SET_NEW_STACK](state, payload) {
+    state.newStack = payload;
+  },
+  [SET_EDITING_STACK](state, payload) {
+    state.editingStack = payload;
   },
 };
 
@@ -100,16 +128,56 @@ const actions = {
   },
   async setPostPage({ commit, dispatch }, page) {
     commit(SET_POST_PAGE, page);
-    dispatch('getPosts');
+    await dispatch('getPosts');
   },
   async deletePosts({ dispatch }, postIds) {
     const deletions = postIds.map(postId => deletePost(postId));
     await Promise.all(deletions);
-    dispatch('getPosts');
+    await dispatch('getPosts');
   },
   async setSort({ commit, dispatch }, { prop, order }) {
     commit('SET_SORT', { prop, order });
-    dispatch('getPosts');
+    await dispatch('getPosts');
+  },
+  async getStacks({ commit }) {
+    const stacks = await getStacks();
+    commit('SET_STACKS', stacks);
+  },
+  openStack({ commit }, stackId) {
+    const newStack = state.stacks.find(s => s._id === stackId);
+    commit(SET_NEW_STACK, newStack);
+    commit(SET_EDITING_STACK, true);
+  },
+  openNewStack({ commit }) {
+    const newStack = {
+      name: '',
+      icon: '',
+      desc: '',
+    };
+    commit(SET_NEW_STACK, newStack);
+    commit(SET_EDITING_STACK, true);
+  },
+  editStackByKey({ state, commit }, obj) {
+    const newStack = Object.assign(state.newStack, obj);
+    commit(SET_NEW_STACK, newStack);
+  },
+  async createStack({ commit, state, dispatch }, fileurl) {
+    const newStack = Object.assign(state.newStack, { icon: fileurl });
+    console.log('new stack', newStack);
+    await createStack(newStack);
+    await dispatch('getStacks');
+    commit(SET_EDITING_STACK, false);
+  },
+  async deleteStacks({ dispatch }, stackIds) {
+    const deletions = stackIds.map(stackId => deleteStack(stackId));
+    await Promise.all(deletions);
+    await dispatch('getStacks');
+  },
+  async modifyStack({ commit, state, dispatch }, fileurl) {
+    const newStack = Object.assign(state.newStack, { icon: fileurl });
+    await modifyStack(newStack);
+    await dispatch('getStacks');
+    commit(SET_EDITING_STACK, false);
   },
 };
 

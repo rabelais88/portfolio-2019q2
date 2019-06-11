@@ -16,6 +16,7 @@ const storage = multer.diskStorage({
 export const upload = multer({ storage });
 
 export const uploadImages = (req, res, next) => {
-  if (!req.files) next();
+  console.log(req.files);
+  if (!req.files) return res.status(422).json('no files detected');
   res.status(200).json(req.files.map(f => f.filename));
 };

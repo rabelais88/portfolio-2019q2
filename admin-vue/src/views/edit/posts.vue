@@ -10,7 +10,7 @@
       <el-table-column type="selection" />
       <el-table-column prop="title" label="제목" sortable />
       <el-table-column prop="createdAt" label="작성일" sortable />
-      <el-table-column prop="createdAt" label="수정일" sortable />
+      <el-table-column prop="updatedAt" label="수정일" sortable />
     </el-table>
     <el-form-item style="margin:20px;">
       <el-pagination

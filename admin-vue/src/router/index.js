@@ -129,7 +129,7 @@ export const constantRoutes = [
       {
         path: '/edit/stacks',
         name: 'EditStack',
-        component: () => import('@/views/edit/intro'),
+        component: () => import('@/views/edit/stacks'),
         meta: { title: 'Edit Stack', icon: 'form' },
       },
     ],

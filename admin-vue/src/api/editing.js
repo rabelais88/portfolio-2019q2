@@ -13,8 +13,10 @@ export const saveIntro = intro =>
     data: { intro },
   });
 
-export const getPosts = (queries) => {
-  const query = Object.entries(queries).map(q => `${q[0]}=${q[1]}`).join('&');
+export const getPosts = queries => {
+  const query = Object.entries(queries)
+    .map(q => `${q[0]}=${q[1]}`)
+    .join('&');
   return request({
     url: `/info/posts?${query}`,
     method: 'get',
@@ -46,3 +48,26 @@ export const deletePost = postId =>
     url: `info/post/${postId}`,
     method: 'delete',
   });
+
+export const getStacks = () =>
+  request({
+    url: 'info/stacks',
+    method: 'get',
+  });
+
+export const createStack = stack =>
+  request({
+    url: 'info/stack',
+    method: 'post',
+    data: stack,
+  });
+
+export const modifyStack = stack =>
+  request({
+    url: 'info/stack',
+    method: 'patch',
+    data: stack,
+  });
+
+export const deleteStack = stackId =>
+  request({ url: `info/stack/${stackId}`, method: 'delete' });
