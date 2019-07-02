@@ -58,6 +58,8 @@ export const countReducer = (state = countInitialState, action) => {
 /**
  * @function
  * @param {Number} num - number to add
+ * @example
+ * dispatch(addCount(1));
  */
 export const addCount = num => async (dispatch, getState) => {
   console.log('addcount triggered', getState(), num);
@@ -71,6 +73,8 @@ export const addCount = num => async (dispatch, getState) => {
 /**
  * @function
  * @param {Number} num - number to subtract
+ * @example
+ * dispatch(subCount(1));
  */
 export const subCount = num => async (dispatch, getState) => {
   console.log('subcount triggered', getState(), num);
@@ -84,7 +88,7 @@ export const subCount = num => async (dispatch, getState) => {
 /**
  * @function
  * @example
- * dispatch(initCount);
+ * dispatch(initCount());
  */
 export const initCount = () => async (dispatch, getState) => {
   await dispatch({ type: COUNT_ACTIONS.INIT_COUNT });

@@ -1,8 +1,8 @@
 /**
  * enhance targets using provided enhancers
  * @function
- * @param {Object} target
- * @param {Object[]} enhancers
+ * @param {Object} target - target to attach enhancers
+ * @param {Object[]} enhancers - array of enhancers
  * @return {Object}
  */
 const enhanceAll = (target, enhancers) => {
