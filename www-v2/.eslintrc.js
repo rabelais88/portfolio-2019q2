@@ -27,5 +27,7 @@ module.exports = {
     'react/react-in-jsx-scope': 1,
     'react/jsx-filename-extension': 0,
     'arrow-body-style': 0,
+    'react/react-in-jsx-scope': 0,
+    'react/button-has-type': 0,
   }
 };

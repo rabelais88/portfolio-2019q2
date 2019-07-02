@@ -1,12 +1,21 @@
-export const countInitialState = {
+export const getCountInitialState = () => ({
   number: 0,
   lastAction: null,
-};
+});
+const countInitialState = getCountInitialState();
 
+/**
+ * @type {Object}
+ * @property {string} ADD_COUNT
+ * @property {string} SUB_COUNT
+ * @property {string} SET_LAST_ACTION
+ * @property {string} INIT_COUNT
+ */
 export const COUNT_ACTIONS = {
   ADD_COUNT: 'ADD_COUNT',
   SUB_COUNT: 'SUB_COUNT',
   SET_LAST_ACTION: 'SET_LAST_ACTION',
+  INIT_COUNT: 'INIT_COUNT',
 };
 
 // REDUCERS
@@ -27,6 +36,8 @@ export const countReducer = (state = countInitialState, action) => {
         ...state,
         lastAction: action.payload,
       };
+    case COUNT_ACTIONS.INIT_COUNT:
+      return getCountInitialState();
     default:
       return state;
   }
@@ -44,6 +55,10 @@ export const countReducer = (state = countInitialState, action) => {
 //   }, 1000);
 // };
 
+/**
+ * @function
+ * @param {Number} num - number to add
+ */
 export const addCount = num => async (dispatch, getState) => {
   console.log('addcount triggered', getState(), num);
   await dispatch({ type: COUNT_ACTIONS.ADD_COUNT, payload: num });
@@ -53,6 +68,10 @@ export const addCount = num => async (dispatch, getState) => {
   });
 };
 
+/**
+ * @function
+ * @param {Number} num - number to subtract
+ */
 export const subCount = num => async (dispatch, getState) => {
   console.log('subcount triggered', getState(), num);
   await dispatch({ type: COUNT_ACTIONS.SUB_COUNT, payload: num });
@@ -60,4 +79,13 @@ export const subCount = num => async (dispatch, getState) => {
     type: COUNT_ACTIONS.SET_LAST_ACTION,
     payload: COUNT_ACTIONS.SUB_COUNT,
   });
+};
+
+/**
+ * @function
+ * @example
+ * dispatch(initCount);
+ */
+export const initCount = () => async (dispatch, getState) => {
+  await dispatch({ type: COUNT_ACTIONS.INIT_COUNT });
 };

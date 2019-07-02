@@ -5,10 +5,10 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import { enhanceAll } from '../lib/util';
-import { countInitialState, countReducer } from './count';
+import { getCountInitialState, countReducer } from './count';
 
 const combinedInitialState = {
-  count: countInitialState,
+  count: getCountInitialState(),
 };
 
 const reducers = combineReducers({
