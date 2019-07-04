@@ -20,7 +20,7 @@ module.exports = {
   rules: {
     'prettier/prettier': 0,
   },
-  overrides: [{files: ['pages']}],
+  overrides: [{ files: ['pages'] }],
   rules: {
     'arrow-parens': 0,
     'no-unused-vars': 1,
@@ -29,5 +29,8 @@ module.exports = {
     'arrow-body-style': 0,
     'react/react-in-jsx-scope': 0,
     'react/button-has-type': 0,
-  }
+    'no-param-reassign': 1,
+    'react/jsx-one-expression-per-line': 0,
+    'react/jsx-closing-tag-location': 0,
+  },
 };

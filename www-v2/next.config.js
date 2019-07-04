@@ -18,7 +18,10 @@ const webpackConfig = {
       reportFilename: '../bundles/client.html',
     },
   },
-  webpack: config => config,
+  webpack: (config, options) => {
+    // config.resolve.alias['@'] = __dirname; // absolute import
+    return config;
+  },
 };
 
 const enhancers = [withCSS, withBundleAnalyzer];

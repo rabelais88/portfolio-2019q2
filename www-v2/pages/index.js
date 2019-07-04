@@ -1,8 +1,11 @@
 // import React from 'react';
 import { connect } from 'react-redux';
+import Link from 'next/link';
+
 import { addCount, subCount, initCount } from '../store/count';
 import { enhanceAll } from '../lib/util';
 import '../styles/test.css';
+
 // import PropTypes from 'prop-types';
 
 const Index = props => {
@@ -14,6 +17,9 @@ const Index = props => {
       <button onClick={() => dispatch(addCount(2))}>add Count2</button>
       <button onClick={() => dispatch(initCount())}>init count</button>
       <button onClick={() => dispatch(subCount(1))}>subCount</button>
+      <Link href="/page2">
+        <a>page2</a>
+      </Link>
     </div>
   );
 };
