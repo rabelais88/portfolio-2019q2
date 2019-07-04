@@ -1,15 +1,17 @@
 import App, { Container } from 'next/app';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import { PageTransition } from 'next-page-transitions';
 import NProgress from 'nprogress';
 import Router from 'next/router';
+import NextSeo from 'next-seo';
 
 import withReduxStore from '../lib/with-redux-store';
 import { enhanceAll } from '../lib/util';
 import { wrapAll } from '../lib/render-util';
+import SEOConfig from '../next-seo.config';
 // import Loader from '../components/Loader';
 // import '../styles/loader.css';
 import '../styles/page-anim.css';
@@ -53,7 +55,13 @@ class MyApp extends App {
         },
       ],
     ];
-    return wrapAll(wrappers, <Component {...pageProps} />);
+    return wrapAll(
+      wrappers,
+      <Fragment>
+        <NextSeo config={SEOConfig} />
+        <Component {...pageProps} />
+      </Fragment>,
+    );
     // return (
     //   <Container>
     //     <Provider store={reduxStore}>
