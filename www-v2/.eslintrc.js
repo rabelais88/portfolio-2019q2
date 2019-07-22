@@ -32,5 +32,6 @@ module.exports = {
     'no-param-reassign': 1,
     'react/jsx-one-expression-per-line': 0,
     'react/jsx-closing-tag-location': 0,
+    'spaced-comment': 0,
   },
 };

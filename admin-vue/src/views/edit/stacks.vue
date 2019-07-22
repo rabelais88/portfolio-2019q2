@@ -50,33 +50,24 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import request from '@/utils/request';
-import { uploadRequest } from '@/utils/index';
+import { uploadRequest } from '@/utils';
 
 export default {
   data: () => ({
     chosenIds: [],
   }),
   computed: {
-    httpReq() {
-      return uploadRequest(request);
-    },
-    uploadUrl() {
-      return `${process.env.VUE_APP_BASE_API}/upload`;
-    },
+    httpReq: () => uploadRequest(request),
+    uploadUrl: () => `${process.env.VUE_APP_BASE_API}/upload`,
     ...mapState('editing', ['stacks', 'newStack', 'editingStack']),
-    stackIcon: {
-      get() {
-        if (!this.newStack.icon) return [];
-        return [
-          {
-            name: this.newStack.icon,
-            url: `${process.env.VUE_APP_BASE_API}/public/${this.newStack.icon}`,
-          },
-        ];
-      },
-      set(v) {
-        this.editStackByKey({ icon: v });
-      },
+    stackIcon() {
+      if (!this.newStack.icon) return [];
+      return [
+        {
+          name: this.newStack.icon,
+          url: `${process.env.VUE_APP_BASE_API}/public/${this.newStack.icon}`,
+        },
+      ];
     },
     stackName: {
       get() {
