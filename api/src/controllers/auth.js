@@ -13,7 +13,7 @@ export const login = async (req, res, next) => {
   if (!user) res.status(401).json({ message: 'wrong user info' });
   const { email, username } = user;
   if (user) {
-    const token = jwt.sign({ email, username }, process.env.JWT_SECRET, { expiresIn: 60 * 60 }) // 1 min
+    const token = jwt.sign({ email, username }, process.env.JWT_SECRET, { expiresIn: '2 days' })
     res.status(200).json({ email, username, token }); // token has both email and username info
   }
 };
