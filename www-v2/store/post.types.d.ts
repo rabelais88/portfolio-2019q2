@@ -1,7 +1,7 @@
 export interface POST_ACTIONS {
-  GET_LATEST: string;
-  GET_PAGE: string;
-  GET_POST: string;
+  SET_LATEST: string;
+  SET_POSTS: string;
+  SET_POST: string;
   PUT_COMMENT: string;
   DELETE_COMMENT: string;
   INIT_POSTS: string;
