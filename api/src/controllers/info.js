@@ -8,7 +8,6 @@ import Stack from '../models/Stack';
 import { checkSchema } from '../util';
 import { postSchema, optsSchema, stackSchema, sortSchema } from './queries';
 
-
 /**
  * returns index page markdown
  * @param {Request} [req]
@@ -127,7 +126,12 @@ export const getPosts = async (req, res, next) => {
   if (!checkedSort.isValid) return res.status(422).json(checkedSort.errors);
 
   // removes all other options, and add regex queries
-  const rawQ = _omit(req.query, ['limit', 'page', 'sortfield', 'sortdirection']);
+  const rawQ = _omit(req.query, [
+    'limit',
+    'page',
+    'sortfield',
+    'sortdirection',
+  ]);
   const q = _mapValues(rawQ, v => new RegExp(v, 'ig'));
   const mergedOpts = checked.value;
   mergedOpts.select = ['title', 'id', 'createdAt', 'updatedAt'];

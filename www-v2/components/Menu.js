@@ -1,4 +1,5 @@
 import ActiveLink from './ActiveLink';
+import env from '../env-vars'
 
 const Menu = props => {
   return (

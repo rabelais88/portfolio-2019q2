@@ -8,6 +8,7 @@
     "@zeit/next-css": "^1.0.1",
     "autoprefixer": "^9.6.0",
     "cssnano": "^4.1.10",
+    "dotenv": "^8.0.0",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.15",
     "next": "^8.1.0",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "@storybook/addon-actions": "^5.1.9",
+    "@storybook/addon-knobs": "^5.1.9",
     "@storybook/addon-links": "^5.1.9",
     "@storybook/addons": "^5.1.9",
     "@storybook/react": "^5.1.9",

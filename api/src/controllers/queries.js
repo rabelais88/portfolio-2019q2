@@ -42,7 +42,7 @@ export const sortSchema = {
     type: 'string',
     enum: ['asc', 'desc'],
   },
-}
+};
 
 export const stackSchema = {
   _id: {

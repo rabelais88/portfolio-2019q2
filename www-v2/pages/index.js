@@ -7,6 +7,7 @@ import { addCount, subCount, initCount } from '../store/count';
 import { enhanceAll } from '../lib/util';
 import '../styles/test.css';
 import Menu from '../components/Menu';
+import { getLatestPost } from '../store/post';
 
 // import PropTypes from 'prop-types';
 
@@ -52,9 +53,9 @@ const Index = props => {
   );
 };
 
-Index.getInitialProps = ({ reduxStore, req }) => {
+Index.getInitialProps = async ({ reduxStore, req }) => {
   const isServer = !!req;
-  // reduxStore.dispatch(addCount(1));
+  await reduxStore.dispatch(getLatestPost());
   return { isServer };
 };
 

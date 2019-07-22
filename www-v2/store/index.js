@@ -6,13 +6,16 @@ import storage from 'redux-persist/lib/storage';
 
 import { enhanceAll } from '../lib/util';
 import { getCountInitialState, countReducer } from './count';
+import { getPostInitialState, postReducer } from './post';
 
 const combinedInitialState = {
   count: getCountInitialState(),
+  post: getPostInitialState(),
 };
 
 const reducers = combineReducers({
   count: countReducer,
+  post: postReducer,
 });
 
 const persistConfig = {

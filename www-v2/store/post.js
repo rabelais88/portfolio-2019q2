@@ -1,10 +1,19 @@
 // main page storage for picking up the recent story + recent stack info
 // @ts-check
 /// <reference path="./post.types.d.ts" />
+
+import api from '../api';
+
+const getDefaultPost = () => ({
+  title: '...',
+  _id: '',
+  createdAt: new Date(),
+  updatedAt: new Date(),
+});
+
 export const getPostInitialState = () => ({
   posts: [],
-  latestPost: null,
-
+  latestPosts: new Array(3).fill(null).map(() => getDefaultPost()),
 });
 const postInitialState = getPostInitialState();
 
@@ -26,7 +35,7 @@ export const postReducer = (state = postInitialState, action) => {
     case POST_ACTIONS.SET_LATEST:
       return {
         ...state,
-        latestPost: action.payload,
+        latestPosts: action.payload,
       };
     case POST_ACTIONS.INIT_POSTS:
       return getPostInitialState();
@@ -42,10 +51,16 @@ export const postReducer = (state = postInitialState, action) => {
  * @example
  * dispatch(getLatestPost());
  */
-export const getLatestPost = num => async (dispatch, getState) => {
-  console.log('getLatestPost', getState());
-  // await 
-  await dispatch({ type: POST_ACTIONS.SET_LATEST, payload: num });
+export const getLatestPost = () => async (dispatch, getState) => {
+  // console.log('getLatestPost', getState());
+  try {
+    const latestPostData = await api('/info/posts', 'get', { page: 1, limit: 3 });
+    const latestPosts = latestPostData.docs;
+    // console.log('latest post', latestPost);
+    await dispatch({ type: POST_ACTIONS.SET_LATEST, payload: latestPosts });
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 /**
