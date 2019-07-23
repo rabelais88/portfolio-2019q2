@@ -12,6 +12,7 @@ const WorkSchema = {
   },
   images: [String],
   url: String,
+  relatedStacks: [],
 };
 const WorkModel = new mongoose.Schema(WorkSchema, { timestamps: true });
 
