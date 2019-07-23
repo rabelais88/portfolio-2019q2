@@ -16,6 +16,8 @@ import {
   getPost,
   getWorks,
   createWork,
+  deleteWork,
+  setWork,
 } from './controllers/info';
 import { upload, uploadImages } from './controllers/upload';
 
@@ -45,5 +47,7 @@ router.post('/upload', authJwt, upload.array('file', 15), uploadImages);
 
 router.get('/info/works', getWorks); // info/works?page=1&limit=10&title=regex
 router.post('/info/work', authJwt, createWork);
+router.delete('/info/work/:workid', authJwt, deleteWork);
+router.patch('/info/work', authJwt, setWork);
 
 export default router;

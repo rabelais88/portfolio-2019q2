@@ -1,13 +1,20 @@
 import _get from 'lodash/get';
 import _omit from 'lodash/omit';
 import _mapValues from 'lodash/mapValues';
+import { ObjectID } from 'mongoose';
 
 import Info from '../models/Info';
 import Post from '../models/Post';
 import Stack from '../models/Stack';
 import WorkModel from '../models/Work';
 import { checkSchema } from '../util';
-import { postSchema, optsSchema, stackSchema, sortSchema, workSchema } from './queries';
+import {
+  postSchema,
+  optsSchema,
+  stackSchema,
+  sortSchema,
+  workSchema,
+} from './queries';
 
 /**
  * returns index page markdown
@@ -177,7 +184,15 @@ export const getWorks = async (req, res, next) => {
   ]);
   const q = _mapValues(rawQ, v => new RegExp(v, 'ig'));
   const mergedOpts = checked.value;
-  mergedOpts.select = ['title', 'id', 'caption', 'url', 'createdAt', 'updatedAt', 'images'];
+  mergedOpts.select = [
+    'title',
+    'id',
+    'caption',
+    'url',
+    'createdAt',
+    'updatedAt',
+    'images',
+  ];
 
   const sort = {};
   if (sortfield && sortdirection) {
@@ -196,4 +211,27 @@ export const createWork = async (req, res, next) => {
   if (!checked.isValid) return res.status(422).json(checked.errors);
   work = await WorkModel.create(checked.value);
   res.status(200).json(work);
+};
+
+export const deleteWork = async (req, res, next) => {
+  const workId = req.params.workid;
+  if (!workId)
+    return res
+      .status(400)
+      .json({ message: 'target id for deletion is missing' });
+  await Post.findByIdAndDelete(workId);
+  res.status(200).json('success');
+};
+
+export const setWork = async (req, res, next) => {
+  const work = req.body;
+  if (!work) return res.status(400).json({ message: 'wrong post mod request' });
+  const checked = checkSchema(workSchema, work, ['title', 'caption', '_id']);
+  if (!checked.isValid) return res.status(422).json(checked.errors);
+  const workData = await WorkModel.findByIdAndUpdate(
+    work._id,
+    { $set: checked.value },
+    { new: true },
+  );
+  res.status(200).json(workData);
 };

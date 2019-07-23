@@ -364,4 +364,44 @@ describe('server app', () => {
     expect(uploaded.body.images[0]).to.equal('imageurl');
     expect(uploaded.body.images[1]).to.equal('imageurl2');
   });
+
+  it('PATCH /info/work', async () => {
+    const work = await WorkModel.create({ title: 'xxx', caption: 'xxx' });
+    const newWork = {
+      _id: work._id.toString(),
+      title: 'ooo',
+      caption: 'ooo',
+      url: 'ooo',
+    };
+    const patched = await req
+      .patch('/info/work')
+      .set('Authorization', `Bearer ${token}`)
+      .send(newWork)
+      .expect(200);
+    expect(patched.body).to.contain({
+      title: newWork.title,
+      caption: newWork.caption,
+    });
+    expect(await WorkModel.findById(work._id)).to.contain({
+      title: newWork.title,
+      caption: newWork.caption,
+    });
+    await req
+      .patch('/info/work')
+      .set('Authorization', 'Bearer 12344535693aced')
+      .send(newWork)
+      .expect(401);
+  });
+
+  it('DELETE /info/work/:workid', async () => {
+    const workId = (await WorkModel.create({ title: 'zzz', caption: 'zzz'}))._id;
+    const targetWork = await WorkModel.findOne({ _id: workId }); // check if the target post exists
+    expect(targetWork).not.to.equal(null);
+    await req
+      .delete(`/info/work/${workId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+    const deletedWork = await Post.findOne({ _id: workId });
+    expect(deletedWork).to.equal(null);
+  });
 });

@@ -6,12 +6,12 @@ const WorkSchema = {
     type: String,
     required: true,
   },
-  url: String,
   caption: {
     type: String,
     required: true,
   },
   images: [String],
+  url: String,
 };
 const WorkModel = new mongoose.Schema(WorkSchema, { timestamps: true });
 

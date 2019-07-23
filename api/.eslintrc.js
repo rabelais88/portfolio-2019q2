@@ -19,7 +19,7 @@ module.exports = {
     'no-unused-vars': 'warn',
     'consistent-return': 'off',
     curly: 'off',
-    'nonblock-statement-body-position': 'warn',
+    'nonblock-statement-body-position': 'off',
 		'arrow-parens': 'off',
     'prefer-destructuring': 'warn',
     'no-underscore-dangle': 'off',
