@@ -24,7 +24,55 @@ import Layout from '@/layout';
     activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
   }
  */
+const postRouters = [
+  {
+    path: '/edit/posts',
+    component: Layout,
+    children: [
+      {
+        path: '/edit/posts',
+        name: 'EditPosts',
+        component: () => import('@/views/edit/posts'),
+        meta: { title: 'Edit Posts', icon: 'form' },
+      },
+    ],
+  },
+  {
+    path: '/edit/post',
+    component: Layout,
+    children: [
+      {
+        path: '/edit/post/:postid',
+        name: 'EditPost',
+        component: () => import('@/views/edit/post'),
+        meta: { title: 'Edit Post', icon: 'form' },
+        hidden: true,
+      },
+      {
+        path: '/edit/post',
+        name: 'CreatePost',
+        component: () => import('@/views/edit/post'),
+        meta: { title: 'Create Post', icon: 'form' },
+        hidden: true,
+      },
+    ],
+  },
+];
 
+const workRouters = [
+  {
+    path: '/edit/works',
+    component: Layout,
+    children: [
+      {
+        path: '/edit/works',
+        name: 'EditWorks',
+        component: () => import('@/views/edit/works'),
+        meta: { title: 'Edit Works', icon: 'form' },
+      },
+    ],
+  },
+];
 /**
  * constantRoutes
  * a base page that does not have permission requirements
@@ -90,38 +138,8 @@ export const constantRoutes = [
       },
     ],
   },
-  {
-    path: '/edit/posts',
-    component: Layout,
-    children: [
-      {
-        path: '/edit/posts',
-        name: 'EditPosts',
-        component: () => import('@/views/edit/posts'),
-        meta: { title: 'Edit Posts', icon: 'form' },
-      },
-    ],
-  },
-  {
-    path: '/edit/post',
-    component: Layout,
-    children: [
-      {
-        path: '/edit/post/:postid',
-        name: 'EditPost',
-        component: () => import('@/views/edit/post'),
-        meta: { title: 'Edit Post', icon: 'form' },
-        hidden: true,
-      },
-      {
-        path: '/edit/post',
-        name: 'CreatePost',
-        component: () => import('@/views/edit/post'),
-        meta: { title: 'Create Post', icon: 'form' },
-        hidden: true,
-      },
-    ],
-  },
+  ...postRouters,
+  ...workRouters,
   {
     path: '/edit/stacks',
     component: Layout,

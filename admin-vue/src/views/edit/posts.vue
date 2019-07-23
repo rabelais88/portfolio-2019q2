@@ -41,7 +41,7 @@ export default {
     chosenIds: [],
   }),
   computed: {
-    ...mapState('editing', [
+    ...mapState('post', [
       'posts',
       'postTotalPages',
       'postPage',
@@ -61,13 +61,13 @@ export default {
   },
   methods: {
     ...mapActions({
-      getPosts: 'editing/getPosts',
-      setPostPage: 'editing/setPostPage',
-      deletePosts: 'editing/deletePosts',
-      setSort: 'editing/setSort',
+      getPosts: 'post/getPosts',
+      setPostPage: 'post/setPostPage',
+      deletePosts: 'post/deletePosts',
+      setSort: 'post/setSort',
     }),
     ...mapMutations({
-      SET_POST_SEARCH: 'editing/SET_POST_SEARCH',
+      SET_POST_SEARCH: 'post/SET_POST_SEARCH',
     }),
     onRowClick(row, column, event) {
       // console.log(row, column, event);

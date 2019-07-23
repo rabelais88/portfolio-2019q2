@@ -58,7 +58,7 @@ export default {
     images: [],
   }),
   computed: {
-    ...mapState('editing', ['currentPost']),
+    ...mapState('post', ['currentPost']),
     httpReq: () => uploadRequest(request),
     uploadUrl: () => `${process.env.VUE_APP_BASE_API}/upload`,
     postImages() {
@@ -78,12 +78,12 @@ export default {
   },
   methods: {
     ...mapMutations({
-      SET_POST: 'editing/SET_POST',
+      SET_POST: 'post/SET_POST',
     }),
     ...mapActions({
-      getPost: 'editing/getPost',
-      createPost: 'editing/createPost',
-      modifyPost: 'editing/modifyPost',
+      getPost: 'post/getPost',
+      createPost: 'post/createPost',
+      modifyPost: 'post/modifyPost',
     }),
     onPostIdChange(postid) {
       if (postid) {

@@ -12,18 +12,18 @@ export default {
     chosenIds: [],
   }),
   computed: {
-    ...mapState('editing', [
+    ...mapState('work', [
       'works',
-      'worksTotalPages',
-      'workPage',
-      'workSearch',
+      'totalPages',
+      'page',
+      'searchKeyword',
     ]),
   },
   beforeMount() {
     if (this.works.length === 0) this.getWorks();
   },
   methods: {
-
+    ...mapActions({getWorks: 'work/getWorks'})
   },
 }
 </script>
