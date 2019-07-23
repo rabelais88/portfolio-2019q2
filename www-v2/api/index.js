@@ -13,8 +13,9 @@ const createQuery = queries => {
 /**
  * @type {Api.api}
  * @example
- * const res = await api('post', 'http://abc', {data:123});
  * const res = await api('http://abc') // get request
+ * const res = await api('http://abc', 'post', { bodydata:123 });
+ * const res = await api('http://abc', 'get', { query:123 });
  */
 const api = async (url, method = 'get', bodyOrQuery) => {
   const params = {

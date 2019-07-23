@@ -1,7 +1,7 @@
 
 import { login, getInfo } from '@/api/user';
 import { getToken, setToken, removeToken } from '@/utils/auth';
-import { resetRouter } from '@/router';
+import router, { resetRouter } from '@/router';
 
 const state = {
   token: getToken(),
@@ -17,6 +17,11 @@ const mutations = {
     state.name = name;
   },
   SET_EMAIL: (state, email) => { state.email = email; },
+  INIT: (state) => {
+    state.token = getToken();
+    state.name = '';
+    state.email = '';
+  }
 };
 
 const actions = {
@@ -39,17 +44,12 @@ const actions = {
   },
 
   // user logout
-  logout({ commit, state }) {
-    // return new Promise((resolve, reject) => {
-    // logout(state.token).then(() => {
-    commit('SET_TOKEN', '');
+  async logout({ commit, state }) {
     removeToken();
     resetRouter();
-    // resolve()
-    // }).catch(error => {
-    //   reject(error)
-    // })
-    // })
+    commit('INIT');
+    router.replace('/');
+    return;
   },
 
   // remove token

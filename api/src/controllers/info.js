@@ -5,8 +5,9 @@ import _mapValues from 'lodash/mapValues';
 import Info from '../models/Info';
 import Post from '../models/Post';
 import Stack from '../models/Stack';
+import WorkModel from '../models/Work';
 import { checkSchema } from '../util';
-import { postSchema, optsSchema, stackSchema, sortSchema } from './queries';
+import { postSchema, optsSchema, stackSchema, sortSchema, workSchema } from './queries';
 
 /**
  * returns index page markdown
@@ -151,4 +152,48 @@ export const getPost = async (req, res, next) => {
     return res.status(422).json('wrong post id');
   const post = await Post.findById(req.params.postid);
   res.status(200).json(post);
+};
+
+// /info/posts?limit=10&page=1&sortfield=title&sortdirection=asc
+export const getWorks = async (req, res, next) => {
+  const { limit, page, sortfield, sortdirection } = req.query;
+
+  // validate pagination options
+  const opts = { limit, page };
+  const checked = checkSchema(optsSchema, opts, ['page', 'limit']);
+  if (!checked.isValid) return res.status(422).json(checked.errors);
+
+  // validate sort options
+  const sortOpts = { sortfield, sortdirection };
+  const checkedSort = checkSchema(sortSchema, sortOpts);
+  if (!checkedSort.isValid) return res.status(422).json(checkedSort.errors);
+
+  // removes all other options, and add regex queries
+  const rawQ = _omit(req.query, [
+    'limit',
+    'page',
+    'sortfield',
+    'sortdirection',
+  ]);
+  const q = _mapValues(rawQ, v => new RegExp(v, 'ig'));
+  const mergedOpts = checked.value;
+  mergedOpts.select = ['title', 'id', 'caption', 'url', 'createdAt', 'updatedAt', 'images'];
+
+  const sort = {};
+  if (sortfield && sortdirection) {
+    sort[checkedSort.value.sortfield] = checkedSort.value.sortdirection;
+    mergedOpts.sort = sort;
+  }
+
+  const works = await WorkModel.paginate(q, mergedOpts);
+  res.status(200).json(works);
+};
+
+export const createWork = async (req, res, next) => {
+  let work = req.body;
+  if (!work) return res.status(400).json({ message: 'wrong post request' });
+  const checked = checkSchema(workSchema, work, ['title', 'caption']);
+  if (!checked.isValid) return res.status(422).json(checked.errors);
+  work = await WorkModel.create(checked.value);
+  res.status(200).json(work);
 };

@@ -11,6 +11,7 @@ import app from '../src/server-api';
 import Admin from '../src/models/Admin';
 import Post from '../src/models/Post';
 import Stack from '../src/models/Stack';
+import WorkModel from '../src/models/Work';
 
 const req = supertest(app);
 const testAdmin = { email: 'aaa@bbb.com', password: '1234' };
@@ -65,7 +66,15 @@ describe('server app', () => {
         desc: faker.lorem.paragraph(),
       });
     const randomStacks = new Array(30).fill(0).map(createStack);
-    await Promise.all([...randomPosts, ...randomStacks]);
+
+    const createWork = (_, i) =>
+      WorkModel.create({
+        title: faker.commerce.productName(),
+        caption: faker.lorem.sentence(),
+        url: faker.internet.url(),
+      });
+    const randomWorks = new Array(100).fill(0).map(createWork);
+    await Promise.all([...randomPosts, ...randomStacks, ...randomWorks]);
   });
 
   afterEach(async () => {
@@ -108,7 +117,9 @@ describe('server app', () => {
     expect(res.body.docs.length).to.equal(1);
     res = await req.get('/info/posts?limit=10&page=2');
     expect(res.body.docs.length).to.equal(10);
-    res = await req.get('/info/posts?limit=10&page=1&sortfield=title&sortdirection=asc');
+    res = await req.get(
+      '/info/posts?limit=10&page=1&sortfield=title&sortdirection=asc',
+    );
     const titles = res.body.docs.map(d => d.title);
     expect(titles[0] < titles[1]).to.equal(true);
     expect(titles[1] < titles[2]).to.equal(true);
@@ -197,8 +208,14 @@ describe('server app', () => {
       .set('Authorization', `Bearer ${token}`)
       .send(newPost)
       .expect(200);
-    expect(patched.body).to.contain({ title: newPost.title, content: newPost.content });
-    expect(await Post.findById(post._id)).to.contain({ title: newPost.title, content: newPost.content });
+    expect(patched.body).to.contain({
+      title: newPost.title,
+      content: newPost.content,
+    });
+    expect(await Post.findById(post._id)).to.contain({
+      title: newPost.title,
+      content: newPost.content,
+    });
     await req
       .patch('/info/post')
       .set('Authorization', 'Bearer 12344535693aced')
@@ -256,14 +273,95 @@ describe('server app', () => {
     const newStack = {
       _id: stackId.toString(),
       name: 'oh halala',
-      desc: 'hilolo!'
+      desc: 'hilolo!',
     };
     const patched = await req
       .patch('/info/stack')
       .set('Authorization', `Bearer ${token}`)
       .send(newStack)
       .expect(200);
-    expect(patched.body).to.contain({ name: newStack.name, desc: newStack.desc });
-    expect(await Stack.findById(stackId)).to.contain({ name: newStack.name, desc: newStack.desc });
+    expect(patched.body).to.contain({
+      name: newStack.name,
+      desc: newStack.desc,
+    });
+    expect(await Stack.findById(stackId)).to.contain({
+      name: newStack.name,
+      desc: newStack.desc,
+    });
+  });
+
+  it('GET /info/works', async () => {
+    await WorkModel.create({
+      title: 'CAKE',
+      caption: 'cake that I made',
+      url: 'https://naver.com',
+      image: 'https://via.placeholder.com/300.png/09f/fff',
+    });
+    await WorkModel.create({
+      title: 'supercake',
+      caption: 'best cake I made',
+      url: 'https://google.com',
+      image: 'https://via.placeholder.com/300.png/09f/fff',
+    });
+    let res = await req.get('/info/works?limit=10&page=1');
+    expect(res.body.docs.length).to.equal(10);
+    res = await req.get('/info/works').expect(422);
+    expect(typeof res.body).to.equal('string'); // error message
+    res = await req.get('/info/works?page=-1&limit=-1').expect(422);
+    expect(typeof res.body).to.equal('string'); // error message
+    res = await req.get('/info/works?limit=10&page=1&title=cake&');
+    expect(res.body.docs.length).to.equal(2);
+    res = await req.get('/info/works?limit=10&page=1&title=cake&caption=best');
+    expect(res.body.docs.length).to.equal(1);
+    res = await req.get('/info/works?limit=10&page=2');
+    expect(res.body.docs.length).to.equal(10);
+    res = await req.get(
+      '/info/works?limit=10&page=1&sortfield=title&sortdirection=asc',
+    );
+    const titles = res.body.docs.map(d => d.title);
+    expect(titles[0] < titles[1]).to.equal(true);
+    expect(titles[1] < titles[2]).to.equal(true);
+    expect(titles[0] < titles[2]).to.equal(true);
+  });
+
+  it('POST /info/works', async () => {
+    const newWork = {
+      title: 'title-test',
+      caption: 'content-test',
+      url: 'http://test.com',
+    };
+    const posted = await req
+      .post('/info/work')
+      .set('Authorization', `Bearer ${token}`)
+      .send(newWork)
+      .expect(200);
+    const work = await WorkModel.findOne({ _id: posted.body._id });
+    expect(work).to.include(newWork);
+    await req
+      .post('/info/work')
+      .set('Authorization', `Bearer ${token}`)
+      .send({})
+      .expect(422);
+
+    // polluted property should not be found from database
+    const polluted = await req
+      .post('/info/work')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ title: 'fileupload', caption: 'fileupload', polluted: true })
+      .expect(200);
+    expect(polluted.body).not.to.contain({ polluted: true });
+
+    // images should be properly added when needed
+    const uploaded = await req
+      .post('/info/work')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        title: 'fileupload',
+        caption: 'fileupload',
+        images: ['imageurl', 'imageurl2'],
+      })
+      .expect(200);
+    expect(uploaded.body.images[0]).to.equal('imageurl');
+    expect(uploaded.body.images[1]).to.equal('imageurl2');
   });
 });

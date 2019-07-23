@@ -14,6 +14,8 @@ import {
   setPost,
   getPosts,
   getPost,
+  getWorks,
+  createWork,
 } from './controllers/info';
 import { upload, uploadImages } from './controllers/upload';
 
@@ -40,5 +42,8 @@ router.patch('/info/post', authJwt, setPost);
 router.get('/info/post/:postid', getPost);
 router.get('/info/posts', getPosts); // info/posts?page=1&limit=10&title=regex
 router.post('/upload', authJwt, upload.array('file', 15), uploadImages);
+
+router.get('/info/works', getWorks); // info/works?page=1&limit=10&title=regex
+router.post('/info/work', authJwt, createWork);
 
 export default router;

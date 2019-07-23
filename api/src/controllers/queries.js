@@ -60,3 +60,26 @@ export const stackSchema = {
     type: 'string',
   },
 };
+
+export const workSchema = {
+  _id: {
+    type: 'string',
+    minLength: 3,
+  },
+  title: {
+    type: 'string',
+    minLength: 2,
+  },
+  caption: {
+    type: 'string',
+    minLength: 2,
+  },
+  url: {
+    type: 'string',
+  },
+  images: {
+    type: 'array',
+    maxItems: uploadMax,
+    uniqueItems: true,
+  },
+};

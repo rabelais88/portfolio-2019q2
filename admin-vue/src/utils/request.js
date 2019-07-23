@@ -81,7 +81,9 @@ service.interceptors.response.use(
       duration: 5 * 1000,
     });
     if (error.response.status === 401) {
-      router.replace('/');
+      // router.replace('/');
+      console.log('401 error, logging out');
+      store.dispatch('user/logout');
     }
     return Promise.reject(error);
   },
