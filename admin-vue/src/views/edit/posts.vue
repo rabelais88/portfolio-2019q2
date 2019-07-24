@@ -1,5 +1,5 @@
 <template>
-  <el-form>
+  <el-form @submit.prevent>
     <el-table
       :data="posts"
       style="width:100%"
@@ -21,8 +21,8 @@
       <el-input
         placeholder="검색하기"
         :value="postSearch"
-        @input="SET_POST_SEARCH"
         class="input-with-select"
+        @input="SET_POST_SEARCH"
       >
         <el-button slot="append" icon="el-icon-search" @click="getPosts"></el-button>
       </el-input>
@@ -70,7 +70,6 @@ export default {
       SET_POST_SEARCH: 'post/SET_POST_SEARCH',
     }),
     onRowClick(row, column, event) {
-      // console.log(row, column, event);
       this.$router.push(`/edit/post/${row._id}`);
     },
     onSelectionChange(selection) {

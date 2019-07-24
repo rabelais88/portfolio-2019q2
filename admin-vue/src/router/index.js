@@ -71,6 +71,25 @@ const workRouters = [
         meta: { title: 'Edit Works', icon: 'form' },
       },
     ],
+  }, {
+    path: '/edit/work',
+    component: Layout,
+    children: [
+      {
+        path: '/edit/work/:workid',
+        name: 'EditWork',
+        component: () => import('@/views/edit/work'),
+        meta: { title: 'Edit Work', icon: 'form' },
+        hidden: true,
+      },
+      {
+        path: '/edit/work',
+        name: 'CreateWork',
+        component: () => import('@/views/edit/work'),
+        meta: { title: 'Create Work', icon: 'form' },
+        hidden: true,
+      },
+    ],
   },
 ];
 /**

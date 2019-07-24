@@ -394,7 +394,8 @@ describe('server app', () => {
   });
 
   it('DELETE /info/work/:workid', async () => {
-    const workId = (await WorkModel.create({ title: 'zzz', caption: 'zzz'}))._id;
+    const workId = (await WorkModel.create({ title: 'zzz', caption: 'zzz' }))
+      ._id;
     const targetWork = await WorkModel.findOne({ _id: workId }); // check if the target post exists
     expect(targetWork).not.to.equal(null);
     await req
@@ -403,5 +404,13 @@ describe('server app', () => {
       .expect(200);
     const deletedWork = await Post.findOne({ _id: workId });
     expect(deletedWork).to.equal(null);
+  });
+
+  it('GET /info/work/:workid', async () => {
+    const sampleWork = { title: 'my work', caption: 'my best work' };
+    const work = await WorkModel.create(sampleWork);
+    const workId = work._id;
+    const res = await req.get(`/info/work/${workId}`).expect(200);
+    expect(res.body).to.contain(sampleWork);
   });
 });

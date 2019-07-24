@@ -13,12 +13,18 @@ import _pick from 'lodash/pick';
 export const POST_MUTATIONS = {
   SET_POST: 'SET_POST',
   SET_POSTS: 'SET_POSTS',
-  ADD_POST: 'ADD_POST',
+  // ADD_POST: 'ADD_POST',
   SET_TOTAL_PAGES: 'SET_TOTAL_PAGES',
   SET_POST_PAGE: 'SET_POST_PAGE',
   SET_SORT: 'SET_SORT',
   SET_POST_SEARCH: 'SET_POST_SEARCH',
 };
+
+export const getEmptyCurrentPost = () => ({
+  title: '',
+  content: '',
+  images: [],
+});
 
 const state = {
   posts: [],
@@ -28,7 +34,7 @@ const state = {
   postSortDirection: 'asc',
   postSortField: null,
   postSearch: '',
-  currentPost: {},
+  currentPost: getEmptyCurrentPost(),
 };
 
 const mutations = {
@@ -44,9 +50,9 @@ const mutations = {
   [POST_MUTATIONS.SET_POST_PAGE](state, payload) {
     state.postPage = payload;
   },
-  [POST_MUTATIONS.ADD_POST](state, payload) {
-    state.posts.push(payload);
-  },
+  // [POST_MUTATIONS.ADD_POST](state, payload) {
+  //   state.posts.push(payload);
+  // },
   [POST_MUTATIONS.SET_SORT](state, { prop, order }) {
     state.postSortDirection = order;
     state.postSortField = prop;
@@ -78,7 +84,7 @@ const actions = {
   async createPost({ commit }, post) {
     const res = await createPost(post);
     if (res) Notification.success({ message: 'successfully made a new post' });
-    commit(POST_MUTATIONS.ADD_POST, res);
+    // commit(POST_MUTATIONS.ADD_POST, res);
   },
   async modifyPost({ commit }, post) {
     const newPost = _pick(post, ['_id', 'title', 'content', 'images']);

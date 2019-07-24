@@ -13,7 +13,7 @@ export const getWorks = queries => {
 export const createWork = newWork =>
   request({
     url: '/info/work',
-    method: 'work',
+    method: 'post',
     data: newWork,
   });
 

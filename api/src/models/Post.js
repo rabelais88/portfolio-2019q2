@@ -11,7 +11,6 @@ const PostSchema = {
     required: true,
   },
   images: [String],
-  titleImage: String,
 };
 const Post = new mongoose.Schema(PostSchema, { timestamps: true });
 

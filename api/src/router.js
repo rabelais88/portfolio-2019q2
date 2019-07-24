@@ -9,16 +9,21 @@ import {
   deleteStack,
   getStacks,
   getStack,
+} from './controllers/info';
+import {
   createPost,
   deletePost,
   setPost,
   getPosts,
   getPost,
+} from './controllers/post';
+import {
   getWorks,
   createWork,
   deleteWork,
   setWork,
-} from './controllers/info';
+  getWork,
+} from './controllers/work';
 import { upload, uploadImages } from './controllers/upload';
 
 const router = express.Router();
@@ -28,6 +33,8 @@ const authJwt = passport.authenticate('jwt', { session: false });
 
 router.post('/auth', authBasic, login);
 router.get('/auth', authJwt, tokenValidated);
+
+router.post('/upload', authJwt, upload.array('file', 15), uploadImages);
 
 router.get('/info/intro', getIntro);
 router.patch('/info/intro', authJwt, setIntro);
@@ -43,8 +50,8 @@ router.delete('/info/post/:postid', authJwt, deletePost);
 router.patch('/info/post', authJwt, setPost);
 router.get('/info/post/:postid', getPost);
 router.get('/info/posts', getPosts); // info/posts?page=1&limit=10&title=regex
-router.post('/upload', authJwt, upload.array('file', 15), uploadImages);
 
+router.get('/info/work/:workid', getWork);
 router.get('/info/works', getWorks); // info/works?page=1&limit=10&title=regex
 router.post('/info/work', authJwt, createWork);
 router.delete('/info/work/:workid', authJwt, deleteWork);
