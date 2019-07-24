@@ -66,15 +66,17 @@ describe('server app', () => {
         desc: faker.lorem.paragraph(),
       });
     const randomStacks = new Array(30).fill(0).map(createStack);
+    const sampleStacks = await Promise.all(randomStacks);
 
     const createWork = (_, i) =>
       WorkModel.create({
         title: faker.commerce.productName(),
         caption: faker.lorem.sentence(),
         url: faker.internet.url(),
+        relatedStacks: [sampleStacks[0]._id, sampleStacks[1]._id],
       });
     const randomWorks = new Array(100).fill(0).map(createWork);
-    await Promise.all([...randomPosts, ...randomStacks, ...randomWorks]);
+    await Promise.all([...randomPosts, ...randomWorks]);
   });
 
   afterEach(async () => {
@@ -322,9 +324,39 @@ describe('server app', () => {
     expect(titles[0] < titles[1]).to.equal(true);
     expect(titles[1] < titles[2]).to.equal(true);
     expect(titles[0] < titles[2]).to.equal(true);
+    // wrong populate option
+    res = await req.get('/info/works?limit=10&page=1&populate=123').expect(422);
+    res = await req
+      .get('/info/works?limit=10&page=1&populate=false')
+      .expect(200);
+    expect(res.body.docs[0].relatedStacks[0]).not.to.have.a.property('name');
+    res = await req
+      .get('/info/works?limit=10&page=1&populate=true')
+      .expect(200);
+    expect(res.body.docs[0].relatedStacks[0]).to.have.a.property('name');
+    const sampleStackA = await Stack.findOne().skip(5);
+    const sampleStackB = await Stack.findOne().skip(6);
+    await WorkModel.create({
+      title: 'testA',
+      caption: 'aaa',
+      relatedStacks: [sampleStackA._id],
+    });
+    await WorkModel.create({
+      title: 'testB',
+      caption: 'aaa',
+      relatedStacks: [sampleStackA._id, sampleStackB._id],
+    });
+    res = await req.get(
+      `/info/works?limit=10&page=1&stacks=${sampleStackA._id}+${sampleStackB._id}`,
+    ).expect(200);
+    expect(res.body.docs.length).to.equal(1);
+    res = await req.get(
+      `/info/works?limit=10&page=1&stacks=${sampleStackA._id}&populate=true`,
+    ).expect(200);
+    expect(res.body.docs.length).to.equal(2);
   });
 
-  it('POST /info/works', async () => {
+  it('POST /info/work', async () => {
     const newWork = {
       title: 'title-test',
       caption: 'content-test',
@@ -363,6 +395,23 @@ describe('server app', () => {
       .expect(200);
     expect(uploaded.body.images[0]).to.equal('imageurl');
     expect(uploaded.body.images[1]).to.equal('imageurl2');
+
+    // stacks should be properly added and populated when needed
+    const sampleStacks = await Stack.find().limit(3);
+    const stacksId = sampleStacks.map(s => s._id);
+    const stacked = await WorkModel.create({
+      title: 'abc',
+      caption: 'xkdk',
+      relatedStacks: stacksId,
+    });
+    expect(stacked.relatedStacks.length).to.equal(3);
+    const populated = await WorkModel.findById(stacked._id).populate({
+      path: 'relatedStacks',
+      model: 'Stack',
+    });
+    expect(populated.relatedStacks[0]).to.contain({
+      name: sampleStacks[0].name,
+    });
   });
 
   it('PATCH /info/work', async () => {

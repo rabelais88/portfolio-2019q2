@@ -13,9 +13,9 @@ export const saveIntro = intro =>
     data: { intro },
   });
 
-export const getStacks = () =>
+export const getStacks = searchKeyword =>
   request({
-    url: 'info/stacks',
+    url: `info/stacks${searchKeyword && searchKeyword !== '' ? `?search=${searchKeyword}` : ''}`,
     method: 'get',
   });
 

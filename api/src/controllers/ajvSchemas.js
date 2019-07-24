@@ -21,6 +21,7 @@ export const postSchema = {
   },
 };
 
+// schema for general pagination
 export const optsSchema = {
   limit: {
     type: 'number',
@@ -30,6 +31,18 @@ export const optsSchema = {
   page: {
     type: 'number',
     minimum: 1,
+  },
+};
+
+// schema for work pagination
+export const workOptsSchema = {
+  ...optsSchema,
+  populate: {
+    type: 'boolean',
+    default: false,
+  },
+  stacks: {
+    type: 'string',
   },
 };
 
@@ -80,6 +93,11 @@ export const workSchema = {
   images: {
     type: 'array',
     maxItems: uploadMax,
+    uniqueItems: true,
+  },
+  relatedStacks: {
+    type: 'array',
+    items: { type: 'string' },
     uniqueItems: true,
   },
 };

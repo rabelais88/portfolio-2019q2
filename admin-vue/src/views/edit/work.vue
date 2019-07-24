@@ -4,10 +4,25 @@
       <el-input v-model="title" placeholder="input your title here" />
     </el-form-item>
     <el-form-item label="url">
-      <el-input v-model="url" placeholder="https://abcd.com"/>
+      <el-input v-model="url" placeholder="https://abcd.com" />
     </el-form-item>
     <el-form-item label="caption">
       <editor v-model="caption" style="height:80vh;" />
+    </el-form-item>
+    <el-form-item label="related skill stacks">
+      <el-tag
+        v-for="stack in relatedStacks"
+        :key="stack.name"
+        closable
+        @close="onRemoveStack(stack)"
+      >{{stack.name}}</el-tag>
+      <el-autocomplete
+        v-model="stackKeyword"
+        :fetch-suggestions="onStackKeywordChange"
+        placeholder="find stack/skill set"
+        value-key="name"
+        @select="onStackSelect"
+      />
     </el-form-item>
     <el-form-item label="images">
       <el-upload
@@ -20,7 +35,6 @@
         <el-button size="small" type="primary">Click to upload</el-button>
       </el-upload>
     </el-form-item>
-
     <el-form-item
       v-if="currentWork.createdAt"
       label="생성일"
@@ -47,6 +61,8 @@ import { Editor } from '@toast-ui/vue-editor';
 import request from '@/utils/request';
 import { uploadRequest } from '@/utils';
 
+import { getStacks } from '@/api/editing';
+
 export default {
   name: 'Work',
   components: {
@@ -63,6 +79,7 @@ export default {
     url: '',
     images: [],
     relatedStacks: [],
+    stackKeyword: '', // only used for searching related stacks. shouldn't be included in the form data
   }),
   computed: {
     ...mapState('work', ['currentWork']),
@@ -75,6 +92,9 @@ export default {
         name: `${process.env.VUE_APP_BASE_API}/public/${imgFileName}`,
         url: `${process.env.VUE_APP_BASE_API}/public/${imgFileName}`,
       }));
+    },
+    stackIds() {
+      return this.relatedStacks.map(s => s._id);
     },
   },
   watch: {
@@ -106,8 +126,8 @@ export default {
       }
     },
     onSubmit() {
-      const { title, caption, images, relatedStacks, url } = this;
-      const newWork = { title, caption, images, relatedStacks, url };
+      const { title, caption, images, url, stackIds } = this;
+      const newWork = { title, caption, images, relatedStacks: stackIds, url };
       const { uploadFiles } = this.$refs.uploader;
       const fileUrls = uploadFiles.map(file => file.response || file.url);
       newWork.images = fileUrls;
@@ -123,6 +143,21 @@ export default {
           this.$router.push('/edit/works');
         });
       }
+    },
+    async onStackKeywordChange(queryString, cb) {
+      const stacksData = await getStacks(queryString);
+      cb(stacksData);
+    },
+    onStackSelect(stack) {
+      const stackAlreadyAdded =
+        this.relatedStacks.findIndex(s => s._id === stack._id) !== -1;
+      if (!stackAlreadyAdded) {
+        this.relatedStacks.push(stack);
+        this.stackKeyword = '';
+      }
+    },
+    onRemoveStack(stack) {
+      this.relatedStacks = this.relatedStacks.filter(s => s._id !== stack._id);
     },
   },
 };

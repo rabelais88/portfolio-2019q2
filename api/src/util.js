@@ -7,7 +7,8 @@ import _omitBy from 'lodash/omitBy';
  * @returns {Object} { isValid, errors, value }
  */
 export const checkSchema = (schema, value, required = []) => {
-  const ajv = new Ajv({ coerceTypes: true });
+  // const ajv = new Ajv({ coerceTypes: true });
+  const ajv = new Ajv({ coerceTypes: 'array' });
   if (!schema || !value) throw Error('schema or value is missing');
   if (typeof schema !== 'object' || typeof value !== 'object') throw Error('schema and value must be object');
   if (!Array.isArray(required)) throw Error('required fields must be an array');

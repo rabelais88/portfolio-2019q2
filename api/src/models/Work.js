@@ -12,7 +12,7 @@ const WorkSchema = {
   },
   images: [String],
   url: String,
-  relatedStacks: [],
+  relatedStacks: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Stack' }],
 };
 const WorkModel = new mongoose.Schema(WorkSchema, { timestamps: true });
 

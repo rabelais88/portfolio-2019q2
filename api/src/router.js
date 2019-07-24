@@ -51,8 +51,10 @@ router.patch('/info/post', authJwt, setPost);
 router.get('/info/post/:postid', getPost);
 router.get('/info/posts', getPosts); // info/posts?page=1&limit=10&title=regex
 
+// /info/works?limit=10&page=1&sortfield=title&sortdirection=asc
+// &populate=true&stacks=ObjectId1+ObjectId2
+router.get('/info/works', getWorks);
 router.get('/info/work/:workid', getWork);
-router.get('/info/works', getWorks); // info/works?page=1&limit=10&title=regex
 router.post('/info/work', authJwt, createWork);
 router.delete('/info/work/:workid', authJwt, deleteWork);
 router.patch('/info/work', authJwt, setWork);
