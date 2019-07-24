@@ -8,6 +8,7 @@ import { enhanceAll } from '../lib/util';
 import '../styles/test.css';
 import Menu from '../components/Menu';
 import { getLatestPost } from '../store/post';
+import { getIntro } from '../store/info';
 
 // import PropTypes from 'prop-types';
 
@@ -56,6 +57,7 @@ const Index = props => {
 Index.getInitialProps = async ({ reduxStore, req }) => {
   const isServer = !!req;
   await reduxStore.dispatch(getLatestPost());
+  await reduxStore.dispatch(getIntro());
   return { isServer };
 };
 

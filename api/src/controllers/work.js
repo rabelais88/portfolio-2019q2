@@ -81,10 +81,8 @@ export const deleteWork = async (req, res, next) => {
 export const setWork = async (req, res, next) => {
   const work = req.body;
   if (!work) return res.status(400).json({ message: 'wrong post mod request' });
-  console.log(work);
   const checked = checkSchema(workSchema, work, ['title', 'caption', '_id']);
   if (!checked.isValid) return res.status(422).json(checked.errors);
-  console.log(checked.value)
   const workData = await WorkModel.findByIdAndUpdate(
     work._id,
     { $set: checked.value },
