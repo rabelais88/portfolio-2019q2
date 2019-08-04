@@ -8,6 +8,7 @@ export const getInfoInitialState = () => ({
   intro: '',
   stacks: [],
   stackKeyword: '',
+  isLoaded: false,
 });
 const infoInitialState = getInfoInitialState();
 
@@ -19,15 +20,21 @@ export const INFO_ACTIONS = {
   SET_STACKS: 'SET_STACKS',
   SET_STACK_KEYWORD: 'SET_STACK_KEYWORD',
   INIT_INFO: 'INIT_INFO',
+  SET_READY: 'SET_READY',
 };
 
 // REDUCERS
 export const infoReducer = (state = infoInitialState, action) => {
   switch (action.type) {
-    case INFO_ACTIONS.SET_LATEST:
+    case INFO_ACTIONS.SET_READY:
       return {
         ...state,
-        latestPosts: action.payload,
+        isLoaded: action.payload,
+      };
+    case INFO_ACTIONS.SET_INTRO:
+      return {
+        ...state,
+        intro: action.payload,
       };
     case INFO_ACTIONS.INIT_POSTS:
       return getInfoInitialState();
@@ -44,12 +51,9 @@ export const infoReducer = (state = infoInitialState, action) => {
  * dispatch(getIntro());
  */
 export const getIntro = () => async (dispatch, getState) => {
-  // console.log('getLatestPost', getState());
   try {
-    const latestPostData = await api('/info/posts', 'get', { page: 1, limit: 3 });
-    const latestPosts = latestPostData.docs;
-    // console.log('latest post', latestPost);
-    await dispatch({ type: INFO_ACTIONS.SET_LATEST, payload: latestPosts });
+    const introData = await api('/info/intro');
+    await dispatch({ type: INFO_ACTIONS.SET_LATEST, payload: introData });
   } catch (err) {
     console.error(err);
   }
@@ -62,4 +66,6 @@ export const getIntro = () => async (dispatch, getState) => {
  */
 export const initInfo = () => async (dispatch, getState) => {
   await dispatch({ type: INFO_ACTIONS.INIT_INFO });
+  await dispatch(getIntro());
+  await dispatch({ type: INFO_ACTIONS.SET_READY, payload: true });
 };
