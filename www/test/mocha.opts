@@ -1,4 +1,0 @@
---require @babel/register
---require ignore-styles
---file mocha.setup.js
---timeout 100000

@@ -1,6 +1,5 @@
 // main page storage for picking up the recent story + recent stack info
 // @ts-check
-/// <reference path="./post.types.d.ts" />
 
 import api from '../api';
 
@@ -13,7 +12,7 @@ export const getInfoInitialState = () => ({
 const infoInitialState = getInfoInitialState();
 
 /**
- * @type {}
+ * @type {InfoTypes.INFO_ACTIONS}
  */
 export const INFO_ACTIONS = {
   SET_INTRO: 'SET_INTRO',
@@ -21,6 +20,7 @@ export const INFO_ACTIONS = {
   SET_STACK_KEYWORD: 'SET_STACK_KEYWORD',
   INIT_INFO: 'INIT_INFO',
   SET_READY: 'SET_READY',
+  SET_LATEST: 'SET_LATEST',
 };
 
 // REDUCERS
@@ -36,7 +36,7 @@ export const infoReducer = (state = infoInitialState, action) => {
         ...state,
         intro: action.payload,
       };
-    case INFO_ACTIONS.INIT_POSTS:
+    case INFO_ACTIONS.INIT_INFO:
       return getInfoInitialState();
     default:
       return state;

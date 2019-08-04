@@ -1,3 +1,0 @@
-{
-  "watch": ["server/**/*.js", "server/*.js", "models/*.js"]
-}
