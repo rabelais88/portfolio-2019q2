@@ -5,7 +5,8 @@ import NextSeo from 'next-seo';
 
 import { addCount, subCount, initCount } from '../store/count';
 import { enhanceAll } from '../lib/util';
-import '../styles/test.css';
+// import '../styles/test.css';
+import '../styles/common.css';
 import Menu from '../components/Menu';
 import { getLatestPost } from '../store/post';
 import { getIntro } from '../store/info';
