@@ -8,7 +8,8 @@ import passport from 'passport';
 import { BasicStrategy } from 'passport-http';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 
-import { allowCors } from '../../shared/middlewares';
+import cors from 'cors';
+// import { allowCors } from '../../shared/middlewares';
 import router from './router';
 import Admin from './models/Admin';
 import { pageNotFound, errorHandler } from './controllers/error';
@@ -22,11 +23,8 @@ const app = express();
 let morganOpt = 'tiny';
 
 if (['development', 'test'].includes(process.env.NODE_ENV)) {
-  app.use(allowCors);
-  // app.use((req, res, next) => {
-  //   console.log(req.headers.params);
-  //   next();
-  // });
+  // app.use(allowCors);
+  app.use(cors());
   morganOpt = 'dev';
 }
 app.use(morgan(morganOpt));
