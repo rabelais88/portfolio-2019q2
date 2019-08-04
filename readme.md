@@ -1,6 +1,7 @@
 # Portfolio /w Next.js(React-redux) + MongoDB
 - author sungryeol park(sungryeolp@gmail.com)
-- used tech stack: React + Next.js(Client) + Vue.js(Admin) + Express + Mongoose + Mocha(TDD) + Redux + passport.js + SCSS
+- used tech stack: React + Next.js(Client) + Vue.js(Admin) + Express + Mongoose + Mocha + Jest + Redux(Redux-thunk) + passport.js + PostCSS + eslint + stylelint
+- design process: Adobe Photoshop + Figma
 
 ## Commands
 initialize & register admin to db
@@ -16,7 +17,6 @@ test run
 ```bash
 # for both www, api, admin
 yarn dev
-yarn dev:all # + db
 ```
 production deployment
 ```bash
@@ -43,61 +43,54 @@ mocha test for api server
 ```bash
 # only for api
 yarn test:watch --grep ${targetString}
-```
-
-## troubleshooting
-in dev mode, the programs don't shut down properly due to bugs in concurrency.js.
-when it happens, use the following commands.
-node-sass causes errors in windows environment. please use Mac or Linux environment.
-```bash
-# check pid & status
-ps aux | grep nodemon
-ps aux | grep mongod
-# kill process
-pkill -f *nodemon*
-kill -9 mongod
+# or
+yarn test:grep ${targetString}
 ```
 
 as there is *ServiceWorker* working on background,
 > cache TTL/max-age should be set to 0
 
+for displaying lint message in vscode,
+> must install vscode extensions for eslint & stylelint
+
 ## solved & ongoing issues
- - [x] *jest* doesn't work properly with mongoose testing &rarr; replaced with *mocha*
- - [x] `mocha --watch` doesn't work properly with *mongoose*. &rarr;
-    https://github.com/Automattic/mongoose/issues/1251
- - [x] apply `https` &rarr;
-    https should be served via nginx proxy
-    https://www.codementor.io/marcoscasagrande/installing-express-nginx-app-on-ubuntu-18-04-with-ssl-using-certbot-pdt44g5gs
+ - [x] `jest` doesn't work properly with `mongoose` testing &rarr; replaced with `mocha`
+ - [x] `mocha --watch` doesn't work properly with `mongoose`. &rarr; [reference link](https://github.com/Automattic/mongoose/issues/1251)
+ - [x] apply `https` &rarr;https should be served via nginx proxy &rarr; [reference link](https://www.codementor.io/marcoscasagrande/installing-express-nginx-app-on-ubuntu-18-04-with-ssl-using-certbot-pdt44g5gs)
  - [x] apply `scss`
  - [x] apply `eslint` & `prettier` for frontend(react)
  - [x] apply `jwt` & cookie auth model
  - [x] apply `eslint` & `prettier` for backend
  - [x] apply `typescript`(or ts type definition) &rarr; decided to substitute with `JSDOC`
  - [x] api separation
-
-## unsolved, next milestones
- - [ ] doesn't properly compile on personal windows machine; fails on reading JSX. working fine on Mac
- - [ ] replace `scss` with better substitute - it breaks easily on different environment
- - [ ] full graphql adoption
- - [ ] full typescript adoption
+ - [x] doesn't properly compile on personal windows machine;fails on reading `JSX`. working fine on Mac; replaced `SASS` module with `PostCSS`
+ - [x] ~~replace `scss` with better substitute: it breaks easily on different environment~~
+ - [x] ~~full `graphql` adoption~~: overhead is too big
+ - [x] ~~full `typescript` adoption~~: `typescript` is not appropriate for quick inidivual development. Instead, partially adopted *typescript definition files* &rarr; [reference link](https://medium.com/javascript-scene/the-typescript-tax-132ff4cb175b)
+ - [ ] should be served via `Docker` - check server disk limit first
 
 ## file structure
 use `tree --dirsfirst -I 'node_modules|build|.git|yarn.lock|yarn-error.log|readme.md|.next|*.scss|.DS_Store' -L 2 -a -d` to refresh this list
 ```.
-├── api # --- express.js api
+├── .vscode
+├── admin-vue
+│   ├── mock
+│   ├── public
+│   ├── src
+│   └── tests
+├── api
 │   ├── src
 │   └── test
-├── shared # utils both shared by api and www --- must maintain full backward compatibility
-└── www # --- next.js
-    ├── actions
+└── www-v2
+    ├── .storybook
+    ├── api
     ├── components
+    ├── lib
     ├── pages
-    ├── reducers
-    ├── server
     ├── static
-    ├── styles # common styles
-    ├── test
-    └── utils
+    ├── store
+    ├── stories
+    └── styles
 ```
 
 ## addendum

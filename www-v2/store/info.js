@@ -1,5 +1,6 @@
 // main page storage for picking up the recent story + recent stack info
 // @ts-check
+/// <reference path="./info.types.d.ts" />
 
 import api from '../api';
 

@@ -7,5 +7,8 @@
   "vetur.format.defaultFormatter.stylus": "stylus-supremacy",
   "vetur.format.defaultFormatter.js": "prettier",
   "vetur.format.defaultFormatter.ts": "prettier",
-  "workbench.colorCustomizations": {}
+  "workbench.colorCustomizations": {},
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false
 }

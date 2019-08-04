@@ -1,4 +1,3 @@
-
 /* imports */
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR|Raleway:300,500,800&display=swap&subset=korean');
 /* font preview-setup & html import
@@ -15,8 +14,9 @@ $color-gray: #f9f9f9;
 $color-orange: #ef8354;
 
 $color-background: $color-white;
-$color-background-alt: $color-darkgray;
+$color-background-alt: $color-black;
 $color-font: $color-black;
+$color-font-alt: $color-white;
 $zindex-menu: 2;
 $zindex-above-menu: 3;
 $margin-page: 30px;
