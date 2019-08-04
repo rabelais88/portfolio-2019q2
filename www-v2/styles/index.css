@@ -1,0 +1,30 @@
+@import 'common.css';
+.pic-birds {
+  position: absolute;
+  left: 0;
+  top: -339px;
+  figcaption {
+    border-top: solid 1px black;
+    padding: 10px;
+    position: absolute;
+    left: 167px;
+    top: 1200px;
+    text-align: center;
+    width: 190px;
+  }
+}
+
+.pic-chaekgeori {
+  position: absolute;
+  top: 852px;
+  left: calc(50% - 339px/2 - 0.5px);
+  figcaption {
+    border-top: solid 1px black;
+    padding: 10px;
+    position: absolute;
+    left: 350px;
+    top: 600px;
+    text-align: center;
+    width: 190px;
+  }
+}

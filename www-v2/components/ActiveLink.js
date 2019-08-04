@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 export default function ActiveLink({ children, href }) {
   const router = useRouter();
-  const currentClass = router.pathname === href ? 'active' : '';
+  const menuProps = router.pathname === href ? { className: 'active' } : null;
 
   const handleClick = e => {
     e.preventDefault();
@@ -11,7 +11,7 @@ export default function ActiveLink({ children, href }) {
   };
 
   return (
-    <a href={href} onClick={handleClick} className={currentClass}>
+    <a href={href} onClick={handleClick} {...menuProps}>
       {children}
     </a>
   );

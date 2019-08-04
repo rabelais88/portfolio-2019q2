@@ -1,4 +1,5 @@
 // @ts-check
+/// <reference path="./util.type.d.ts" />
 /**
  * enhance targets using provided enhancers
  * @function

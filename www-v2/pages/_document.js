@@ -10,6 +10,7 @@ export default class MyDocument extends Document {
     return (
       <html>
         <Head>
+          <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
           {/* Import CSS for nprogress */}
           <link rel="stylesheet" type="text/css" href="/static/nprogress.css" />
         </Head>

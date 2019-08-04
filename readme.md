@@ -1,10 +1,10 @@
 # Portfolio /w Next.js(React-redux) + MongoDB
 - author sungryeol park(sungryeolp@gmail.com)
-- used tech stack: React + Next.js(Client) + Vue.js(Admin) + Express + Mongoose + Mocha + Jest + Redux(Redux-thunk) + passport.js + PostCSS + eslint + stylelint
+- used tech stack: React + Next.js(Client) + Vue.js(Admin) + Express + Mongoose + Mocha + Jest + Redux(Redux-thunk) + passport.js + PostCSS + eslint + stylelint + PWA
 - design process: Adobe Photoshop + Figma
 
 ## Commands
-initialize & register admin to db
+### initialize & register admin to db
 ```bash
 # mongodb should be running background first
 # api/
@@ -13,12 +13,23 @@ yarn setup
 # www/
 yarn install
 ```
-test run
+
+### in case of changing lint setup
+```bash
+yarn lint:init
+```
+
+### test run & analyzation
 ```bash
 # for both www, api, admin
 yarn dev
+# only for www
+yarn analyze
+yarn analyze:server # only for server
+yarn analyze:browser # only for browser
 ```
-production deployment
+
+### production deployment
 ```bash
 # for both www, api
 yarn build
@@ -26,20 +37,10 @@ yarn start
 # for admin
 yarn build:prod
 # admin doesn't have server. use nginx to serve.
-```
-analyze size
-```bash
-# only for www
-yarn analyze
-yarn analyze:server # only for server
-yarn analyze:browser # only for browser
-```
-in case of changing lint setup
-```bash
-yarn lint:init
+# docker part is still in progress
 ```
 
-mocha test for api server
+### mocha test for api server
 ```bash
 # only for api
 yarn test:watch --grep ${targetString}
@@ -68,6 +69,7 @@ for displaying lint message in vscode,
  - [x] ~~full `graphql` adoption~~: overhead is too big
  - [x] ~~full `typescript` adoption~~: `typescript` is not appropriate for quick inidivual development. Instead, partially adopted *typescript definition files* &rarr; [reference link](https://medium.com/javascript-scene/the-typescript-tax-132ff4cb175b)
  - [ ] should be served via `Docker` - check server disk limit first
+ - [ ] PWA optimization
 
 ## file structure
 use `tree --dirsfirst -I 'node_modules|build|.git|yarn.lock|yarn-error.log|readme.md|.next|*.scss|.DS_Store' -L 2 -a -d` to refresh this list

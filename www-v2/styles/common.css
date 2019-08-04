@@ -5,8 +5,8 @@ https://fonts.google.com/specimen/Noto+Sans+KR?selection.family=Noto+Sans+KR|Ral
 */
 
 /* global variables */
-$font-main-kr: 'Noto Sans KR', sans-serif;
-$font-header: 'Raleway', 'Noto Sans KR', sans-serif;
+/* $font-main-kr: 'Noto Sans KR', sans-serif; */
+$font-main: 'Raleway', 'Noto Sans KR', sans-serif;
 $color-white: #f9f9f9;
 $color-black: #2d3142;
 $color-darkgray: #4f5d75;
@@ -17,8 +17,8 @@ $color-background: $color-white;
 $color-background-alt: $color-black;
 $color-font: $color-black;
 $color-font-alt: $color-white;
-$zindex-menu: 2;
-$zindex-above-menu: 3;
+$z-index-menu: 2;
+$z-index-above-menu: 3;
 $margin-page: 30px;
 
 /* global mixins */
@@ -40,11 +40,19 @@ $margin-page: 30px;
   width: 100%;
   height:100%;
 }
+@define-mixin right-screen {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 50%;
+  height: 100%;
+}
 @define-mixin left-screen {
   position: fixed;
   left: 0;
   top: 0;
-  right: 0;
+  bottom: 0;
   width: 50%;
   height: 100%;
 }
@@ -53,6 +61,22 @@ $margin-page: 30px;
   right: 0;
   width: 100%;
 }
+@define-mixin font-header1 {
+  font-family: $font-main;
+  font-weight: 800;
+  font-size: 48px;
+}
+@define-mixin font-header2 {
+  font-family: $font-main;
+  font-weight: 800;
+  font-size: 24px;
+}
+@define-mixin font-content {
+  font-family: $font-main;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 145%;
+}
 
 /* default settings */
 .hidden {
@@ -60,7 +84,6 @@ $margin-page: 30px;
 }
 
 HTML, body, * {
-  font-family: $font-main-kr;
   color: $color-font;
   /* zeroing out for browser inconsistencies*/
   margin: 0px;
@@ -74,4 +97,44 @@ body {
   width: 100%;
   height: 100%;
   overflow-y: scroll;
+}
+
+li, a {
+  text-decoration: none;
+}
+
+#menu {
+  > button {
+    position: fixed;
+    top: 50px;
+    right: 50px;
+    position: fixed;
+    z-index: $z-index-above-menu;
+    background-color: transparent;
+  }
+}
+
+@media (--mobile) {
+ #menu-expanded {
+   @mixin full-screen;
+ } 
+}
+@media (--desktop) {
+  #menu-expanded {
+    @mixin right-screen;
+  }
+}
+
+#menu-expanded {
+  z-index: $z-index-menu;
+  background-color: $color-black;
+  @mixin font-header1;
+  li {
+    margin-top: 70px;
+    margin-left: 90px;
+    list-style-type: none;
+  }
+  * {
+    color: $color-white;
+  }
 }
