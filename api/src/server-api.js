@@ -24,19 +24,11 @@ let morganOpt = 'tiny';
 
 console.log('> NODE_ENV?', process.env.NODE_ENV);
 
-const whitelist = {
-  test: ['http://localhost:3500', 'http://localhost:3000'],
-  development: ['http://localhost:3500', 'http://localhost:3000'],
-  production: [
-    'https://sungryeol.com',
-    'https://www.sungryeol.com',
-    'https://admin.sungryeol.com',
-  ],
-};
+const whitelist = process.env.CORS_WHITELIST.split(',');
 
 const corsOptions = {
   origin(origin, callback) {
-    if (!origin || whitelist[process.env.NODE_ENV].includes(origin)) {
+    if (!origin || whitelist.includes(origin)) {
       callback(null, true);
     } else {
       console.log('origin', origin);
