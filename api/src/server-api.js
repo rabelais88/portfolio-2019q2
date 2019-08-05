@@ -22,9 +22,26 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = express();
 let morganOpt = 'tiny';
 
+console.log('> NODE_ENV?', process.env.NODE_ENV);
+
+const whitelist = {
+  development: ['http://localhost:3500', 'http://localhost:3000', undefined],
+};
+
+const corsOptions = {
+  origin(origin, callback) {
+    if (whitelist[process.env.NODE_ENV].includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log('origin', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
+
 if (['development', 'test'].includes(process.env.NODE_ENV)) {
-  // app.use(allowCors);
-  app.use(cors());
+  app.use(cors(corsOptions));
   morganOpt = 'dev';
 }
 app.use(morgan(morganOpt));

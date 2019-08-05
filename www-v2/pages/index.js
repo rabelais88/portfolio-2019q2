@@ -24,32 +24,50 @@ const SEOcontent = {
   images: [],
 };
 
+const TitleBox = () => (
+  <div className="titlebox">
+    <h1>박성렬</h1>
+    <span>포트폴리오</span>
+    <h2>Sungryeol</h2>
+    <hr />
+    <h3>blog &amp; portfolio</h3>
+  </div>
+);
+
 const Index = props => {
   const { dispatch } = props;
   return (
     <div>
       <NextSeo config={SEOcontent} />
       <Menu />
+      <TitleBox />
       <figure className="pic-birds">
-        <img src="/static/images/pic-birdsandflowers.png" />
+        <img
+          src="/static/images/pic-birdsandflowers.png"
+          alt="birds and flowers, korean painting"
+        />
         <figcaption>
           Birds and Flowers, late 19th–early 20th century Unidentified Artist,
           Korea
         </figcaption>
       </figure>
-      <span className="example">{JSON.stringify(props)}</span>
       {/* <button onClick={() => dispatch(addCount(1))}>add Count1</button>
       <button onClick={() => dispatch(addCount(2))}>add Count2</button>
       <button onClick={() => dispatch(initCount())}>init count</button>
       <button onClick={() => dispatch(subCount(1))}>subCount</button> */}
 
       <figure className="pic-chaekgeori">
-        <img src="/static/images/pic-chaekgeori.png" />
+        <img
+          src="/static/images/pic-chaekgeori.png"
+          alt="chaekgeori, korean painting"
+        />
         <figcaption>
           Chaekgeori - Books and Scholars, late 19th century Unidentified
           Artist, Korea
         </figcaption>
       </figure>
+      <main>{props.info && <article>{props.info.intro}</article>}</main>
+      
     </div>
   );
 };
@@ -66,6 +84,6 @@ Index.getInitialProps = async ({ reduxStore, req }) => {
 //   dispatch: PropTypes.func,
 // }
 
-const enhancers = [connect(state => state)];
+const enhancers = [connect(({ info }) => ({ info }))];
 const enhanced = enhanceAll(Index, enhancers);
 export default enhanced;

@@ -32,13 +32,13 @@ $margin-page: 30px;
   }
 }
 @define-mixin full-screen {
-  position:fixed;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   width: 100%;
-  height:100%;
+  height: 100%;
 }
 @define-mixin right-screen {
   position: fixed;
@@ -83,7 +83,9 @@ $margin-page: 30px;
   display: none;
 }
 
-HTML, body, * {
+html,
+body,
+* {
   color: $color-font;
   /* zeroing out for browser inconsistencies*/
   margin: 0px;
@@ -99,15 +101,14 @@ body {
   overflow-y: scroll;
 }
 
-li, a {
+li,
+a {
   text-decoration: none;
 }
 
 #menu {
   > button {
     position: fixed;
-    top: 50px;
-    right: 50px;
     position: fixed;
     z-index: $z-index-above-menu;
     background-color: transparent;
@@ -115,13 +116,27 @@ li, a {
 }
 
 @media (--mobile) {
- #menu-expanded {
-   @mixin full-screen;
- } 
+  #menu-expanded {
+    @mixin full-screen;
+    li {
+      margin-left: 50px;
+    }
+  }
+  #menu > button {
+    top: 20px;
+    right: 20px;
+  }
 }
 @media (--desktop) {
   #menu-expanded {
     @mixin right-screen;
+    li {
+      margin-left: 90px;
+    }
+  }
+  #menu > button {
+    top: 50px;
+    right: 50px;
   }
 }
 
@@ -131,7 +146,6 @@ li, a {
   @mixin font-header1;
   li {
     margin-top: 70px;
-    margin-left: 90px;
     list-style-type: none;
   }
   * {

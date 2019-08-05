@@ -54,7 +54,7 @@ export const infoReducer = (state = infoInitialState, action) => {
 export const getIntro = () => async (dispatch, getState) => {
   try {
     const introData = await api('/info/intro');
-    await dispatch({ type: INFO_ACTIONS.SET_LATEST, payload: introData });
+    await dispatch({ type: INFO_ACTIONS.SET_INTRO, payload: introData });
   } catch (err) {
     console.error(err);
   }
