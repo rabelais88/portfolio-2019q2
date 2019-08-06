@@ -79,6 +79,9 @@ const Index = props => {
           placeholder="type in to search"
         />
       </div>
+      <div id="stacks">
+        {JSON.stringify(info.stacks)}
+      </div>
     </div>
   );
 };

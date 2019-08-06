@@ -2,6 +2,8 @@
 // @ts-check
 /// <reference path="./info.types.d.ts" />
 
+import _debounce from 'lodash/debounce';
+
 import api from '../api';
 
 export const getInfoInitialState = () => ({
@@ -42,6 +44,11 @@ export const infoReducer = (state = infoInitialState, action) => {
         ...state,
         stackKeyword: action.payload,
       };
+    case INFO_ACTIONS.SET_STACKS:
+      return {
+        ...state,
+        stacks: action.payload,
+      };
     case INFO_ACTIONS.INIT_INFO:
       return getInfoInitialState();
     default:
@@ -76,7 +83,18 @@ export const initInfo = () => async (dispatch, getState) => {
   await dispatch({ type: INFO_ACTIONS.SET_READY, payload: true });
 };
 
+export const getStacks = () => async (dispatch, getState) => {
+  const { info } = getState();
+  const searchOpts = { page: 1, limit: 10 };
+  if (info.stackKeyword !== '') searchOpts.search = info.stackKeyword;
+  const stacks = await api('/info/stacks', 'get', searchOpts);
+  await dispatch({ type: INFO_ACTIONS.SET_STACKS, payload: stacks });
+};
+
+// eslint-disable-next-line
+// export const getStacksDebounced = _debounce(() => getStacks, 500);
+
 export const setStackKeyword = keyword => async (dispatch, getState) => {
   await dispatch({ type: INFO_ACTIONS.SET_STACK_KEYWORD, payload: keyword });
-  
+  await dispatch(getStacks);
 };
