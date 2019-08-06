@@ -8,7 +8,8 @@ import { enhanceAll } from '../lib/util';
 import '../styles/index.css';
 import Menu from '../components/Menu';
 import { getLatestPost } from '../store/post';
-import { getIntro, setStackKeyword } from '../store/info';
+import { getIntro, setStackKeyword, getStacks } from '../store/info';
+import env from '../env-vars';
 
 // import PropTypes from 'prop-types';
 
@@ -24,6 +25,8 @@ const SEOcontent = {
   images: [],
 };
 
+const curatedTags = ['frontend', 'backend'];
+
 const TitleBox = () => (
   <div className="titlebox">
     <h1>박성렬</h1>
@@ -34,10 +37,25 @@ const TitleBox = () => (
   </div>
 );
 
-const Index = props => {
-  const { dispatch, info } = props;
+const StackItem = props => {
+  const { name, desc, icon } = props;
+  return (
+    <li className="stack">
+      {icon && <img src={`${env.IMAGE_HOST}/${icon}`} alt={name} />}
+      <h3>{name || 'unknown skill'}</h3>
+      <p>{desc}</p>
+    </li>
+  );
+};
 
-  
+const Index = props => {
+  const { info } = props;
+
+  const onTagClicked = (ev, tag) => {
+    ev.preventDefault();
+    props.setStackKeyword(tag);
+  };
+
   return (
     <div>
       <NextSeo config={SEOcontent} />
@@ -68,20 +86,33 @@ const Index = props => {
           Artist, Korea
         </figcaption>
       </figure>
-      <main>{info && <article>{info.intro}</article>}</main>
-      <h2 id="title2">and here&apos;s what I have learned</h2>
-      <div id="stacksearch">
-        <img src="/static/images/icon-magnifying-glass.svg" />
-        <input
-          type="text"
-          value={info.stackKeyword}
-          onChange={ev => props.setStackKeyword(ev.target.value)}
-          placeholder="type in to search"
-        />
-      </div>
-      <div id="stacks">
-        {JSON.stringify(info.stacks)}
-      </div>
+      <main>
+        {info && <article>{info.intro}</article>}
+        <h2 id="title2">and here&apos;s what I have learned</h2>
+        <div id="stacksearch">
+          <img
+            src="/static/images/icon-magnifying-glass.svg"
+            alt="search icon"
+          />
+          <input
+            type="text"
+            value={info.stackKeyword}
+            onChange={ev => props.setStackKeyword(ev.target.value)}
+            placeholder="type in to search"
+          />
+        </div>
+        <ul className="stack-tags">
+          {curatedTags.map(tag => (
+            <a href="#" onClick={ev => onTagClicked(ev, tag)}>
+              {tag}
+            </a>
+          ))}
+        </ul>
+        <ul className="stacks">
+          {info.stacks &&
+            info.stacks.map(stack => <StackItem {...stack} key={stack._id} />)}
+        </ul>
+      </main>
     </div>
   );
 };
@@ -90,6 +121,7 @@ Index.getInitialProps = async ({ reduxStore, req }) => {
   const isServer = !!req;
   await reduxStore.dispatch(getLatestPost());
   await reduxStore.dispatch(getIntro());
+  await reduxStore.dispatch(getStacks());
   return { isServer };
 };
 

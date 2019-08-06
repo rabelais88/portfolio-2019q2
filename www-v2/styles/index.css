@@ -7,6 +7,7 @@
     border-width: 7px;
     border-color: $color-black;
     width: 340px;
+    left: calc(50% - 340px / 2);
   }
   main {
     left: 210px;
@@ -23,12 +24,10 @@
 @media (--mobile) {
   .titlebox {
     top: 200px;
+    width: 100%;
   }
   .pic-birds {
     visibility: hidden;
-  }
-  .titlebox {
-    width: 100%;
   }
   main {
     left: 30px;
@@ -61,7 +60,7 @@
 
 .pic-chaekgeori {
   position: absolute;
-  left: calc(50% - 339px/2 - 0.5px);
+  left: calc(50% - 339px/2);
   figcaption {
     border-top: solid 1px black;
     padding: 10px;
@@ -75,7 +74,7 @@
 .titlebox {
   position: absolute;
   height: 290px;
-  left: calc(50% - 340px / 2);
+
   h1, h2, h3, span, hr {
     position: absolute;
     width: 100%;
@@ -128,16 +127,16 @@ main {
 }
 
 #title2 {
-  position: absolute;
-  top: 2025px;
+  position: relative;
+  top: 100px;
   width: 100%;
   text-align:center;
   @mixin font-header2;
 }
 
 #stacksearch {
-  position: absolute;
-  top: 2139px;
+  position: relative;
+  top: 200px;
   width: 270px;
   left: calc(50% - 270px / 2);
   input {
@@ -159,5 +158,20 @@ main {
     position: absolute;
     width: 25px;
     height: 25px;
+  }
+}
+
+.stacks {
+  position: relative;
+  top: 300px;
+
+}
+
+.stack {
+  margin-left: 0;
+  list-style-type: none;
+  img {
+    width: 40px;
+    height: 40px;
   }
 }

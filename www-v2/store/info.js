@@ -83,7 +83,8 @@ export const initInfo = () => async (dispatch, getState) => {
   await dispatch({ type: INFO_ACTIONS.SET_READY, payload: true });
 };
 
-export const getStacks = () => async (dispatch, getState) => {
+// eslint-disable-next-line
+export const _getStacks = async (dispatch, getState) => {
   const { info } = getState();
   const searchOpts = { page: 1, limit: 10 };
   if (info.stackKeyword !== '') searchOpts.search = info.stackKeyword;
@@ -91,10 +92,10 @@ export const getStacks = () => async (dispatch, getState) => {
   await dispatch({ type: INFO_ACTIONS.SET_STACKS, payload: stacks });
 };
 
-// eslint-disable-next-line
-// export const getStacksDebounced = _debounce(() => getStacks, 500);
+export const getStacks = () => _getStacks;
+export const getStacksDebounced = _debounce(_getStacks, 500);
 
 export const setStackKeyword = keyword => async (dispatch, getState) => {
   await dispatch({ type: INFO_ACTIONS.SET_STACK_KEYWORD, payload: keyword });
-  await dispatch(getStacks);
+  await dispatch(getStacksDebounced);
 };
