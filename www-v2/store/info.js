@@ -37,6 +37,11 @@ export const infoReducer = (state = infoInitialState, action) => {
         ...state,
         intro: action.payload,
       };
+    case INFO_ACTIONS.SET_STACK_KEYWORD:
+      return {
+        ...state,
+        stackKeyword: action.payload,
+      };
     case INFO_ACTIONS.INIT_INFO:
       return getInfoInitialState();
     default:
@@ -69,4 +74,9 @@ export const initInfo = () => async (dispatch, getState) => {
   await dispatch({ type: INFO_ACTIONS.INIT_INFO });
   await dispatch(getIntro());
   await dispatch({ type: INFO_ACTIONS.SET_READY, payload: true });
+};
+
+export const setStackKeyword = keyword => async (dispatch, getState) => {
+  await dispatch({ type: INFO_ACTIONS.SET_STACK_KEYWORD, payload: keyword });
+  
 };

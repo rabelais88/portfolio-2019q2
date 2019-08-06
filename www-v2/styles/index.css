@@ -126,3 +126,38 @@ main {
     @mixin font-content;
   }
 }
+
+#title2 {
+  position: absolute;
+  top: 2025px;
+  width: 100%;
+  text-align:center;
+  @mixin font-header2;
+}
+
+#stacksearch {
+  position: absolute;
+  top: 2139px;
+  width: 270px;
+  left: calc(50% - 270px / 2);
+  input {
+    position: absolute;
+    left: 30px;
+    @mixin font-content;
+    width: 250px;
+    border-bottom: .5px solid $color-gray;
+    background-color: transparent;
+    transition: .3s;
+    margin-bottom: 20px;
+  }
+  input:hover, input:focus {
+    background-color: $color-gray;
+    border-bottom: .5px solid $color-black;
+    transition: .3s;
+  }
+  img {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+  }
+}

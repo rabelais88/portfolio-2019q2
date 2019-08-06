@@ -8,7 +8,7 @@ import { enhanceAll } from '../lib/util';
 import '../styles/index.css';
 import Menu from '../components/Menu';
 import { getLatestPost } from '../store/post';
-import { getIntro } from '../store/info';
+import { getIntro, setStackKeyword } from '../store/info';
 
 // import PropTypes from 'prop-types';
 
@@ -35,7 +35,9 @@ const TitleBox = () => (
 );
 
 const Index = props => {
-  const { dispatch } = props;
+  const { dispatch, info } = props;
+
+  
   return (
     <div>
       <NextSeo config={SEOcontent} />
@@ -66,8 +68,17 @@ const Index = props => {
           Artist, Korea
         </figcaption>
       </figure>
-      <main>{props.info && <article>{props.info.intro}</article>}</main>
-      
+      <main>{info && <article>{info.intro}</article>}</main>
+      <h2 id="title2">and here&apos;s what I have learned</h2>
+      <div id="stacksearch">
+        <img src="/static/images/icon-magnifying-glass.svg" />
+        <input
+          type="text"
+          value={info.stackKeyword}
+          onChange={ev => props.setStackKeyword(ev.target.value)}
+          placeholder="type in to search"
+        />
+      </div>
     </div>
   );
 };
@@ -84,6 +95,15 @@ Index.getInitialProps = async ({ reduxStore, req }) => {
 //   dispatch: PropTypes.func,
 // }
 
-const enhancers = [connect(({ info }) => ({ info }))];
+const mapStateToProps = ({ info }) => ({ info });
+const mapDispatchToProps = dispatch => ({
+  setStackKeyword: keyword => dispatch(setStackKeyword(keyword)),
+});
+const enhancers = [
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+];
 const enhanced = enhanceAll(Index, enhancers);
 export default enhanced;
