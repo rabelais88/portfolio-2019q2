@@ -41,8 +41,10 @@ const StackItem = props => {
   return (
     <li className="stack">
       {icon && <img src={`${env.IMAGE_HOST}/${icon}`} alt={name} />}
-      <h3>{name || 'unknown skill'}</h3>
-      <p>{desc}</p>
+      <div>
+        <h3>{name || 'unknown skill'}</h3>
+        <p>{desc}</p>
+      </div>
     </li>
   );
 };
@@ -98,7 +100,7 @@ const Index = props => {
         </div>
         <div className="stack-tags">
           {curatedTags.map(tag => (
-            <a href="#" onClick={ev => onTagClicked(ev, tag)} key={tag} >
+            <a href="#" onClick={ev => onTagClicked(ev, tag)} key={tag}>
               #{tag}
             </a>
           ))}
@@ -106,6 +108,7 @@ const Index = props => {
         <ul className="stacks">
           {info.stacks &&
             info.stacks.map(stack => <StackItem {...stack} key={stack._id} />)}
+          {info.stacks.length === 0 && <li className="stack-not-found">couldn&apos;t find stack</li>}
         </ul>
       </main>
     </div>

@@ -11,7 +11,12 @@ export default function ActiveLink({ children, href }) {
   };
 
   return (
-    <a href={href} onClick={handleClick} {...menuProps}>
+    <a
+      href={href}
+      onClick={handleClick}
+      {...menuProps}
+      style={{ cursor: 'pointer' }}
+    >
       {children}
     </a>
   );

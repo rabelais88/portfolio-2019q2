@@ -1,0 +1,34 @@
+@import 'common.css';
+
+.page-work {
+  position: absolute;
+  background-color: $color-black;
+  height: 100%;
+}
+
+.page-work * {
+  color: $color-white;
+}
+
+@media (--desktop) {
+  .work--title-main {
+    left: 115px;
+    top: 84px;
+  }
+  .work--title-sub {
+    left: 117px;
+    top: 128px;
+  }
+}
+
+.work--title-main {
+  position: absolute;
+  @mixin font-header1;
+
+}
+
+.work--title-sub {
+  position: absolute;
+  @mixin font-content;
+
+}

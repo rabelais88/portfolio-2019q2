@@ -65,7 +65,15 @@ const Menu = _props => {
   return (
     <nav id="menu">
       <button onClick={() => setMenuVisibility(!menuVisibility)}>
-        <img src="/static/images/icon-menu.svg" alt="icon-menu" />
+        <div id="nav-icon2" className={menuVisibility && 'open'}>
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
+        {/* <img src="/static/images/icon-menu.svg" alt="icon-menu" /> */}
       </button>
       <animated.ul id="menu-expanded" style={menuAnim}>
         {menuItemAnim.map((style, index) => {

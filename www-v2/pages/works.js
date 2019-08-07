@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import NextSeo from 'next-seo';
 
 import { enhanceAll } from '../lib/util';
-import '../styles/index.css';
+import '../styles/work.css';
 import Menu from '../components/Menu';
 import env from '../env-vars';
 import {
@@ -32,10 +32,11 @@ const WorkPage = props => {
   const { work } = props;
   // prop.initWOrk();
   return (
-    <div>
+    <div className="page-work">
       <NextSeo config={SEOcontent} />
       <Menu />
-      <h1>works</h1>
+      <h1 className="work--title-main">WORKS</h1>
+      <p className="work--title-sub">&amp; CASE STUDY</p>
       <p>{JSON.stringify(work)}</p>
     </div>
   );

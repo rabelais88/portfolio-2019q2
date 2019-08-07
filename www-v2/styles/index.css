@@ -195,8 +195,22 @@ main {
   position: relative;
   margin: 10px;
   list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   img {
     width: 40px;
     height: 40px;
   }
+  div {
+    margin: 10px;
+  }
+}
+
+.stack-not-found {
+  top: 400px;
+  width: 100%;
+  position: relative;
+  text-align: center;
+  list-style-type: none;
 }
