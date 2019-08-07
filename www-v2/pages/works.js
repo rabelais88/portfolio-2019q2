@@ -28,9 +28,32 @@ const SEOcontent = {
   images: [],
 };
 
+const Thumbnail = props => {
+  const { title, caption, images, url, _id } = props;
+  const coverImage = images[0];
+
+
+  return (
+    <div className="work--thumbnail">
+      {coverImage && (
+        <div
+          className="work--thumbnail-img"
+          style={{
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            backgroundImage: `url(${env.IMAGE_HOST}/${coverImage})`,
+          }}
+          alt={title}
+        />
+      )}
+      <p className="work--thumbnail-title">{title}</p>
+      <p className="work--thumbnail-caption">{caption}</p>
+    </div>
+  );
+};
+
 const WorkPage = props => {
   const { work } = props;
-  // prop.initWOrk();
   return (
     <div className="page-work">
       <NextSeo config={SEOcontent} />
@@ -38,6 +61,11 @@ const WorkPage = props => {
       <h1 className="work--title-main">WORKS</h1>
       <p className="work--title-sub">&amp; CASE STUDY</p>
       <p>{JSON.stringify(work)}</p>
+      <div className="work--gallery">
+        {work.works.docs.map(workData => (
+          <Thumbnail {...workData} />
+        ))}
+      </div>
     </div>
   );
 };

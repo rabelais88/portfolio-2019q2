@@ -1,9 +1,7 @@
 @import 'common.css';
 
 .page-work {
-  position: absolute;
   background-color: $color-black;
-  height: 100%;
 }
 
 .page-work * {
@@ -24,11 +22,37 @@
 .work--title-main {
   position: absolute;
   @mixin font-header1;
-
 }
 
 .work--title-sub {
   position: absolute;
   @mixin font-content;
+}
 
+.work--gallery {
+  width: 100%;
+  min-height: 100vh;
+  background-color: $color-black;
+}
+
+.work--thumbnail {
+  width: 330px;
+  height: 400px;
+}
+
+.work--thumbnail-img {
+  left :0;
+  right :0;
+  top: 0;
+  /* bottom: 18%; */
+  height: calc(100% - 100px);
+  content: '';
+}
+
+.work--thumbnail-title {
+  text-align: right;
+}
+
+.work--thumbnail-caption {
+  text-align: right;
 }
