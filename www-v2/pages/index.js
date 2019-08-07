@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Link from 'next/link';
 import NextSeo from 'next-seo';
 
-import { addCount, subCount, initCount } from '../store/count';
 import { enhanceAll } from '../lib/util';
 import '../styles/index.css';
 import Menu from '../components/Menu';
@@ -25,7 +24,7 @@ const SEOcontent = {
   images: [],
 };
 
-const curatedTags = ['frontend', 'backend'];
+const curatedTags = ['frontend', 'backend', 'devops', 'design', 'linguistics'];
 
 const TitleBox = () => (
   <div className="titlebox">
@@ -71,10 +70,6 @@ const Index = props => {
           Korea
         </figcaption>
       </figure>
-      {/* <button onClick={() => dispatch(addCount(1))}>add Count1</button>
-      <button onClick={() => dispatch(addCount(2))}>add Count2</button>
-      <button onClick={() => dispatch(initCount())}>init count</button>
-      <button onClick={() => dispatch(subCount(1))}>subCount</button> */}
 
       <figure className="pic-chaekgeori">
         <img
@@ -101,13 +96,13 @@ const Index = props => {
             placeholder="type in to search"
           />
         </div>
-        <ul className="stack-tags">
+        <div className="stack-tags">
           {curatedTags.map(tag => (
-            <a href="#" onClick={ev => onTagClicked(ev, tag)}>
-              {tag}
+            <a href="#" onClick={ev => onTagClicked(ev, tag)} key={tag} >
+              #{tag}
             </a>
           ))}
-        </ul>
+        </div>
         <ul className="stacks">
           {info.stacks &&
             info.stacks.map(stack => <StackItem {...stack} key={stack._id} />)}

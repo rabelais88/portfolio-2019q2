@@ -161,17 +161,39 @@ main {
   }
 }
 
-.stacks {
-  position: relative;
+.stack-tags {
   top: 300px;
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  a {
+    margin: 2px;
+    padding: 10px;
+    background-color: $color-gray;
+    transition: .3s;
+    border-radius: 20px;
+    &:hover {
+      background-color: $color-darkgray;
+      color: $color-white;
+      transition: .3s;
+    }
+  }
 }
 
-.stack-tags {
-  
+.stacks {
+  position:relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .stack {
-  margin-left: 0;
+  top: 400px;
+  position: relative;
+  margin: 10px;
   list-style-type: none;
   img {
     width: 40px;
