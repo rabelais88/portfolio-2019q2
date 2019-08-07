@@ -6,6 +6,13 @@ import { enhanceAll } from '../lib/util';
 import '../styles/index.css';
 import Menu from '../components/Menu';
 import env from '../env-vars';
+import {
+  initWork,
+  getWorks,
+  setPage,
+  viewWork,
+  closeWork,
+} from '../store/work';
 
 // import PropTypes from 'prop-types';
 
@@ -22,22 +29,21 @@ const SEOcontent = {
 };
 
 const WorkPage = props => {
-  const { works } = props;
-
+  const { work } = props;
+  // prop.initWOrk();
   return (
     <div>
       <NextSeo config={SEOcontent} />
       <Menu />
       <h1>works</h1>
+      <p>{JSON.stringify(work)}</p>
     </div>
   );
 };
 
 WorkPage.getInitialProps = async ({ reduxStore, req }) => {
   const isServer = !!req;
-  // await reduxStore.dispatch(getLatestPost());
-  // await reduxStore.dispatch(getIntro());
-  // await reduxStore.dispatch(getStacks());
+  await reduxStore.dispatch(getWorks());
   return { isServer };
 };
 
@@ -46,9 +52,13 @@ WorkPage.getInitialProps = async ({ reduxStore, req }) => {
 //   dispatch: PropTypes.func,
 // }
 
-const mapStateToProps = ({ info }) => ({ info });
+const mapStateToProps = ({ work }) => ({ work });
 const mapDispatchToProps = dispatch => ({
-  // setStackKeyword: keyword => dispatch(setStackKeyword(keyword)),
+  initWork: () => dispatch(initWork()),
+  getWorks: () => dispatch(getWorks()),
+  setPage: page => dispatch(setPage(page)),
+  viewWork: workId => dispatch(viewWork(workId)),
+  closeWork: () => dispatch(closeWork()),
 });
 const enhancers = [
   connect(

@@ -8,17 +8,20 @@ import { enhanceAll } from '../lib/util';
 import { getCountInitialState, countReducer } from './count';
 import { getPostInitialState, postReducer } from './post';
 import { getInfoInitialState, infoReducer } from './info';
+import { getWorkInitialState, workReducer } from './work';
 
 const combinedInitialState = {
   count: getCountInitialState(),
   post: getPostInitialState(),
   info: getInfoInitialState(),
+  work: getWorkInitialState(),
 };
 
 const reducers = combineReducers({
   count: countReducer,
   post: postReducer,
   info: infoReducer,
+  work: workReducer,
 });
 
 const persistConfig = {
