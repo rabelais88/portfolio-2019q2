@@ -39,9 +39,9 @@ const corsOptions = {
 };
 
 if (['development', 'test'].includes(process.env.NODE_ENV)) {
-  app.use(cors(corsOptions));
   morganOpt = 'dev';
 }
+app.use(cors(corsOptions));
 app.use(morgan(morganOpt));
 
 passport.use(
