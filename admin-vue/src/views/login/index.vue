@@ -13,7 +13,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="Username"
+          placeholder="Username (email)"
           name="username"
           type="text"
           tabindex="1"
@@ -44,7 +44,7 @@
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
 
       <div class="tips">
-        <span style="margin-right:20px;">username: email</span>
+        <!-- <span style="margin-right:20px;">username: email</span> -->
       </div>
 
     </el-form>

@@ -1,9 +1,15 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useSpring, animated, config, useTrail } from 'react-spring';
 import ActiveLink from './ActiveLink';
 
 const Menu = _props => {
   const [menuVisibility, setMenuVisibility] = useState(false);
+
+  useEffect(() => {
+    console.log('chaning menu visibility');
+    document.body.style.overflowY = menuVisibility ? 'hidden' : 'scroll';
+  }, [menuVisibility]);
+
   const menus = {
     HOME: '/',
     WORKS: '/works',
@@ -65,7 +71,7 @@ const Menu = _props => {
   return (
     <nav id="menu">
       <button onClick={() => setMenuVisibility(!menuVisibility)}>
-        <div id="nav-icon2" className={menuVisibility && 'open'}>
+        <div id="nav-icon2" className={menuVisibility ? 'open' : ''}>
           <span />
           <span />
           <span />

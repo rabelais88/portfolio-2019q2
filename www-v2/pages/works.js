@@ -63,7 +63,7 @@ const WorkPage = props => {
       <p>{JSON.stringify(work)}</p>
       <div className="work--gallery">
         {work.works.docs.map(workData => (
-          <Thumbnail {...workData} />
+          <Thumbnail {...workData} key={workData._id} />
         ))}
       </div>
     </div>
