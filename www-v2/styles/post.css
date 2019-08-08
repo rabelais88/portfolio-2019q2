@@ -1,0 +1,34 @@
+@import 'common.css';
+
+.post--title1, .post--title2, .post--title-line, .post--title-most-pop {
+  position: absolute;
+}
+
+@media (--desktop) {
+  .post--title1 {
+    top: 45px;
+    left: 45px;
+    @mixin font-header1;
+  }
+  
+  .post--title2 {
+    top: 70px;
+    left: 185px;
+  }
+
+  .post--title-line {
+    top: 107px;
+    left: 40px;
+    right: 40px;
+  }
+}
+
+.post--title-line {
+  border: solid .5px $color-black;
+}
+
+.post--title-most-pop {
+  left: 65px;
+  top: 145px;
+  @mixin font-header2;
+}

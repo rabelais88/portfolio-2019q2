@@ -13,6 +13,9 @@ const getDefaultPost = () => ({
 
 export const getPostInitialState = () => ({
   posts: [],
+  page: 1,
+  keyword: '',
+  currentPost: null,
   latestPosts: new Array(3).fill(null).map(() => getDefaultPost()),
 });
 const postInitialState = getPostInitialState();
@@ -27,6 +30,7 @@ export const POST_ACTIONS = {
   PUT_COMMENT: 'PUT_COMMENT',
   DELETE_COMMENT: 'DELETE_COMMENT',
   INIT_POSTS: 'INIT_POSTS',
+  SET_PAGE: 'SET_PAGE',
 };
 
 // REDUCERS
@@ -36,6 +40,11 @@ export const postReducer = (state = postInitialState, action) => {
       return {
         ...state,
         latestPosts: action.payload,
+      };
+    case POST_ACTIONS.SET_POSTS:
+      return {
+        ...state,
+        posts: action.payload,
       };
     case POST_ACTIONS.INIT_POSTS:
       return getPostInitialState();
@@ -54,7 +63,10 @@ export const postReducer = (state = postInitialState, action) => {
 export const getLatestPost = () => async (dispatch, getState) => {
   // console.log('getLatestPost', getState());
   try {
-    const latestPostData = await api('/info/posts', 'get', { page: 1, limit: 3 });
+    const latestPostData = await api('/info/posts', 'get', {
+      page: 1,
+      limit: 3,
+    });
     const latestPosts = latestPostData.docs;
     // console.log('latest post', latestPost);
     await dispatch({ type: POST_ACTIONS.SET_LATEST, payload: latestPosts });
@@ -70,4 +82,36 @@ export const getLatestPost = () => async (dispatch, getState) => {
  */
 export const initPost = () => async (dispatch, getState) => {
   await dispatch({ type: POST_ACTIONS.INIT_POSTS });
+};
+
+export const getPosts = () => async (dispatch, getState) => {
+  const { work } = getState();
+  try {
+    const postsData = await api('/info/posts', 'get', {
+      page: work.page,
+      limit: 10,
+    });
+    const posts = postsData.docs;
+    await dispatch({ type: POST_ACTIONS.SET_POSTS, payload: posts });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const setPage = page => async (dispatch, getState) => {
+  await dispatch({ type: POST_ACTIONS.SET_PAGE, payload: page });
+  await dispatch(getPosts());
+};
+
+export const openPost = postId => async (dispatch, getState) => {
+  try {
+    const postData = await api(`/info/posts/${postId}`);
+    await dispatch({ type: POST_ACTIONS.SET_POST, payload: postData });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const closePost = () => async (dispatch, getState) => {
+  await dispatch({ type: POST_ACTIONS.SET_POST, payload: null });
 };

@@ -10,7 +10,7 @@ import {
   initWork,
   getWorks,
   setPage,
-  viewWork,
+  openWork,
   closeWork,
 } from '../store/work';
 
@@ -29,9 +29,9 @@ const SEOcontent = {
 };
 
 const Thumbnail = props => {
-  const { title, caption, images, url, _id } = props;
+  const { title, caption, images, url, _id, relatedStacks } = props;
   const coverImage = images[0];
-
+  const stacks = relatedStacks.map(s => s.name).join('/');
   return (
     <div className="work--thumbnail">
       {coverImage ? (
@@ -45,8 +45,11 @@ const Thumbnail = props => {
       ) : (
         <div className="work--thumbnail-img">no image available</div>
       )}
-      <p className="work--thumbnail-title">{title}</p>
-      <p className="work--thumbnail-caption">{caption}</p>
+      <div className="work--thumbnail-alltext">
+        <p className="work--thumbnail-title"><b>{title}</b></p>
+        <p className="work--thumbnail-caption">{caption}</p>
+        <p className="work--thumbnail-stacks">{stacks}</p>
+      </div>
     </div>
   );
 };
@@ -84,7 +87,7 @@ const mapDispatchToProps = dispatch => ({
   initWork: () => dispatch(initWork()),
   getWorks: () => dispatch(getWorks()),
   setPage: page => dispatch(setPage(page)),
-  viewWork: workId => dispatch(viewWork(workId)),
+  viewWork: workId => dispatch(openWork(workId)),
   closeWork: () => dispatch(closeWork()),
 });
 const enhancers = [

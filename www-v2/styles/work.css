@@ -29,11 +29,23 @@
 
 @media (--mobile) {
   .work--title-main {
+    left: 36px;
+    top: 36px;
   }
   .work--title-sub {
+    left: 36px;
+    top: 76px;
   }
   .work--thumbnail {
     width: 100%;
+  }
+  .work--thumbnail {
+    margin: 20px;
+    width: 100%;
+    height: 400px;
+  }
+  .work--thumbnail-list {
+    padding-top: 150px;
   }
 }
 
@@ -63,6 +75,7 @@
   &:hover {
     opacity: 1;
   }
+  cursor: pointer;
 }
 
 .work--thumbnail-img {
@@ -90,4 +103,13 @@
 
 .work--thumbnail-caption {
   text-align: right;
+}
+
+.work--thumbnail-alltext {
+  padding:10px;
+}
+
+.work--thumbnail-stacks {
+  text-align: right;
+  color: $color-orange;
 }

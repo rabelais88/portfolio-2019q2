@@ -5,6 +5,7 @@ export interface POST_ACTIONS {
   PUT_COMMENT: string;
   DELETE_COMMENT: string;
   INIT_POSTS: string;
+  SET_PAGE: string;
 }
 
 export interface postData {

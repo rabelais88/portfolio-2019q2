@@ -67,6 +67,7 @@ export const getWorks = () => async (dispatch, getState) => {
     const works = await api('/info/works', 'get', {
       page: work.page,
       limit: 15,
+      populate: true,
     });
     await dispatch({ type: WORK_ACTIONS.SET_WORKS, payload: works });
   } catch (err) {
@@ -79,9 +80,8 @@ export const setPage = page => async (dispatch, getState) => {
   await dispatch(getWorks());
 };
 
-export const viewWork = workId => async (dispatch, getState) => {
-  const { work } = getState();
-  const targetWork = work.works.find(w => w._id === workId);
+export const openWork = workId => async (dispatch, getState) => {
+  const targetWork = await api(`/info/works/${workId}`);
   if (targetWork)
     await dispatch({ type: WORK_ACTIONS.SET_WORK, payload: targetWork });
 };
