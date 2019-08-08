@@ -127,27 +127,33 @@ main {
 }
 
 #title2 {
-  position: relative;
-  top: 100px;
+  /* position: relative; */
+  /* top: 100px; */
+  margin-top: 40px;
+  margin-bottom: 40px;
   width: 100%;
   text-align:center;
   @mixin font-header2;
 }
 
 #stacksearch {
-  position: relative;
-  top: 200px;
-  width: 270px;
-  left: calc(50% - 270px / 2);
+  margin-bottom: 40px;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 100%;
   input {
-    position: absolute;
-    left: 30px;
     @mixin font-content;
-    width: 250px;
+    width: calc(100% - 30px);
+    height: 30px;
     border-bottom: .5px solid $color-gray;
     background-color: transparent;
     transition: .3s;
     margin-bottom: 20px;
+    max-width: 200px;
   }
   input:hover, input:focus {
     background-color: $color-gray;
@@ -155,15 +161,15 @@ main {
     transition: .3s;
   }
   img {
-    position: absolute;
+    margin-right: 10px;
     width: 25px;
     height: 25px;
   }
 }
 
 .stack-tags {
-  top: 300px;
-  position: relative;
+  /* top: 300px; */
+  /* position: relative; */
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -184,14 +190,16 @@ main {
 }
 
 .stacks {
-  position:relative;
+  /* position:relative; */
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 
 .stack {
-  top: 400px;
+  /* top: 400px; */
   position: relative;
   margin: 10px;
   list-style-type: none;
@@ -208,9 +216,7 @@ main {
 }
 
 .stack-not-found {
-  top: 400px;
   width: 100%;
-  position: relative;
   text-align: center;
   list-style-type: none;
 }

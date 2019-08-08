@@ -32,10 +32,15 @@ const PostPage = props => {
       <p className="post--title2">opinions and thoughts</p>
       <hr className="post--title-line" />
       <h1 className="post--title-most-pop">most popular</h1>
-      <ul>
-        { post.posts.length >= 1 && post.posts.map(postData => {
-          return <li key={postData._id}>{postData.title}</li>
-        })}
+      <p className="post--content-most-pop">this is most popular writing</p>
+      <div className="post--searchbox">
+        searchbox here
+      </div>
+      <ul className="post--list">
+        {post.posts.length >= 1 &&
+          post.posts.map(postData => {
+            return <li key={postData._id}>{postData.title}</li>;
+          })}
       </ul>
     </div>
   );

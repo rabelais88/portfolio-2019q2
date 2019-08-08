@@ -1,7 +1,10 @@
 // import React from 'react';
+// @ts-check
 import { connect } from 'react-redux';
-import Link from 'next/link';
+// import Link from 'next/link';
 import NextSeo from 'next-seo';
+import { useTransition, animated } from 'react-spring';
+import { Slide } from 'react-reveal';
 
 import { enhanceAll } from '../lib/util';
 import '../styles/index.css';
@@ -27,27 +30,59 @@ const SEOcontent = {
 const curatedTags = ['frontend', 'backend', 'devops', 'design', 'linguistics'];
 
 const TitleBox = () => (
-  <div className="titlebox">
-    <h1>박성렬</h1>
-    <span>포트폴리오</span>
-    <h2>Sungryeol</h2>
-    <hr />
-    <h3>blog &amp; portfolio</h3>
-  </div>
+  <Slide top>
+    <div className="titlebox">
+      <h1>박성렬</h1>
+      <span>포트폴리오</span>
+      <h2>Sungryeol</h2>
+      <hr />
+      <h3>blog &amp; portfolio</h3>
+    </div>
+  </Slide>
 );
 
 const StackItem = props => {
-  const { name, desc, icon } = props;
+  const { name, desc, icon, animProps } = props;
   return (
-    <li className="stack">
+    <animated.li className="stack" style={animProps}>
       {icon && <img src={`${env.IMAGE_HOST}/${icon}`} alt={name} />}
       <div>
         <h3>{name || 'unknown skill'}</h3>
         <p>{desc}</p>
       </div>
-    </li>
+    </animated.li>
   );
 };
+
+const PicBird = () => (
+  <Slide left>
+    <figure className="pic-birds">
+      <img
+        src="/static/images/pic-birdsandflowers.png"
+        alt="birds and flowers, korean painting"
+      />
+      <figcaption>
+        Birds and Flowers, late 19th–early 20th century Unidentified Artist,
+        Korea
+      </figcaption>
+    </figure>
+  </Slide>
+);
+
+const PicBooks = () => (
+  <Slide right>
+    <figure className="pic-chaekgeori">
+      <img
+        src="/static/images/pic-chaekgeori.png"
+        alt="chaekgeori, korean painting"
+      />
+      <figcaption>
+        Chaekgeori - Books and Scholars, late 19th century Unidentified Artist,
+        Korea
+      </figcaption>
+    </figure>
+  </Slide>
+);
 
 const Index = props => {
   const { info } = props;
@@ -57,34 +92,21 @@ const Index = props => {
     props.setStackKeyword(tag);
   };
 
+  const stackAnims = useTransition(info.stacks, s => s._id, {
+    from: { transform: 'translate3d(-40px,0,0)', opacity: 0 },
+    enter: { transform: 'translate3d(0px,0,0)', opacity: 1 },
+    leave: { transform: 'translate3d(-40px,0,0)', opacity: 0 },
+  });
+
   return (
     <div>
       <NextSeo config={SEOcontent} />
       <Menu />
       <TitleBox />
-      <figure className="pic-birds">
-        <img
-          src="/static/images/pic-birdsandflowers.png"
-          alt="birds and flowers, korean painting"
-        />
-        <figcaption>
-          Birds and Flowers, late 19th–early 20th century Unidentified Artist,
-          Korea
-        </figcaption>
-      </figure>
-
-      <figure className="pic-chaekgeori">
-        <img
-          src="/static/images/pic-chaekgeori.png"
-          alt="chaekgeori, korean painting"
-        />
-        <figcaption>
-          Chaekgeori - Books and Scholars, late 19th century Unidentified
-          Artist, Korea
-        </figcaption>
-      </figure>
+      <PicBird />
+      <PicBooks />
       <main>
-        {info && <article>{info.intro}</article>}
+        {info && <Slide left><article>{info.intro}</article></Slide>}
         <h2 id="title2">and here&apos;s what I have learned</h2>
         <div id="stacksearch">
           <img
@@ -107,8 +129,12 @@ const Index = props => {
         </div>
         <ul className="stacks">
           {info.stacks &&
-            info.stacks.map(stack => <StackItem {...stack} key={stack._id} />)}
-          {info.stacks.length === 0 && <li className="stack-not-found">couldn&apos;t find stack</li>}
+            stackAnims.map(({ item, props, key }) => (
+              <StackItem {...item} animProps={props} key={key} />
+            ))}
+          {info.stacks.length === 0 && (
+            <li className="stack-not-found">couldn&apos;t find stack</li>
+          )}
         </ul>
       </main>
     </div>
