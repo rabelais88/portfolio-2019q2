@@ -32,19 +32,18 @@ const Thumbnail = props => {
   const { title, caption, images, url, _id } = props;
   const coverImage = images[0];
 
-
   return (
     <div className="work--thumbnail">
-      {coverImage && (
+      {coverImage ? (
         <div
           className="work--thumbnail-img"
           style={{
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
             backgroundImage: `url(${env.IMAGE_HOST}/${coverImage})`,
           }}
           alt={title}
         />
+      ) : (
+        <div className="work--thumbnail-img">no image available</div>
       )}
       <p className="work--thumbnail-title">{title}</p>
       <p className="work--thumbnail-caption">{caption}</p>
@@ -60,8 +59,7 @@ const WorkPage = props => {
       <Menu />
       <h1 className="work--title-main">WORKS</h1>
       <p className="work--title-sub">&amp; CASE STUDY</p>
-      <p>{JSON.stringify(work)}</p>
-      <div className="work--gallery">
+      <div className="work--thumbnail-list">
         {work.works.docs.map(workData => (
           <Thumbnail {...workData} key={workData._id} />
         ))}
