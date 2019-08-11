@@ -35,5 +35,8 @@ module.exports = {
     'react/prop-types': 1,
     'spaced-comment': 0,
     'no-underscore-dangle': 1,
+    'prefer-destructuring': 1,
+    'jsx-a11y/anchor-is-valid': 1,
+    'react/destructuring-assignment': 1
   },
 };

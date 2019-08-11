@@ -12,6 +12,8 @@ import {
   setPage,
   openWork,
   closeWork,
+  prevPage,
+  nextPage,
 } from '../store/work';
 
 // import PropTypes from 'prop-types';
@@ -63,7 +65,7 @@ const WorkPage = props => {
       <h1 className="work--title-main">WORKS</h1>
       <p className="work--title-sub">&amp; CASE STUDY</p>
       <div className="work--thumbnail-list">
-        {work.works.docs.map(workData => (
+        {work.works.map(workData => (
           <Thumbnail {...workData} key={workData._id} />
         ))}
       </div>
@@ -89,6 +91,8 @@ const mapDispatchToProps = dispatch => ({
   setPage: page => dispatch(setPage(page)),
   viewWork: workId => dispatch(openWork(workId)),
   closeWork: () => dispatch(closeWork()),
+  nextPage: () => dispatch(nextPage()),
+  prevPage: () => dispatch(prevPage()),
 });
 const enhancers = [
   connect(

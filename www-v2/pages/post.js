@@ -1,9 +1,6 @@
 // import React from 'react';
 import { connect } from 'react-redux';
 import NextSeo from 'next-seo';
-import _get from 'lodash/get';
-import Router from 'next/router';
-import { useEffect } from 'react';
 
 import { enhanceAll } from '../lib/util';
 import '../styles/post.css';
@@ -33,7 +30,7 @@ const SEOcontent = {
 };
 
 const PostPage = props => {
-  const { post, isServer } = props;
+  const { post } = props;
   const onPrev = e => {
     e.preventDefault();
     props.prevPage();
@@ -75,17 +72,9 @@ const PostPage = props => {
   );
 };
 
-PostPage.getInitialProps = async ({ reduxStore, req, query }) => {
-  // console.log('redux store', reduxStore);
-  const { post } = reduxStore.getState();
-  const isServer = process.browser;
-  if (isServer) {
-    // server
-  } else {
-    // client
-  }
-  // when persist is whitelisted, this will refer to predefined page info
-  await reduxStore.dispatch(setPage(post.page));
+PostPage.getInitialProps = async ({ reduxStore, req }) => {
+  const isServer = !!req;
+  await reduxStore.dispatch(getPosts());
   return { isServer };
 };
 

@@ -119,8 +119,9 @@ a {
 
 @media (--mobile) {
   #menu-expanded {
-    @mixin full-screen;
+    /* @mixin full-screen; */
     li {
+      margin-top: 40px;
       margin-left: 50px;
     }
   }
@@ -128,11 +129,15 @@ a {
     top: 20px;
     right: 20px;
   }
+  #menu .menu--link-icons {
+    max-width: 180px;
+  }
 }
 @media (--desktop) {
   #menu-expanded {
-    @mixin right-screen;
+    /* @mixin right-screen; */
     li {
+      margin-top: 70px;
       margin-left: 90px;
     }
   }
@@ -140,15 +145,26 @@ a {
     top: 50px;
     right: 50px;
   }
+  #menu .menu--link-icons {
+    max-width: 300px;
+  }
+}
+
+#menu .menu--link-icons {
+  display: flex;
+  justify-content: space-between;
 }
 
 #menu-expanded {
   z-index: $z-index-menu;
   background-color: $color-black;
-  @mixin font-header1;
-  li {
-    margin-top: 70px;
+  @mixin full-screen;
+  li{
     list-style-type: none;
+    @mixin font-header1;
+    &:last-child {
+      @mixin font-content;
+    }
   }
   * {
     color: $color-white;
@@ -236,4 +252,35 @@ a {
 #nav-icon2.open span:nth-child(6) {
   left: calc(50% - 5px);
   top: 29px;
+}
+
+.searchbox {
+  margin-bottom: 40px;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 100%;
+  input {
+    flex-shrink: 1;
+    @mixin font-content;
+    width: calc(100% - 30px);
+    height: 30px;
+    border-bottom: .5px solid $color-gray;
+    background-color: transparent;
+    transition: .3s;
+    margin-bottom: 20px;
+  }
+  input:hover, input:focus {
+    background-color: $color-gray;
+    border-bottom: .5px solid $color-black;
+    transition: .3s;
+  }
+  img {
+    margin-right: 10px;
+    width: 25px;
+    height: 25px;
+  }
 }

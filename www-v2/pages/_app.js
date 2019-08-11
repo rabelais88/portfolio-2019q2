@@ -12,8 +12,8 @@ import withReduxStore from '../lib/with-redux-store';
 import { enhanceAll } from '../lib/util';
 import { wrapAll } from '../lib/render-util';
 import SEOConfig from '../next-seo.config';
-// import Loader from '../components/Loader';
-// import '../styles/loader.css';
+import '../styles/work.css';
+import '../styles/post.css';
 import '../styles/page-anim.css';
 
 NProgress.configure({ showSpinner: false });

@@ -43,6 +43,10 @@
   }
 
   .post--searchbox {
+    position: absolute;
+    /* left: 45px; */
+    top: 344px;
+    /* width: 200px; */
   }
 
   .post--list {
@@ -53,4 +57,20 @@
       margin-top: 10px;
     }
   }
+}
+
+/* .post--searchbox {
+  width: calc(100% - 200px) !important;
+} */
+
+.post--pagination {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  box-sizing: border-box;
+  bottom: 65px;
+  /* left: 65px; */
+  width: 100%;
+  /* max-width: 200px; */
 }

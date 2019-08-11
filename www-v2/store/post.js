@@ -17,6 +17,7 @@ export const getPostInitialState = () => ({
   keyword: '',
   currentPost: null,
   latestPosts: new Array(3).fill(null).map(() => getDefaultPost()),
+  totalPages: 1,
 });
 const postInitialState = getPostInitialState();
 
@@ -44,7 +45,7 @@ export const postReducer = (state = postInitialState, action) => {
     case POST_ACTIONS.SET_POSTS:
       return {
         ...state,
-        posts: action.payload,
+        ...action.payload,
       };
     case POST_ACTIONS.INIT_POSTS:
       return getPostInitialState();
@@ -92,7 +93,8 @@ export const getPosts = () => async (dispatch, getState) => {
       limit: 10,
     });
     const posts = postsData.docs;
-    await dispatch({ type: POST_ACTIONS.SET_POSTS, payload: posts });
+    const { totalPages, page } = postsData;
+    await dispatch({ type: POST_ACTIONS.SET_POSTS, payload: { posts, totalPages, page } });
   } catch (err) {
     console.error(err);
   }
@@ -114,4 +116,14 @@ export const openPost = postId => async (dispatch, getState) => {
 
 export const closePost = () => async (dispatch, getState) => {
   await dispatch({ type: POST_ACTIONS.SET_POST, payload: null });
+};
+
+export const prevPage = () => async (dispatch, getState) => {
+  const { post } = getState();
+  if (post.page - 1 >= 1) await dispatch(setPage(post.page - 1));
+};
+
+export const nextPage = () => async (dispatch, getState) => {
+  const { post } = getState();
+  if (post.page < post.totalPages) await dispatch(setPage(post.page + 1));
 };

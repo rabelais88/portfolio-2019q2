@@ -19,6 +19,7 @@ export const getWorkInitialState = () => ({
   works: [],
   currentWork: null,
   page: 1,
+  totalPages: 1,
 });
 
 const workInitialState = getWorkInitialState();
@@ -42,7 +43,7 @@ export const workReducer = (state = workInitialState, action) => {
     case WORK_ACTIONS.SET_WORKS:
       return {
         ...state,
-        works: action.payload,
+        ...action.payload,
       };
     case WORK_ACTIONS.SET_PAGE:
       return {
@@ -64,12 +65,17 @@ export const initWork = () => async (dispatch, getState) => {
 export const getWorks = () => async (dispatch, getState) => {
   try {
     const { work } = getState();
-    const works = await api('/info/works', 'get', {
+    const worksData = await api('/info/works', 'get', {
       page: work.page,
       limit: 15,
       populate: true,
     });
-    await dispatch({ type: WORK_ACTIONS.SET_WORKS, payload: works });
+    const works = worksData.docs;
+    const { totalPages, page } = worksData;
+    await dispatch({
+      type: WORK_ACTIONS.SET_WORKS,
+      payload: { works, totalPages, page },
+    });
   } catch (err) {
     console.error(err);
   }
@@ -88,4 +94,14 @@ export const openWork = workId => async (dispatch, getState) => {
 
 export const closeWork = () => async (dispatch, getState) => {
   await dispatch({ type: WORK_ACTIONS.SET_WORK, payload: null });
+};
+
+export const prevPage = () => async (dispatch, getState) => {
+  const { work } = getState();
+  if (work.page - 1 >= 1) await dispatch(setPage(work.page - 1));
+};
+
+export const nextPage = () => async (dispatch, getState) => {
+  const { work } = getState();
+  if (work.page < work.totalPages) await dispatch(setPage(work.page + 1));
 };

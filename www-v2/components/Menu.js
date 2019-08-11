@@ -15,6 +15,8 @@ const Menu = _props => {
     WORKS: '/works',
     POSTS: '/posts',
     CONTACT: '/contact',
+    links: null, // for displaying misc. links
+    title: null,
   };
   const menuEntries = Object.entries(menus).map(m => ({
     key: m[0],
@@ -68,6 +70,23 @@ const Menu = _props => {
     },
   });
 
+  const Links = (
+    <div className="menu--link-icons">
+      <a href="https://github.com/rabelais88">
+        <img src="/static/images/icon-github.svg" alt="github icon" />
+      </a>
+      <a href="https://instagram.com/rabelais">
+        <img src="/static/images/icon-instagram.svg" alt="instagram icon" />
+      </a>
+      <a href="https://codepen.io/rabelais">
+        <img src="/static/images/icon-codepen.svg" alt="codepen icon" />
+      </a>
+      <a href="https://www.linkedin.com/in/sungryeol-park-958861b8/">
+        <img src="/static/images/icon-linkedin.svg" alt="linkedin icon" />
+      </a>
+    </div>
+  );
+
   return (
     <nav id="menu">
       <button onClick={() => setMenuVisibility(!menuVisibility)}>
@@ -90,9 +109,15 @@ const Menu = _props => {
               key={menuEntries[index].key}
               style={{ transform, opacity }}
             >
-              <ActiveLink href={menuEntries[index].val} style={{ height }}>
-                {menuEntries[index].key}
-              </ActiveLink>
+              {index < menuEntries.length - 2 && (
+                <ActiveLink href={menuEntries[index].val} style={{ height }}>
+                  {menuEntries[index].key}
+                </ActiveLink>
+              )}
+              {index === menuEntries.length - 2 && Links}
+              {index === menuEntries.length - 1 && (
+                <p>sungryeol&apos;s portfolio</p>
+              )}
             </animated.li>
           );
         })}

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 // import Link from 'next/link';
 import NextSeo from 'next-seo';
 import { useTransition, animated } from 'react-spring';
-import { Slide } from 'react-reveal';
+import { Fade } from 'react-reveal';
 
 import { enhanceAll } from '../lib/util';
 import '../styles/index.css';
@@ -30,7 +30,7 @@ const SEOcontent = {
 const curatedTags = ['frontend', 'backend', 'devops', 'design', 'linguistics'];
 
 const TitleBox = () => (
-  <Slide top>
+  <Fade top>
     <div className="titlebox">
       <h1>박성렬</h1>
       <span>포트폴리오</span>
@@ -38,7 +38,7 @@ const TitleBox = () => (
       <hr />
       <h3>blog &amp; portfolio</h3>
     </div>
-  </Slide>
+  </Fade>
 );
 
 const StackItem = props => {
@@ -55,7 +55,7 @@ const StackItem = props => {
 };
 
 const PicBird = () => (
-  <Slide left>
+  <Fade left>
     <figure className="pic-birds">
       <img
         src="/static/images/pic-birdsandflowers.png"
@@ -66,11 +66,11 @@ const PicBird = () => (
         Korea
       </figcaption>
     </figure>
-  </Slide>
+  </Fade>
 );
 
 const PicBooks = () => (
-  <Slide right>
+  <Fade right>
     <figure className="pic-chaekgeori">
       <img
         src="/static/images/pic-chaekgeori.png"
@@ -81,7 +81,7 @@ const PicBooks = () => (
         Korea
       </figcaption>
     </figure>
-  </Slide>
+  </Fade>
 );
 
 const Index = props => {
@@ -106,9 +106,9 @@ const Index = props => {
       <PicBird />
       <PicBooks />
       <main>
-        {info && <Slide left><article>{info.intro}</article></Slide>}
+        {info && <Fade><article>{info.intro}</article></Fade>}
         <h2 id="title2">and here&apos;s what I have learned</h2>
-        <div id="stacksearch">
+        <div id="stacksearch" className="searchbox">
           <img
             src="/static/images/icon-magnifying-glass.svg"
             alt="search icon"
