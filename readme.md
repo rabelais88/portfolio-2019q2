@@ -1,7 +1,18 @@
 # Portfolio /w Next.js(React-redux) + MongoDB
-[![Build Status](https://travis-ci.com/rabelais88/portfolio-2019q2.svg?branch=master)](https://travis-ci.com/rabelais88/portfolio-2019q2)
+Travis CI - [![Build Status](https://travis-ci.com/rabelais88/portfolio-2019q2.svg?branch=master)](https://travis-ci.com/rabelais88/portfolio-2019q2)
 - author sungryeol park(sungryeolp@gmail.com)
-- used tech stack: React + Next.js(Client) + Vue.js(Admin) + Express + Mongoose + Mocha + Jest + Redux(Redux-thunk) + passport.js + PostCSS + eslint + stylelint + PWA
+- used tech stack:
+    - React
+    - Next.js(Client)
+    - Vue.js(Admin)
+    - Redux(Redux-thunk)
+    - Express
+    - Mongoose
+    - Mocha + Jest
+    - passport.js
+    - PostCSS + eslint + stylelint
+    - PWA
+    - TravisCI
 - design process: Adobe Photoshop + Figma
 
 ## Commands
