@@ -1,0 +1,15 @@
+language: node_js
+node_js: 10
+notifications:
+  email: false
+env:
+  - $TEST_DIR=admin-vue $COMMAND=test:ci
+  - $TEST_DIR=api $COMMAND=test
+# matrix:
+#   include:
+#   - env: $TEST_DIR=admin-vue
+#   - env: $TEST_DIR=www-v2
+#   - env: $TEST_DIR=api
+before_script:
+  - cd $TEST_DIR && yarn install
+script: yarn $COMMAND
