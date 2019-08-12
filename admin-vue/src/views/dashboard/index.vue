@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">
-      <h1>welcome, {{ name }}</h1>
+      <h2>welcome, {{ name }}</h2>
       <ul>
         <li>email: {{ email }}</li>
       </ul>
