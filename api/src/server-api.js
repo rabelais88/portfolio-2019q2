@@ -14,7 +14,10 @@ import router from './router';
 import Admin from './models/Admin';
 import { pageNotFound, errorHandler } from './controllers/error';
 
-require('dotenv').config();
+const isTest = process.env.NODE_ENV === 'test';
+const envPath = path.join(__dirname, isTest ? '../.env.sample' : '../.env')
+require('dotenv').config({ path: envPath, systemvars: true });
+// console.log('envPath', envPath);
 
 const port = parseInt(process.env.PORT, 10) || 4000;
 const dev = process.env.NODE_ENV !== 'production';
