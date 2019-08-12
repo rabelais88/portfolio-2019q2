@@ -44,7 +44,7 @@ module.exports = {
     }],
     'comma-style': [2, 'last'],
     'constructor-super': 2,
-    'curly': [2, 'multi-line'],
+    'curly': [1, 'multi-line'],
     'dot-location': [2, 'property'],
     'eol-last': 2,
     'eqeqeq': ["error", "always", {"null": "ignore"}],
@@ -166,7 +166,7 @@ module.exports = {
       'avoidEscape': true,
       'allowTemplateLiterals': true
     }],
-    'semi': [2, 'always'],
+    'semi': [1, 'always'],
     'semi-spacing': [2, {
       'before': false,
       'after': true
