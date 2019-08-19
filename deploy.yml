@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   portfolio-www:
-    image: portfolio-www
+    image: portfolio-www:latest
     networks:
       - portfolio
     deploy:
@@ -22,8 +22,10 @@ services:
       replicas: 3
 
   portfolio-nginx:
-    depends_on:
-      - portfolio-www
+    # depends_on:
+    #   - portfolio-www
+    #   - portfolio-admin
+    #   - portfolio-api
     image: portfolio-nginx
     volumes:
       - portfolio-nginx:/etc/nginx
@@ -32,9 +34,24 @@ services:
     ports:
       - 443:443
       - 80:80
+    volumes:
+      - ./certbot/conf:/etc/nginx/ssl
+      - ./certbot/data:/usr/share/nginx/html/letsencrypt
+      - ./dhparam:/etc/nginx/dhparam
+      - ./conf.d:/etc/nginx/conf.d
+      - ./server-admin:/etc/nginx/server-admin
+      - ./server-www:/etc/nginx/server-www
+      - ./server-api:/etc/nginx/server-api
 
   portfolio-certbot:
+    depends_on:
+      - portfolio-nginx
     image: portfolio-certbot
+    # command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email sungryeolp@gmail.com --agree-tos --no-eff-email -d 
+
+
+
+
 
 networks:
   - portfolio
