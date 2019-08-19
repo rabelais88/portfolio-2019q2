@@ -6,35 +6,40 @@ services:
       - portfolio
     deploy:
       replicas: 3
+
   portfolio-admin:
     image: portfolio-admin
     networks:
       - portfolio
     deploy:
       replicas: 1
+
   portfolio-api:
     image: portfolio-api
     networks:
       - portfolio
     deploy:
       replicas: 3
+
   portfolio-nginx:
     depends_on:
       - portfolio-www
     image: portfolio-nginx
+    volumes:
+      - portfolio-nginx:/etc/nginx
     networks:
       - portfolio
     ports:
+      - 443:443
       - 80:80
-  certbot:
-    image: certbot/certbot
+
+  portfolio-certbot:
+    image: portfolio-certbot
 
 networks:
   - portfolio
 volumes:
-  - node-www
-  - node-admin
-  - node-api
+  - portfolio-nginx
 
 #       nginx:
 #     image: lvup-nginx:latest
