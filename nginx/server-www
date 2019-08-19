@@ -1,0 +1,11 @@
+  server {
+    include security-custom;
+    include security-custom-advance;
+    include gzip-custom;
+    listen 443 ssl http2 default_server;
+    server_name www.sungryeol.com sungryeol.com;
+
+    location / {
+      proxy_pass 'http://localhost:3000';
+    }
+  }

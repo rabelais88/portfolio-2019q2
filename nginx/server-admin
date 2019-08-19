@@ -1,0 +1,12 @@
+server {
+  include security-custom;
+  include security-custom-advance;
+  include gzip-custom;
+  listen 443 ssl http2;
+  server_name admin.sungryeol.com;
+
+  location / {
+    # return 200 "admin";
+    proxy_pass 'http://localhost:3500';
+  }
+}

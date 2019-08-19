@@ -1,0 +1,70 @@
+version: '3.7'
+services:
+  portfolio-www:
+    image: portfolio-www
+    networks:
+      - portfolio
+    deploy:
+      replicas: 3
+  portfolio-admin:
+    image: portfolio-admin
+    networks:
+      - portfolio
+    deploy:
+      replicas: 1
+  portfolio-api:
+    image: portfolio-api
+    networks:
+      - portfolio
+    deploy:
+      replicas: 3
+  portfolio-nginx:
+    depends_on:
+      - portfolio-www
+    image: portfolio-nginx
+    networks:
+      - portfolio
+    ports:
+      - 80:80
+  certbot:
+    image: certbot/certbot
+
+networks:
+  - portfolio
+volumes:
+  - node-www
+  - node-admin
+  - node-api
+
+#       nginx:
+#     image: lvup-nginx:latest
+#     env_file:
+#       - .env.production
+#     # build:
+#     #   context: .
+#     #   dockerfile: nginx.prod.Dockerfile
+#     depends_on:
+#       - node
+#     ports:
+#       - '80:80'
+#     volumes:
+#       - lvupfront-node-dist:/home/node/app/dist
+#     networks:
+#       - lvup-front
+
+#   node:
+#     image: lvup-node:latest
+#     # build:
+#     #   context: .
+#     #  dockerfile: node.prod.Dockerfile
+#     user: node
+#     volumes:
+#       - ./:/home/node/app
+#       - lvupfront-node-dist:/home/node/app/dist
+#     networks:
+#       - lvup-front
+
+# networks:
+#   lvup-front:
+# volumes:
+#   lvupfront-node-dist:
