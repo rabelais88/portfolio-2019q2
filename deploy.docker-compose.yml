@@ -14,8 +14,17 @@ services:
     deploy:
       replicas: 1
 
+  portfolio-db:
+    image: mongo
+    networks:
+      - portfolio
+    ports:
+      - 27017:27017
+  
   portfolio-api:
     image: portfolio-api
+    depends_on:
+      - portfolio-db
     networks:
       - portfolio
     deploy:

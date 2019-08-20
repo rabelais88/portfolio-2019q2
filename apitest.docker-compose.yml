@@ -1,0 +1,34 @@
+version: '3.7'
+services:
+  portfolio-db:
+    image: mongo:latest
+    networks:
+      - portfolio
+    # ports:
+    #   - 27017:27017
+  portfolio-api:
+    image: portfolio-api
+    depends_on:
+      - portfolio-db
+    networks:
+      - portfolio
+    ports:
+      - 4000:4000
+    secrets:
+      - admin_email
+      - admin_password
+      - admin_name
+    environment:
+      ADMIN_EMAIL: /run/secrets/admin_email
+      ADMIN_PASSWORD: /run/secrets/admin_password
+      ADMIN_NAME: /run/secrets/admin_name
+    command: bash -c "yarn setup:prod && yarn start"
+networks:
+  portfolio:
+secrets:
+  admin_email:
+    file: ./api/admin_email.txt
+  admin_password:
+    file: ./api/admin_password.txt
+  admin_name:
+    file: ./api/admin_name.txt

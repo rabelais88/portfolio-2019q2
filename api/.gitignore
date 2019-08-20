@@ -4,3 +4,6 @@ yarn-error.log
 .env
 build/
 upload/
+admin_email.txt
+admin_name.txt
+admin_password.txt
