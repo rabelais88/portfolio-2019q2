@@ -1,0 +1,34 @@
+version: '3.7'
+services:
+  portfolio-api:
+    image: portfolio-api
+    networks:
+      - portfolio
+    ports:
+      - 4000:4000
+      - 27017:27017
+    environment:
+      ADMIN_EMAIL: DOCKER-SECRET->api_admin_email
+      ADMIN_PASSWORD: DOCKER-SECRET->api_admin_password
+      ADMIN_NAME: DOCKER-SECRET->api_admin_name
+    secrets:
+      - api_admin_email
+      - api_admin_password
+      - api_admin_name
+    entrypoint:
+      - /bin/ash
+      - /root/api/env_secrets_expand.sh
+      - \&&
+      - yarn
+      - setup:prod
+    command: yarn start
+networks:
+  portfolio:
+  
+secrets:
+  api_admin_email:
+    file: ./secrets/api_admin_email.txt
+  api_admin_password:
+    file: ./secrets/api_admin_password.txt
+  api_admin_name:
+    file: ./secrets/api_admin_name.txt

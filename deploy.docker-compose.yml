@@ -13,13 +13,6 @@ services:
       - portfolio
     deploy:
       replicas: 1
-
-  portfolio-db:
-    image: mongo
-    networks:
-      - portfolio
-    ports:
-      - 27017:27017
   
   portfolio-api:
     image: portfolio-api

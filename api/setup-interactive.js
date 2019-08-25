@@ -33,31 +33,6 @@ const mainProcessDev = async () => {
   process.exit(0);
 };
 
-/**
- * deploying with docker
- * @example
- * # docker-compose or docker-stack
- * services:
- *   api:
- *     image: ...
- *       secrets:
- *          - admin_email
- *          - admin_password
- *          - admin_name
- *      environment:
- *          - ADMIN_EMAIL: /run/secrets/admin_email
- *          - ADMIN_PASSWORD: /run/secrets/admin_password
- *          - ADMIN_NAME: /run/secrets/admin_name
- *   ...
- * secrets:
- *   admin_email:
- *     file: ./admin_email.txt
- *   admin_password:
- *     file: ./admin_password.txt
- *   admin_name:
- *     file: ./admin_name.txt
- */
-
 const mainProcessProd = async () => {
   if (!ADMIN_EMAIL || !ADMIN_PASSWORD || !ADMIN_NAME) {
     console.log('provide your info as ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME via environment in production mode');

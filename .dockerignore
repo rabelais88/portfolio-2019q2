@@ -6,4 +6,5 @@ api/build/
 api/upload/
 www-v2/node_modules/
 www-v2/.next/
+secrets/
 *.log
